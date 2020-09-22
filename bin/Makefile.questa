@@ -1,0 +1,124 @@
+# -----------------------------------------------------------------------------------------------
+# Title: Makefile
+# Make-file to run Mentor Graphics Questasim (Modelsim) simple targets
+#
+# NOTE:
+#   reference - ESL (/make/v1.0/Makefile.mk)
+# -----------------------------------------------------------------------------------------------
+MAKE = @make --no-print-directory -f $(HOME)/mentor/Makefile
+DIR  = $(shell basename `pwd`)
+
+OPTIMIZE     ?= +acc
+TIMESCALE    ?= 1ns/1ps
+VSIM_MODE    ?= "-c"
+PARAMETERS   ?= $(shell tail -n 1 .vlog_lint)
+VLOG_OPTIONS ?=
+DEF          ?=
+
+VLOG = vlog -lint -incr -sv $(OPTIMIZE) -timescale $(TIMESCALE) $(PARAMETERS) $(VLOG_OPTIONS) $(DEF)
+
+.PHONY: help
+help:
+	@echo ""
+	@echo "Usage:  make [target(s)]"
+	@echo "where target is any of:"
+	@echo ""
+	@echo "  worklib - make and map to worklib (to work directory)"
+	@echo "  compile - compilation ALL files in current directory (and target woklib)"
+	@echo "             note1: compilation order: *_pkg.sv, *_if.sv, *.v, other *.sv"
+	@echo "             note2: compilation options: vlog -lint -incr -sv +acc -timescale 1ns/1ps)"
+	@echo "             note3: to add parameters for vlog, usage file: '.vlog_lint'"
+	@echo "  vlog    - compilation vlog for single sv-file (options as note2)"
+	@echo "  clean   - removes derived files and work libs"
+	@echo "  all     - run all (targets: worklib, compile, clean)"
+	@echo "  rall    - run rebuld all (targets: clean, worklib, compile, clean)"
+	@echo ""
+	@echo "  variables - list of make-file variables"
+
+.PHONY: worklib
+worklib:
+	@-if [ ! -d work ] ; then \
+		vlib work;			  \
+	  fi
+	@vmap work work 1>/dev/null
+
+.PHONY: compile
+PKG_FILES = $(shell ls 2>/dev/null *_pkg.sv)
+IF_FILES = $(shell ls 2>/dev/null *_if.sv)
+V_FILES = $(shell ls 2>/dev/null *.v)
+SVM_FILES = $(shell ls 2>/dev/null *.sv | grep -v _if | grep -v _pkg)
+RPT_FILE = mentor_lint.tmp.log
+compile:
+	$(MAKE) worklib
+	@echo "+-----------------------------------------------------+"
+	@echo "| Run compilation:                                    |"
+	@echo "+-----------------------------------------------------+"
+	@rm -rf $(RPT_FILE) && touch $(RPT_FILE)
+	@-if [ "$(PKG_FILES)" != "" ] ; then            \
+		$(VLOG) $(PKG_FILES) | tee -a $(RPT_FILE) ; \
+	  fi
+	@-if [ "$(IF_FILES)" != "" ] ; then             \
+		$(VLOG) $(IF_FILES) | tee -a $(RPT_FILE) ;  \
+	  fi
+	@-if [ "$(V_FILES)" != "" ] ; then              \
+		$(VLOG) $(V_FILES) | tee -a $(RPT_FILE) ;   \
+	  fi
+	@-if [ "$(SVM_FILES)" != "" ] ; then            \
+		$(VLOG) $(SVM_FILES) | tee -a $(RPT_FILE) ; \
+	  fi
+	@echo "+-----------------------------------------------------+"
+	@echo "| Summary of Vlog report (Error and Warning only):    |"
+	@echo "+-----------------------------------------------------+"
+	@cat $(RPT_FILE) | grep -s Error --color=auto || true
+	@cat $(RPT_FILE) | grep -s Warning --color=auto || true
+	@echo "| Done.                                               |"
+	@echo "+-----------------------------------------------------+"
+	@rm -rf $(RPT_FILE)
+
+IN_FILES = $(filter-out $@,$(MAKECMDGOALS))
+.PHONY: vlog
+vlog:
+	$(MAKE) worklib
+	@echo "+-----------------------------------------------------+"
+	@echo "| Run compilation:                                    |"
+	@echo "+-----------------------------------------------------+"
+	@rm -rf $(RPT_FILE) && touch $(RPT_FILE)
+	$(VLOG) $(IN_FILES) | tee -a $(RPT_FILE)
+	@echo "+-----------------------------------------------------+"
+	@echo "| Summary of Vlog report (Error and Warning only):    |"
+	@echo "+-----------------------------------------------------+"
+	@cat $(RPT_FILE) | grep -s Error --color=auto || true
+	@cat $(RPT_FILE) | grep -s Warning --color=auto || true
+	@echo "| Done.                                               |"
+	@echo "+-----------------------------------------------------+"
+	@rm -rf $(RPT_FILE)
+
+# .PHONY: lint
+# LINT_FILE ?= $(shell ls *.sv)
+# lint:
+# 	$(MAKE) worklib
+# 	$(VLOG) $(LINT_FILE)
+
+.PHONY: clean
+clean:
+	rm -rf work modelsim.ini
+
+.PHONY: all
+all:
+	$(MAKE) worklib
+	$(MAKE) compile
+	$(MAKE) clean
+
+.PHONY: rall
+rall:
+	$(MAKE) clean
+	$(MAKE) all
+
+.PHONY: variables
+variables:
+	@echo "List of variables:"
+	@echo "OPTIMIZE   = $(OPTIMIZE)"
+	@echo "TIMESCALE  = $(TIMESCALE)"
+	@echo "VSIM_MODE  = $(VSIM_MODE)"
+	@echo "PARAMETERS = $(PARAMETERS)"
+	@echo "VLOG       = $(VLOG)"

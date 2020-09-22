@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+#
+# Show current Altera Quartus version
+#
+
+echo "+------------------------------------------------------------------------+"
+echo "| Current Altera Quartus version                                         |"
+echo "+------------------------------------------------------------------------+"
+PATH2QUARTUS_VERSION=${QUARTUS_ROOTDIR_OVERRIDE:0:(${#QUARTUS_ROOTDIR_OVERRIDE} - 8)}
+echo "path: $PATH2QUARTUS_VERSION"
+echo ""
+echo "`env | grep QUARTUS_ROOTDIR`"
+echo ""
+echo "Done!"

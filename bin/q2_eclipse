@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+#
+# Open Altera Quartus Nios II Software Build Tools for Eclipse
+#
+
+echo "+------------------------------------------------------------------------+"
+echo "|  Open Altera Quartus Nios II Software Build Tools for Eclipse          |"
+echo "+------------------------------------------------------------------------+"
+
+. ~/bin/fun_q2_set_path
+
+case "$1" in
+    [0-9] )
+        fun_q2_set_path
+        revision=$1
+        ;;
+    *     )
+        fun_q2_set_path $1
+        revision="$2"
+        ;;
+esac
+
+# example path: altera/13.0sp1/nios2eds/bin/eclipse-nios2.exe
+echo "Running: $nios2_bin_dir/eclipse-nios2"
+$nios2_bin_dir/eclipse-nios2 &
+
+echo "Done!"

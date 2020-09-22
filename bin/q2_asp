@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+#
+# Run Altera Quartus programmer ASP
+#   script is programming file (*.pof) from current directory (if there is only one *.pof),
+#   or by name
+#
+# For more then one program cable:
+#     set environment variable 'Q2_CABLE_NAME':
+#     # export Q2_CABLE_NAME=USB-Blaster[USB-0]
+
+# TODO: add local function 'fun_yesno'
+
+if [ -z "$Q2_CABLE_NAME" ]; then
+    Q2_CABLE_NAME=USB-Blaster[USB-0]
+fi
+
+echo "+------------------------------------------------------------------------+"
+echo "|  Quartus II Programmer ( ASP )                                         |"
+echo "+------------------------------------------------------------------------+"
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+    echo "Usage:"
+    echo "  1. <script_name>"
+    echo "  2. <script_name> -g -- usage GUI window at the end of programming"
+    exit 0
+fi
+
+select_file ()
+{
+    cnt=1
+    for p in `ls *.pof output_files/*.pof 2>/dev/null`; do
+        pof_file[$cnt]=$p
+        cnt=`expr $cnt + 1`
+    done
+
+    if [ ${#pof_file[@]} -gt 0 ]; then
+        if [ ${#pof_file[@]} -eq 1 ]; then
+            echo " ${pof_file[${1}]}"
+        else
+            echo " pof file(s):"
+            for (( i=1; i<${#pof_file[@]}+1; i++ )); do
+                echo "$i : ${pof_file[${i}]}"
+            done
+            echo "Select pof file :"
+            read num_pof_file
+        fi
+    else
+        echo "ERROR! Must be at least one *.pof file in dir: `pwd`"
+        exit 2
+    fi
+    if [ -s "${pof_file[$num_pof_file]}" ]; then
+        pof_file_name=${pof_file[$num_pof_file]}
+    else
+        pof_file_name=${pof_file[1]}
+        if [ ${#pof_file[@]} -gt 1 ]; then
+            echo "WARNING: will be open default pof file (can't find selected file)"
+        fi
+    fi
+
+    . ~/bin/fun_yesno
+
+    if [ ${#pof_file[@]} -gt 1 ]; then
+        while :
+        do
+            if fun_yesno "Would you like burnnig file: '$pof_file_name'" ; then
+                break;
+            else
+                echo "NOTE! Exit without burnnig!";
+                exit 0;
+            fi
+        done
+    fi
+}
+
+if [ -n "$1" ] && [ "$1" != "-g" ]; then
+    if [ ! -s "$1" ]; then
+        echo "ERROR! Can't find selected file: '$1'"
+        exit 3
+    fi
+    pof_file_name=$1
+else
+    select_file
+fi
+
+f_time=$(date +%c -r $pof_file_name)
+echo "File to Programming: '$pof_file_name'" $f_time
+
+. ~/bin/fun_q2_set_path
+fun_q2_set_path
+$quartus_bin_dir/quartus_pgm -c "$Q2_CABLE_NAME" -m as -o bpv\;$pof_file_name
+
+if [ "$1" == '-g' ] || [ "$2" == '-g' ]; then
+    if [ "$?" != 0 ]; then
+        fun_wish_msg "End with ERROR!" "red" &
+    else
+        fun_wish_msg "Programming done." &
+    fi
+fi

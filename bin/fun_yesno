@@ -1,0 +1,43 @@
+# -*- mode: shell-script -*-
+# Function to display a string (passed in ad $*), followed by a "Y/N?"
+
+# Usage example:
+#   . ~/bin/fun_yesno
+#   case "$1" in
+#       y|Y|yes|Yes|YES)
+#           <Run_Something>
+#           ;;
+#       *)
+#           if ! fun_yesno "Delete all temp files"; then
+#               echo "Exit without clearing!"
+#               exit 0
+#           else
+#               <Run_Something>
+#           fi
+#           ;;
+#   esac
+#   <Run_Something>
+
+fun_yesno () {
+    # while true
+    while :
+    do
+        echo "$* (y/n)?"
+        # read answer - only the first word of answer will
+        # be stored in "yn". The rest will be discarded
+        # (courtesy of "junk")
+        read yn junk
+
+        case $yn in
+            y|Y|yes|Yes|YES)
+                return 0  # return TRUE
+                ;;
+            n|N|no|No|NO)
+                return 1
+                ;;
+            *)
+                echo Please answer Yes or No.
+                ;;
+        esac
+    done
+}

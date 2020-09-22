@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+#
+# Run Mentor Graphics Makefile
+#
+
+make -f ~/mentor/Makefile $*

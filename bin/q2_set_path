@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+#
+# Set Altera Quartus path variable
+#  usage:
+#   q2_set_path         - info (list Quartus install dir)
+#   q2_set_path -i      - info (list Quartus install dir)
+#   q2_set_path 12.1    - set Quartus root dir (only if there is path to version 12.1)
+#
+#
+
+echo "+------------------------------------------------------------------------+"
+echo "| Set Altera Quartus path variable                                       |"
+echo "+------------------------------------------------------------------------+"
+
+
+list_dir_content() {
+    DIR="$1"
+    ls "$DIR" &> /dev/null
+    if [ "$?" == 0 ]; then
+        echo "+----------------"
+        echo "| $DIR"
+        ls -F "$DIR" | grep / | sed "s/\///g"
+    fi
+}
+
+if [ "$#" -eq 0 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+    echo "Input variables:"
+    echo "  1 - Quartus version number, 13.0sp1, 18.1, available values see below"
+    echo "  2 - Quartus version suffix: pro/<empty>"
+    echo "Usage example:"
+    echo "  <script_name> 18.1 pro"
+    echo ""
+    echo "List of available Quartus directories:"
+    if [ "`uname`" = Linux ]; then
+        list_dir_content /opt/altera
+    else
+        list_dir_content "/c/Altera"
+        list_dir_content "/c/Altera_pro"
+        list_dir_content "/c/intelFPGA"
+        list_dir_content "/c/intelFPGA_pro"
+    fi
+else
+
+    . ~/bin/fun_q2_set_path
+    fun_q2_set_path $*
+
+    export PATH="$quartus_bin_dir:$PATH"
+    # QSYS_ROOTDIR:
+    export PATH="$quartus_bin_dir/../sopc_builder/bin:$PATH"
+
+    echo " Set (version '$1' $2):"
+    echo "  QUARTUS_ROOTDIR_OVERRIDE = $QUARTUS_ROOTDIR_OVERRIDE"
+    echo "  QUARTUS_ROOTDIR          = $QUARTUS_ROOTDIR"
+    echo "  PATH(added to PATH)      = $quartus_bin_dir"
+    echo " Done!"
+fi

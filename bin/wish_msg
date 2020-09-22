@@ -1,0 +1,65 @@
+#!/usr/bin/env wish
+
+# Make windows by wish(Tcl/Tk Simple windowing shell)
+#
+#     +---------------------------------------+
+#     |                                       |
+#     | Main Message(with color background)   |
+#     |                                       |
+#     +---------------------------------------+
+#     |   Message 1                           |
+#     |   Message 2                           |
+#     |   time: hh:mm:ss                      |
+#     |             +--------+                |
+#     |             |  Exit  |                |
+#     |             +--------+                |
+#     +---------------------------------------+
+#
+# Input parameters:
+#   1 - main message text
+#   2 - color for main message (default: gray)
+#   3 - text for message1
+#   4 - text for message2
+#
+# Usage:
+# <this_script_name> [main_message] [color] [message1] [message2]
+
+proc help_msg { } {
+    global lMessage
+    set help_msg "Example usage: <main_message> <color> <msg1> <msg2>"
+    set lMessage [label .message -text $help_msg -bg "gray" -width 50 -height 10]
+}
+
+if {$argc == 0 || [string match [lindex $argv 0] "--help"]} {
+    help_msg
+} else {
+    if {$argc > 1} {
+        set color "[lindex $argv 1]"
+    } else {
+        set color "gray"
+    }
+    set lMessage [label .message -text "[lindex $argv 0]" -bg $color -width 50 -height 10]
+}
+
+set time_end [clock format [clock sec] -format %H:%M:%S]
+
+set lTimeEnd [label .time_end1 -text "time: $time_end"]
+if {$argc > 2} {
+    set lInfo1 [label .info1 -text "[lindex $argv 2]"]
+}
+if {$argc > 3} {
+    set lInfo2 [label .info2 -text "[lindex $argv 3]"]
+}
+set bExit [button .exit -width 8 -text "Exit" -command exit]
+
+wm title . "Info"
+
+pack $lMessage
+if {$argc > 2} {
+    pack $lInfo1
+}
+if {$argc > 3} {
+    pack $lInfo2
+}
+pack $lTimeEnd
+pack $bExit -pady {0 5}

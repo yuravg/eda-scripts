@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+
+#
+# Run Altera Quartus build project from current directory
+#  input parameter(s):
+#    $1 - quartus software version ( "" or empty - for default version ),
+#         or quartus project revision number (only for $1 = 0,1..9 - one digit)
+#    $2 - quartus project revision number (you can see if using script without parameters)
+# Usage: q2_build 12.0
+# or     q2_build 12.0 <revision_number>
+# or     q2_build "" <revision_number>
+# or     q2_build <revision_number>
+#
+
+# enable or disable sound in script
+# SOUND_EN=1
+
+# disable tcl/tk message "end of compilation"
+# Q2_END_CMSG_OFF=1
+echo "+------------------------------------------------------------------------+"
+echo "|  Build quartus project                                                 |"
+echo "+------------------------------------------------------------------------+"
+
+. ~/bin/fun_q2_set_path
+
+case "$1" in
+    [0-9] )
+        fun_q2_set_path
+        revision=$1
+        ;;
+    "-h"  )
+        echo ""
+        echo " Help:"
+        echo ""
+        echo "   Available variables:"
+        echo " SOUND_EN        - enable or disable sound in script"
+        echo " Q2_END_CMSG_OFF - disable tcl/tk message \"end of compilation\""
+        echo ""
+        echo "Example usage:"
+        echo "export Q2_END_CMSG_OFF=1"
+        echo "unset Q2_END_CMSG_OFF"
+        echo ""
+        echo "Done (end of help)"
+        exit
+        ;;
+    *     )
+        fun_q2_set_path $1
+        revision=$2
+        ;;
+esac
+
+cnt=1
+for p in `ls *.qpf 2>/dev/null`; do
+    prj[$cnt]=$p
+    cnt=`expr $cnt + 1`
+done
+if [ ${#prj[@]} -ne 1 ]; then
+    echo "ERROR! Must be at least one *.qpf file in dir: `pwd`"
+    exit 2
+else
+    project=${prj[1]}
+    echo " project : '$project'"
+fi
+
+cnt=1
+for p in `ls *.qsf 2>/dev/null`; do
+    rev[$cnt]=$p
+    cnt=`expr $cnt + 1`
+done
+if [ ${#rev[@]} -gt 0 ]; then
+    case "$revision" in
+        1|2|3|4|5|6|7|8|9)
+            echo "Get input parameter: '$revision', running compilations revision '${rev[$revision]}'"
+            num_revision=$revision
+            ;;
+        0)
+            echo "Get input parameter: '$revision', running compilations ALL revisions"
+            num_revision=$revision
+            ;;
+        *)
+            if [ ${#rev[@]} -eq 1 ]; then
+                num_revision=1
+            else
+                echo " revisions:"
+                for (( i=1; i<${#rev[@]}+1; i++ )); do
+                    echo "$i : ${rev[${i}]}"
+                done
+                echo "Select revision for build (0 - for all revision):"
+                read num_revision
+            fi
+            ;;
+    esac
+elif [ ${#rev[@]} -eq 0 ]; then
+    echo "ERROR! Must be at least one *.qsf file in dir: `pwd`"
+    exit 3
+fi
+case "$num_revision" in
+    [1-9])
+        revision=${rev[$num_revision]}
+        ;;
+    *)
+        echo "WARNING: will be build default revision"
+        revision=${rev[1]}
+        ;;
+esac
+
+check_quartus_exit ()
+{
+    if [ "$?" -ne 0 ]; then
+        echo "Error during compilation!"
+        if [ -z "$Q2_END_CMSG_OFF" ]; then
+           fun_wish_msg "ERROR!" "red" "`pwd`/$project" &
+        fi
+        exit 4
+    fi
+}
+case "$num_revision" in
+    "")
+        echo "WARNING: Exit without compilation!"
+        exit 0
+        ;;
+    0)
+        echo "Run compilation ..."
+        for (( i=1; i<${#rev[@]}+1; i++ )); do
+            echo "---------------------------------------------------"
+            echo "$i : ${rev[${i}]}"
+            $quartus_bin_dir/quartus_sh --flow compile $project -c ${rev[${i}]}
+            check_quartus_exit
+        done
+        ;;
+    *)
+        echo " revision : '$revision'"
+        $quartus_bin_dir/quartus_sh --flow compile $project -c $revision
+        check_quartus_exit
+        ;;
+esac
+
+if [ -z "$Q2_END_CMSG_OFF" ]; then
+    if [ -z "$SOUND_EN" ]; then
+        if [ $num_revision -eq 0 ]; then
+            fun_wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &
+        else
+            fun_wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: $revision" &
+        fi
+    else
+        echo -en "\007"
+    fi
+fi
+
+exit 0
