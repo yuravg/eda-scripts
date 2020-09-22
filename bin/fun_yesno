@@ -1,22 +1,8 @@
 # -*- mode: shell-script -*-
-# Function to display a string (passed in ad $*), followed by a "Y/N?"
 
-# Usage example:
-#   . ~/bin/fun_yesno
-#   case "$1" in
-#       y|Y|yes|Yes|YES)
-#           <Run_Something>
-#           ;;
-#       *)
-#           if ! fun_yesno "Delete all temp files"; then
-#               echo "Exit without clearing!"
-#               exit 0
-#           else
-#               <Run_Something>
-#           fi
-#           ;;
-#   esac
-#   <Run_Something>
+#
+# Function to display a string (passed in ad $*), followed by a "Y/N?"
+#
 
 fun_yesno () {
     # while true
