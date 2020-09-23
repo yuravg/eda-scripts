@@ -17,15 +17,15 @@
 # TODO: add local function 'fun_yesno'
 # TODO: add cable name as argument
 
+echo "+------------------------------------------------------------------------+"
+echo "|  Quartus II Programmer ( JTAG )                                        |"
+echo "+------------------------------------------------------------------------+"
+
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 if [ -z "$Q2_CABLE_NAME" ]; then
     Q2_CABLE_NAME=USB-Blaster[USB-0]
 fi
-
-echo "+------------------------------------------------------------------------+"
-echo "|  Quartus II Programmer ( JTAG )                                        |"
-echo "+------------------------------------------------------------------------+"
 
 select_file ()
 {

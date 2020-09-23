@@ -9,15 +9,15 @@
 #     set environment variable 'Q2_CABLE_NAME':
 #     # export Q2_CABLE_NAME=USB-Blaster[USB-0]
 
+echo "+------------------------------------------------------------------------+"
+echo "|  Quartus II Programmer ( ASP )                                         |"
+echo "+------------------------------------------------------------------------+"
+
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 if [ -z "$Q2_CABLE_NAME" ]; then
     Q2_CABLE_NAME=USB-Blaster[USB-0]
 fi
-
-echo "+------------------------------------------------------------------------+"
-echo "|  Quartus II Programmer ( ASP )                                         |"
-echo "+------------------------------------------------------------------------+"
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo "Usage:"

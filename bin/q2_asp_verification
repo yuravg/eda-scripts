@@ -13,15 +13,15 @@
 #     # export Q2_CABLE_NAME=USB-Blaster[USB-0]
 #
 
+echo "+------------------------------------------------------------------------+"
+echo "|  Quartus II Programmer ( ASP ) verification only                       |"
+echo "+------------------------------------------------------------------------+"
+
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 if [ -z "$Q2_CABLE_NAME" ]; then
     Q2_CABLE_NAME=USB-Blaster[USB-0]
 fi
-
-echo "+------------------------------------------------------------------------+"
-echo "|  Quartus II Programmer ( ASP ) verification only                       |"
-echo "+------------------------------------------------------------------------+"
 
 # if [[ "$fname" = *[[:space:]]* ]]; then
 #   echo Error! If There are more then one \`*.pof\` files, you must point name!
