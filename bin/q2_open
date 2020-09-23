@@ -35,7 +35,7 @@ if [ ${#prj[@]} -ne 1 ]; then
     exit 2
 else
     project=${prj[1]}
-    echo " project : '$project'"
+    echo "Project  : '$project'"
 fi
 
 cnt=1
@@ -44,9 +44,9 @@ for p in `ls *.qsf 2>/dev/null`; do
     cnt=`expr $cnt + 1`
 done
 if [ ${#rev[@]} -gt 0 ]; then
-    echo " revisions:"
+    echo "Revisions:"
     for (( i=1; i<${#rev[@]}+1; i++ )); do
-        echo "$i : ${rev[${i}]}"
+        echo "$i -> ${rev[${i}]}"
     done
     echo "Select revision:"
     if [ "$revision" = "" ]; then
@@ -74,7 +74,7 @@ case "$num_revision" in
         echo "WARNING: will be open default revision"
         ;;
 esac
-echo "revision : '$revision_name'"
+echo "revision: '$revision_name'"
 
 $quartus_bin_dir/quartus $project -c $revision_name &
 echo "Done!"
