@@ -17,6 +17,8 @@ echo "+------------------------------------------------------------------------+
     # exit 1
 # fi
 
+PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+
 select_file ()
 {
     cnt=1
@@ -49,7 +51,7 @@ select_file ()
         fi
     fi
 
-    . ~/bin/fun_yesno
+    . "$PATH2SCRIPT"/fun_yesno
 
     if [ ${#jic_file[@]} -gt 1 ]; then
         while :
@@ -77,6 +79,6 @@ fi
 f_time=$(date +%c -r $sof_file_name)
 echo "File to Programming: '$jic_file_name'" $f_time
 
-. ~/bin/fun_q2_set_path
+. "$PATH2SCRIPT"/fun_q2_set_path
 fun_q2_set_path
 $quartus_bin_dir/quartus_pgm -c USB-Blaster -m jtag -o pvbi\;$jic_file_name

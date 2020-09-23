@@ -4,4 +4,5 @@
 # Run Mentor Graphics Makefile
 #
 
-make -f ~/mentor/Makefile $*
+PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+make -f "$PATH2SCRIPT"/Makefile.questa $* PATH2SCRIPT="$PATH2SCRIPT"

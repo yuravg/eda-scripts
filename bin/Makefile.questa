@@ -1,11 +1,8 @@
 # -----------------------------------------------------------------------------------------------
 # Title: Makefile
 # Make-file to run Mentor Graphics Questasim (Modelsim) simple targets
-#
-# NOTE:
-#   reference - ESL (/make/v1.0/Makefile.mk)
 # -----------------------------------------------------------------------------------------------
-MAKE = @make --no-print-directory -f $(HOME)/mentor/Makefile
+MAKE = @make --no-print-directory -f $(PATH2SCRIPT)/Makefile.questa
 DIR  = $(shell basename `pwd`)
 
 OPTIMIZE     ?= +acc

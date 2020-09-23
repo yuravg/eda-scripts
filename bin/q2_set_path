@@ -13,6 +13,7 @@ echo "+------------------------------------------------------------------------+
 echo "| Set Altera Quartus path variable                                       |"
 echo "+------------------------------------------------------------------------+"
 
+PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 list_dir_content() {
     DIR="$1"
@@ -42,7 +43,7 @@ if [ "$#" -eq 0 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-hel
     fi
 else
 
-    . ~/bin/fun_q2_set_path
+    . "$PATH2SCRIPT"/fun_q2_set_path
     fun_q2_set_path $*
 
     export PATH="$quartus_bin_dir:$PATH"

@@ -11,7 +11,8 @@ echo "+------------------------------------------------------------------------+
 echo "|  Open quartus project                                                  |"
 echo "+------------------------------------------------------------------------+"
 
-. ~/bin/fun_q2_set_path
+PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+. "$PATH2SCRIPT"/fun_q2_set_path
 
 case "$1" in
     [0-9] )

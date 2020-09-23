@@ -11,6 +11,8 @@ echo "+------------------------------------------------------------------------+
 echo "|  Quartus II Programmer ( ASP ) from Buils                              |"
 echo "+------------------------------------------------------------------------+"
 
+PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+
 if [ "$OS" = "Windows_NT" ]; then
     path="/d/Builds"
 elif [ "`uname`" = Linux ]; then
@@ -75,7 +77,7 @@ fi
 
 cd_check ${ver[$num]}
 
-. ~/bin/fun_yesno
+. "$PATH2SCRIPT"/fun_yesno
 
 while :
 do
