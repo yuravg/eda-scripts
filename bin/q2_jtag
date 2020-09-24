@@ -14,7 +14,6 @@
 
 # TODO: add handler for error: Error (213019): Can't scan JTAG chain. Error code 87.
 # for example latch command: 'jtagconfig.exe'
-# TODO: add local function 'fun_yesno'
 # TODO: add cable name as argument
 
 echo "+------------------------------------------------------------------------+"
