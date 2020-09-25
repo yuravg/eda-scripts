@@ -31,7 +31,7 @@ for p in `ls *.qpf 2>/dev/null`; do
     cnt=`expr $cnt + 1`
 done
 if [ ${#prj[@]} -ne 1 ]; then
-    echo "ERROR! Must be at least one *.qpf file in the directory: `pwd`"
+    echo "ERROR! There must be only one *.qpf file in the directory: `pwd`"
     exit 2
 else
     project=${prj[1]}
@@ -60,7 +60,7 @@ if [ ${#rev[@]} -gt 0 ]; then
         num_revision=$revision
     fi
 elif [ ${#rev[@]} -eq 0 ]; then
-    echo "ERROR! Must be at least one *.qsf file in dir: `pwd`"
+    echo "ERROR! There must be at least one *.qsf file in dir: `pwd`"
     exit 3
 else
     num_revision=1

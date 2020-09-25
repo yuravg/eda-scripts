@@ -49,7 +49,7 @@ select_file ()
             read num_pof_file
         fi
     else
-        echo "ERROR! Must be at least one *.pof file in dir: `pwd`"
+        echo "ERROR! There must be at least one *.pof file in dir: `pwd`"
         exit 2
     fi
     if [ -s "${pof_file[$num_pof_file]}" ]; then
