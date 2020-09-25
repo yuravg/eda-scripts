@@ -1,0 +1,27 @@
+* eda-scripts
+Collection of scripts for EDA tools
+
+* Installation
+
+- add path to scripts(or just copy to some /bin/ directory)
+- add file with aliases
+- add alias for script to change path to Quartus
+
+** Installation example for bash:
+
+Add to ~/.bashrc
+#+begin_src shell-script
+PATH2EDA_SCRIPTS="$HOME/projects/eda-scripts"
+
+# Add path to scripts
+if [ -d "$PATH2EDA_SCRIPTS" ]; then
+    export PATH="$PATH2EDA_SCRIPTS/bin:$PATH"
+    # add alias for script to change path to Quartus
+    alias q2_set_path=". $PATH2EDA_SCRIPTS/bin/q2_set_path"
+fi
+
+# add file with aliases
+if [ -f "$PATH2EDA_SCRIPTS"/eda_aliases ]; then
+    . "$PATH2EDA_SCRIPTS"/eda_aliases
+fi
+#+end_src
