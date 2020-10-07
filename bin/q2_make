@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-#
-# Run Altera Quartus Makefile
-#
-
-make -f ~/altera/Makefile $*
