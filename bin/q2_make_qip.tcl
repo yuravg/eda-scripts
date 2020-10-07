@@ -19,25 +19,25 @@ if {[llength $argv]>0} {
     puts " path2      : '$path2'"
     puts " path3      : '$path3'"
 } else {
-	puts "Usage example(s): <script_name> <qip-file-name> <path2dir0>"
-	puts "                  <script_name> <qip-file-name> ."
-	puts "                  <script_name> <qip-file-name> <path2dir0> ... <path2dir3> "
-	exit 0
+    puts "Usage example(s): <script_name> <qip-file-name> <path2dir0>"
+    puts "                  <script_name> <qip-file-name> ."
+    puts "                  <script_name> <qip-file-name> <path2dir0> ... <path2dir3>"
+    exit 0
 }
 
 set p_file [open $file_name w]
 set cnt 0
 
-proc find { path pattern key_word  } {
-    foreach i [ glob -nocomplain $path/$pattern ] {
+proc find {path pattern key_word} {
+    foreach i [glob -nocomplain $path/$pattern] {
         puts $::p_file "set_global_assignment -name $key_word \[file join \$::quartus(qip_path) \"$i\"\]"
-		puts "$i\t\t$key_word"
+        puts "$i\t\t$key_word"
         global cnt
         incr cnt
     }
 }
 
-proc find_in_path { path } {
+proc find_in_path {path} {
     find  $path *.sv   SYSTEMVERILOG_FILE
     find  $path *.svh  SYSTEMVERILOG_FILE
     find  $path *.v    VERILOG_FILE
@@ -81,5 +81,3 @@ close $p_file
 puts "----------------------------------"
 puts " Find $cnt files"
 puts " Write file '$file_name'"
-# puts " Press 'Enter' to exit ..."
-# gets stdin
