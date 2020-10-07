@@ -1,0 +1,15 @@
+# -*- mode: shell-script -*-
+
+# Aliases for 'EDA-scripts'
+#
+# Usage:
+# add to your profile or bashrc:
+#
+# if [ -f <path2this_file/eda_aliases ]; then
+#     . <path2this_file>/eda_aliases
+# fi
+
+# * Quartus
+alias q2_megawizard="qmegawizq"
+alias q2_stp="quartus_stpw"
+alias q2_eclipse="eclipse-nios2"
