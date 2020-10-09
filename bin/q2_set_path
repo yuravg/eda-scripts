@@ -72,17 +72,17 @@ list_dir() {
     DIR="$1"
     ls "$DIR" &> /dev/null
     if [ "$?" == 0 ]; then
-        echo "+----------------"
-        echo "| $DIR"
+        echo "* Path: $DIR"
         ls -F "$DIR" | grep / | sed "s/\///g"
     fi
 }
 
 if [ "$#" -eq 0 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo "Input variables:"
-    echo "  1 - Quartus version number, 13.0sp1, 18.1, available values see below"
-    echo "  2 - Quartus version suffix: pro/<empty>"
+    echo "  1 - Quartus version number"
+    echo "  2 - Quartus version suffix(Pro/Std): pro/<empty>"
     echo "Usage example:"
+    echo "  <script_name> 13.0sp1"
     echo "  <script_name> 18.1 pro"
     echo ""
     echo "List of available Quartus directories:"
