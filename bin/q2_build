@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
 #
+# Build Quartus project
+#
+# This script launches verification with Intel Quartus II Programmer via ASP to program 'pof'
+# file. The 'pof' file is searched for in the current directory or given as an argument.
+#
+# For more then one program cable:
+#     set environment variable 'Q2_CABLE_NAME':
+#     # export Q2_CABLE_NAME=USB-Blaster[USB-0]
+#
+
+
+#
 # Run Altera Quartus build project from current directory
 #  input parameter(s):
 #    1 - quartus project revision number (you can see if using script without parameters)
@@ -60,11 +72,11 @@ revision="$1"
 if [ ${#rev[@]} -gt 0 ]; then
     case "$revision" in
         1|2|3|4|5|6|7|8|9)
-            echo "Get input parameter: '$revision', running compilations revision '${rev[$revision]}'"
+            echo "Start compilation revision '${rev[$revision]}'"
             num_revision=$revision
             ;;
         0)
-            echo "Get input parameter: '$revision', running compilations ALL revisions"
+            echo "Start compilation ALL revisions"
             num_revision=$revision
             ;;
         *)
