@@ -15,7 +15,7 @@ echo "+------------------------------------------------------------------------+
 
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-list_dir_content() {
+list_dir() {
     DIR="$1"
     ls "$DIR" &> /dev/null
     if [ "$?" == 0 ]; then
@@ -34,12 +34,12 @@ if [ "$#" -eq 0 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-hel
     echo ""
     echo "List of available Quartus directories:"
     if [ "`uname`" = Linux ]; then
-        list_dir_content /opt/altera
+        list_dir /opt/altera
     else
-        list_dir_content "/c/Altera"
-        list_dir_content "/c/Altera_pro"
-        list_dir_content "/c/intelFPGA"
-        list_dir_content "/c/intelFPGA_pro"
+        list_dir "/c/Altera"
+        list_dir "/c/Altera_pro"
+        list_dir "/c/intelFPGA"
+        list_dir "/c/intelFPGA_pro"
     fi
 else
 
