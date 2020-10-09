@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+MSG="Fitter summary:"
+printf "%b%s%b\n" "\e[32m" "$MSG" "\e[0m"
+
+if [ "$(ls -A output_files)" ]; then
+    OUTDIR="./output_files/"
+else
+    OUTDIR=""
+fi
+
+cat "$OUTDIR"*fit.summary 2>/dev/null
