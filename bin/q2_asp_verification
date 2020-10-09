@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Run Altera Quartus programmer ASP
-#   script is verification file (*.pof) from current directory (if there is only one *.pof),
-#   or by name (first input parameter)
+# Run Altera Quartus programmer ASP verification
 #
 # Example usage:
 # 1. script_name
