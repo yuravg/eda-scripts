@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+MSG="Quaruts Analysis and Syntheses Error report:"
+printf "%b%s%b\n" "\e[31m" "$MSG" "\e[0m"
+
+CMD=grep
+if hash rg 2>/dev/null; then
+    CMD=rg
+fi
+
+if [ "$(ls -A output_files)" ]; then
+    OUTDIR="./output_files/"
+else
+    OUTDIR=""
+fi
+
+"$CMD" -e "^Error" "$OUTDIR"*.syn.rpt 2>/dev/null
+"$CMD" -e "^Error" "$OUTDIR"*.fit.rpt 2>/dev/null
+"$CMD" -e "^Error" "$OUTDIR"*.map.rpt 2>/dev/null
