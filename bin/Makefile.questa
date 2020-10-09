@@ -1,6 +1,5 @@
 # -----------------------------------------------------------------------------------------------
-# Title: Makefile
-# Make-file to run Mentor Graphics Questasim (Modelsim) simple targets
+# Make-file to run Mentor Graphics QuestaSim/ModelSim targets
 # -----------------------------------------------------------------------------------------------
 MAKE = @make --no-print-directory -f $(PATH2SCRIPT)/Makefile.questa
 DIR  = $(shell basename `pwd`)
