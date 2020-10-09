@@ -1,0 +1,146 @@
+#!/usr/bin/env sh
+
+#
+# Deleting temporary EDA files from current directory
+#  input parameter(s):
+#    $1 - replay for question(yes or no)
+#
+
+read_yesno () {
+    while :
+    do
+        echo "$* (y/n)?"
+        read yn junk
+
+        case $yn in
+            y|Y|yes|Yes|YES)
+                return 0
+                ;;
+            n|N|no|No|NO)
+                return 1
+                ;;
+            *)
+                echo Please answer Yes or No.
+                ;;
+        esac
+    done
+}
+
+case "$1" in
+    y|Y|yes|Yes|YES)
+        ;;
+    *)
+        if ! read_yesno "Delete all temp files" ; then
+            echo "Exit without clearing!"
+            exit 0
+        fi
+        ;;
+esac
+
+echo "Cleaning ..."
+
+# Altera
+rm -rf  *.bsf
+rm -rf  *.cmp
+rm -rf  *.cnf
+rm -rf  *.csv
+rm -rf  *.ddb
+rm -rf  *.dpf
+rm -rf  *.fit
+rm -rf  *.hif
+rm -rf  *.html
+rm -rf  *.mmf
+rm -rf  *.ndb
+rm -rf  *.orig
+rm -rf  *.pin
+rm -rf  *.pof
+rm -rf  *.ppf
+rm -rf  *.pre_generation_ptf
+rm -rf  *.ptf.8.0
+rm -rf  *.rbf
+rm -rf  *.rpt
+rm -rf  *.rpt.org
+rm -rf  *.snf
+rm -rf  *.sof
+rm -rf  *.sopcinfo
+rm -rf  *.summary
+rm -rf  *.tcl~
+rm -rf  *INFO.txt
+rm -rf  *_log.txt
+rm -rf  instal*.ptf
+rm -rf  wlft*.
+rm -rf *.sld
+rm -rf *_lists.echo
+rm -rf *model_dump.txt
+rm -rf altera_*_inst.tr
+rm -rf db/
+rm -rf greybox_tmp
+rm -rf hc_output
+rm -rf incremental_db/
+rm -rf new_rtl_netlist
+rm -rf old_rtl_netlist
+rm -rf output_files/
+rm -rf qdb/
+rm -rf reconfig_mif
+rm -rf tmp-clearbox/
+
+# Cadence
+rm -rf  *.DBK
+rm -rf  *.DRC
+rm -rf  *.ONL
+rm -rf  *.iml
+rm -rf  *.iml,?
+rm -rf  *.jrl
+rm -rf  *.jrl,?
+rm -rf  *.log
+rm -rf  *.log,?
+rm -rf  *.opj
+rm -rf  *.rpt,?
+rm -rf  *_AllegroMiniDump.dmp
+rm -rf  devices.dml
+rm -rf  devices.dml,?
+rm -rf  eco.txt
+rm -rf  eco.txt,?
+rm -rf  master.tag
+rm -rf  netrev.lst
+rm -rf  shape_state.rpt
+rm -rf  shape_state.rpt,?
+rm -rf  shapes_without_nets.rpt
+rm -rf  shapes_without_nets.rpt,?
+rm -rf *.dat,*
+rm -rf *.xml
+rm -rf *.xml,*
+
+# Xilinx
+rm -rf  *.bld
+rm -rf  *.chk
+rm -rf  *.cmd_log
+rm -rf  *.cxt
+rm -rf  *.err
+rm -rf  *.gyd
+rm -rf  *.jed
+rm -rf  *.lso
+rm -rf  *.mfd
+rm -rf  *.nga
+rm -rf  *.ngc
+rm -rf  *.ngd
+rm -rf  *.ngr
+rm -rf  *.pad
+rm -rf  *.pnx
+rm -rf  *.stx
+rm -rf  *.syr
+rm -rf  *.tim
+rm -rf  *.tspec
+rm -rf  *.vm?
+rm -rf  *.xrpt
+rm -rf  *.xst
+rm -rf  *_summary.html
+rm -rf  _ngo
+rm -rf  _xmsgs
+rm -rf  cpld_platflash_xdb
+rm -rf  iseconfig
+rm -rf  top_html
+rm -rf  xlnx_auto_0_xdb
+rm -rf  xst
+
+echo "Cleaning complete."
