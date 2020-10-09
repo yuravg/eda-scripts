@@ -8,10 +8,29 @@ echo "+------------------------------------------------------------------------+
 echo "|  Quartus Script to Check Design File Syntax                            |"
 echo "+------------------------------------------------------------------------+"
 
+fun_yesno () {
+    while :
+    do
+        echo "$* (y/n)?"
+        read yn junk
+
+        case $yn in
+            y|Y|yes|Yes|YES)
+                return 0
+                ;;
+            n|N|no|No|NO)
+                return 1
+                ;;
+            *)
+                echo Please answer Yes or No.
+                ;;
+        esac
+    done
+}
+
 FILES_WITH_ERRORS=""
 
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-. "$PATH2SCRIPT"/fun_yesno
 . "$PATH2SCRIPT"/fun_q2_set_path
 
 fun_q2_set_path

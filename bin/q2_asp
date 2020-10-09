@@ -13,6 +13,26 @@ echo "+------------------------------------------------------------------------+
 echo "|  Quartus II Programmer ( ASP )                                         |"
 echo "+------------------------------------------------------------------------+"
 
+fun_yesno () {
+    while :
+    do
+        echo "$* (y/n)?"
+        read yn junk
+
+        case $yn in
+            y|Y|yes|Yes|YES)
+                return 0
+                ;;
+            n|N|no|No|NO)
+                return 1
+                ;;
+            *)
+                echo Please answer Yes or No.
+                ;;
+        esac
+    done
+}
+
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 if [ -z "$Q2_CABLE_NAME" ]; then
@@ -57,8 +77,6 @@ select_file ()
             echo "WARNING: will be open default pof file (can't find selected file)"
         fi
     fi
-
-    . "$PATH2SCRIPT"/fun_yesno
 
     if [ ${#pof_file[@]} -gt 1 ]; then
         while :
