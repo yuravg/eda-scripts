@@ -17,7 +17,7 @@ echo "+------------------------------------------------------------------------+
 echo "|  Quartus II Programmer ( ASP ) verification only                       |"
 echo "+------------------------------------------------------------------------+"
 
-fun_yesno () {
+read_yesno () {
     while :
     do
         echo "$* (y/n)?"
@@ -84,7 +84,7 @@ select_file ()
     if [ ${#pof_file[@]} -gt 1 ]; then
         while :
         do
-            if fun_yesno "Would you like verification with file: '$pof_file_name'" ; then
+            if read_yesno "Would you like verification with file: '$pof_file_name'" ; then
                 break;
             else
                 echo "NOTE! Exit without verification!";

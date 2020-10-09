@@ -8,7 +8,7 @@ echo "+------------------------------------------------------------------------+
 echo "|  Quartus Script to Check Design File Syntax                            |"
 echo "+------------------------------------------------------------------------+"
 
-fun_yesno () {
+read_yesno () {
     while :
     do
         echo "$* (y/n)?"
@@ -37,7 +37,7 @@ fun_q2_set_path
 
 if [ ! "$1" ]
 then
-    if fun_yesno Do you really wish check all files?
+    if read_yesno Do you really wish check all files?
     then
         for filename in `ls *.sv *.v`
         do

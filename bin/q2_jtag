@@ -20,7 +20,7 @@ echo "+------------------------------------------------------------------------+
 echo "|  Quartus II Programmer ( JTAG )                                        |"
 echo "+------------------------------------------------------------------------+"
 
-fun_yesno () {
+read_yesno () {
     while :
     do
         echo "$* (y/n)?"
@@ -81,7 +81,7 @@ select_file ()
     if [ ${#sof_file[@]} -gt 1 ]; then
         while :
         do
-            if fun_yesno "Would you like load file: '$sof_file_name'" ; then
+            if read_yesno "Would you like load file: '$sof_file_name'" ; then
                 break;
             else
                 echo "NOTE! Exit without load!";
