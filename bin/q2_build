@@ -111,7 +111,7 @@ check_quartus_exit ()
     if [ "$?" -ne 0 ]; then
         echo "Error during compilation!"
         if [ -z "$Q2_END_CMSG_OFF" ]; then
-           fun_wish_msg "ERROR!" "red" "`pwd`/$project" &
+           wish_msg "ERROR!" "red" "`pwd`/$project" &
         fi
         exit 4
     fi
@@ -140,9 +140,9 @@ esac
 if [ -z "$Q2_END_CMSG_OFF" ]; then
     if [ -z "$SOUND_EN" ]; then
         if [ $num_revision -eq 0 ]; then
-            fun_wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &
+            wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &
         else
-            fun_wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: $revision" &
+            wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: $revision" &
         fi
     else
         echo -en "\007"

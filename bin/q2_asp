@@ -92,8 +92,8 @@ $quartus_bin_dir/quartus_pgm -c "$Q2_CABLE_NAME" -m as -o bpv\;$pof_file_name
 
 if [ "$1" == '-g' ] || [ "$2" == '-g' ]; then
     if [ "$?" != 0 ]; then
-        fun_wish_msg "End with ERROR!" "red" &
+        wish_msg "End with ERROR!" "red" &
     else
-        fun_wish_msg "Programming done." &
+        wish_msg "Programming done." &
     fi
 fi
