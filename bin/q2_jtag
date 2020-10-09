@@ -40,8 +40,6 @@ read_yesno () {
     done
 }
 
-PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-
 if [ -z "$Q2_CABLE_NAME" ]; then
     Q2_CABLE_NAME=USB-Blaster[USB-0]
 fi
@@ -104,6 +102,4 @@ fi
 f_time=$(date +%c -r $sof_file_name)
 echo "File to Programming: '$sof_file_name'" $f_time
 
-. "$PATH2SCRIPT"/fun_q2_set_path
-fun_q2_set_path
-$quartus_bin_dir/quartus_pgm -c "$Q2_CABLE_NAME" -m jtag -o p\;$sof_file_name
+quartus_pgm -c "$Q2_CABLE_NAME" -m jtag -o p\;$sof_file_name

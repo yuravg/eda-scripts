@@ -11,20 +11,6 @@ echo "+------------------------------------------------------------------------+
 echo "|  Open quartus project                                                  |"
 echo "+------------------------------------------------------------------------+"
 
-PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-. "$PATH2SCRIPT"/fun_q2_set_path
-
-case "$1" in
-    [0-9] )
-        fun_q2_set_path
-        revision=$1
-        ;;
-    *     )
-        fun_q2_set_path $1
-        revision="$2"
-        ;;
-esac
-
 cnt=1
 for p in `ls *.qpf 2>/dev/null`; do
     prj[$cnt]=$p
@@ -43,6 +29,9 @@ for p in `ls *.qsf 2>/dev/null`; do
     rev[$cnt]=$p
     cnt=`expr $cnt + 1`
 done
+
+revision="$1"
+
 if [ ${#rev[@]} -gt 0 ]; then
     echo "Revisions:"
     for (( i=1; i<${#rev[@]}+1; i++ )); do
@@ -76,5 +65,5 @@ case "$num_revision" in
 esac
 echo "revision: '$revision_name'"
 
-$quartus_bin_dir/quartus $project -c $revision_name &
+quartus $project -c $revision_name &
 echo "Done!"

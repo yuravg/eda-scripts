@@ -3,12 +3,8 @@
 #
 # Run Altera Quartus build project from current directory
 #  input parameter(s):
-#    $1 - quartus software version ( "" or empty - for default version ),
-#         or quartus project revision number (only for $1 = 0,1..9 - one digit)
-#    $2 - quartus project revision number (you can see if using script without parameters)
-# Usage: q2_build 12.0
-# or     q2_build 12.0 <revision_number>
-# or     q2_build "" <revision_number>
+#    1 - quartus project revision number (you can see if using script without parameters)
+# Usage: q2_build
 # or     q2_build <revision_number>
 #
 
@@ -22,14 +18,7 @@ echo "+------------------------------------------------------------------------+
 echo "|  Build quartus project                                                 |"
 echo "+------------------------------------------------------------------------+"
 
-PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-. "$PATH2SCRIPT"/fun_q2_set_path
-
 case "$1" in
-    [0-9] )
-        fun_q2_set_path
-        revision=$1
-        ;;
     "-h"  )
         echo ""
         echo " Help:"
@@ -44,10 +33,6 @@ case "$1" in
         echo ""
         echo "Done (end of help)"
         exit
-        ;;
-    *     )
-        fun_q2_set_path $1
-        revision=$2
         ;;
 esac
 
@@ -69,6 +54,9 @@ for p in `ls *.qsf 2>/dev/null`; do
     rev[$cnt]=$p
     cnt=`expr $cnt + 1`
 done
+
+revision="$1"
+
 if [ ${#rev[@]} -gt 0 ]; then
     case "$revision" in
         1|2|3|4|5|6|7|8|9)
@@ -126,13 +114,13 @@ case "$num_revision" in
         for (( i=1; i<${#rev[@]}+1; i++ )); do
             echo "---------------------------------------------------"
             echo "$i : ${rev[${i}]}"
-            $quartus_bin_dir/quartus_sh --flow compile $project -c ${rev[${i}]}
+            quartus_sh --flow compile $project -c ${rev[${i}]}
             check_quartus_exit
         done
         ;;
     *)
         echo " revision : '$revision'"
-        $quartus_bin_dir/quartus_sh --flow compile $project -c $revision
+        quartus_sh --flow compile $project -c $revision
         check_quartus_exit
         ;;
 esac
