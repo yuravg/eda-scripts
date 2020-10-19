@@ -22,7 +22,10 @@
 #   4 - text for message2
 #
 # Usage:
-# <this_script_name> [main_message] [color] [message1] [message2]
+# 1. way 1: <this_script_name> [main_message] [color] [message1] [message2]
+# 2. way 2: - add new alias/function:
+#             new_cmd() { ( <compilation_cmd> && <next_cmd> && wish_msg OK green ) || wish_msg Error red; }
+#           - run new new alias/function
 
 proc help_msg { } {
     global lMessage
