@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 #
-# Deleting temporary EDA files from current directory
+# Deleting temporary EDA files from the current directory
 #  input parameter(s):
 #    $1 - replay for question(yes or no)
 #
