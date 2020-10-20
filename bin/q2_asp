@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
 #
-# Run Altera Quartus programmer ASP
-#   script is programming file (*.pof) from current directory (if there is only one *.pof),
-#   or by name
+# Programming with Quartus Programmer via ASP
+#
+# This script launches Intel Quartus II Programmer to program 'pof' file via ASP. The 'pof' file
+# is searched for in the current directory or given as an argument.
 #
 # For more then one program cable:
 #     set environment variable 'Q2_CABLE_NAME':
 #     # export Q2_CABLE_NAME=USB-Blaster[USB-0]
 
 echo "+------------------------------------------------------------------------+"
-echo "|  Quartus II Programmer ( ASP )                                         |"
+echo "|  Quartus II Programmer (ASP) programming                               |"
 echo "+------------------------------------------------------------------------+"
 
 read_yesno () {
@@ -37,10 +38,20 @@ if [ -z "$Q2_CABLE_NAME" ]; then
     Q2_CABLE_NAME=USB-Blaster[USB-0]
 fi
 
+SCRIPT_NAME="${BASH_SOURCE##*/}"
+
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo "Usage:"
-    echo "  1. <script_name>"
-    echo "  2. <script_name> -g -- usage GUI window at the end of programming"
+    echo "  $SCRIPT_NAME [pof-file-name | pof-file-number] [-g]"
+    echo ""
+    echo "ARGS:"
+    echo "    <pof-file-name>"
+    echo "                 file name for programming."
+    echo "    <pof-file-number>"
+    echo "                 file number for programming."
+    echo "OPTIONS:"
+    echo "    -g"
+    echo "                 run 'wish_msg' at the end of programming."
     exit 0
 fi
 
