@@ -25,3 +25,7 @@ if [ -f "$PATH2EDA_SCRIPTS"/eda_aliases ]; then
     . "$PATH2EDA_SCRIPTS"/eda_aliases
 fi
 #+end_src
+
+* Usage:
+
+$ wish_msg "Title message" green "message 1" message_2
