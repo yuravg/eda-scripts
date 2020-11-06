@@ -10,9 +10,9 @@
 # fi
 
 # * Quartus
-alias q2_megawizard="qmegawizq"
-alias q2_stp="quartus_stpw"
-alias q2_eclipse="eclipse-nios2"
+alias qp_megawizard="qmegawizq"
+alias qp_stp="quartus_stpw"
+alias qp_eclipse="eclipse-nios2"
 
 # * Wish messages
 alias wish_msg_ok="wish_msg Ok green"

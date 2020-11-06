@@ -7,8 +7,8 @@
 # 1. script_name
 # 2. script_name <file_name.sof>
 # 3. For more then one program cable:
-#     set environment variable 'Q2_CABLE_NAME':
-#     # export Q2_CABLE_NAME=USB-Blaster[USB-0]
+#     set environment variable 'QP_CABLE_NAME':
+#     # export QP_CABLE_NAME=USB-Blaster[USB-0]
 #
 # NOTE:  jtagconfig.exe -n -- for describe current status information
 
@@ -40,8 +40,8 @@ read_yesno () {
     done
 }
 
-if [ -z "$Q2_CABLE_NAME" ]; then
-    Q2_CABLE_NAME=USB-Blaster[USB-0]
+if [ -z "$QP_CABLE_NAME" ]; then
+    QP_CABLE_NAME=USB-Blaster[USB-0]
 fi
 
 select_file ()
@@ -102,4 +102,4 @@ fi
 f_time=$(date +%c -r $sof_file_name)
 echo "File to Programming: '$sof_file_name'" $f_time
 
-quartus_pgm -c "$Q2_CABLE_NAME" -m jtag -o p\;$sof_file_name
+quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o p\;$sof_file_name

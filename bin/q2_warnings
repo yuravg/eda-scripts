@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-q2_warnings_map && q2_warnings_sta && q2_warnings_fit

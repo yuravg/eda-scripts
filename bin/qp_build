@@ -7,8 +7,8 @@
 # file. The 'pof' file is searched for in the current directory or given as an argument.
 #
 # For more then one program cable:
-#     set environment variable 'Q2_CABLE_NAME':
-#     # export Q2_CABLE_NAME=USB-Blaster[USB-0]
+#     set environment variable 'QP_CABLE_NAME':
+#     # export QP_CABLE_NAME=USB-Blaster[USB-0]
 #
 
 
@@ -16,15 +16,15 @@
 # Run Altera Quartus build project from current directory
 #  input parameter(s):
 #    1 - quartus project revision number (you can see if using script without parameters)
-# Usage: q2_build
-# or     q2_build <revision_number>
+# Usage: qp_build
+# or     qp_build <revision_number>
 #
 
 # enable or disable sound in script
 # SOUND_EN=1
 
 # disable tcl/tk message "end of compilation"
-# Q2_END_CMSG_OFF=1
+# QP_END_CMSG_OFF=1
 
 echo "+------------------------------------------------------------------------+"
 echo "|  Build quartus project                                                 |"
@@ -37,11 +37,11 @@ case "$1" in
         echo ""
         echo "   Available variables:"
         echo " SOUND_EN        - enable or disable sound in script"
-        echo " Q2_END_CMSG_OFF - disable tcl/tk message \"end of compilation\""
+        echo " QP_END_CMSG_OFF - disable tcl/tk message \"end of compilation\""
         echo ""
         echo "Example usage:"
-        echo "export Q2_END_CMSG_OFF=1"
-        echo "unset Q2_END_CMSG_OFF"
+        echo "export QP_END_CMSG_OFF=1"
+        echo "unset QP_END_CMSG_OFF"
         echo ""
         echo "Done (end of help)"
         exit
@@ -110,7 +110,7 @@ check_quartus_exit ()
 {
     if [ "$?" -ne 0 ]; then
         echo "Error during compilation!"
-        if [ -z "$Q2_END_CMSG_OFF" ]; then
+        if [ -z "$QP_END_CMSG_OFF" ]; then
            wish_msg "ERROR!" "red" "`pwd`/$project" &
         fi
         exit 4
@@ -137,7 +137,7 @@ case "$num_revision" in
         ;;
 esac
 
-if [ -z "$Q2_END_CMSG_OFF" ]; then
+if [ -z "$QP_END_CMSG_OFF" ]; then
     if [ -z "$SOUND_EN" ]; then
         if [ $num_revision -eq 0 ]; then
             wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &

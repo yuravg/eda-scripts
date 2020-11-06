@@ -3,9 +3,9 @@
 #
 # Set Altera Quartus path variable
 #  usage:
-#   q2_set_path         - info (list Quartus install dir)
-#   q2_set_path -i      - info (list Quartus install dir)
-#   q2_set_path 12.1    - set Quartus root dir (only if there is path to version 12.1)
+#   qp_set_path         - info (list Quartus install dir)
+#   qp_set_path -i      - info (list Quartus install dir)
+#   qp_set_path 12.1    - set Quartus root dir (only if there is path to version 12.1)
 #
 #
 
@@ -25,7 +25,7 @@ echo "+------------------------------------------------------------------------+
 
 # FIXME: set Standard Quartus version after Pro
 
-fun_q2_set_path ()
+fun_qp_set_path ()
 {
     if [ -n "$1" ]; then
         PATH2QUARTUS_VERSION=${QUARTUS_ROOTDIR_OVERRIDE:0:(${#QUARTUS_ROOTDIR_OVERRIDE} - 8)}
@@ -96,8 +96,8 @@ if [ "$#" -eq 0 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-hel
     fi
 else
 
-    . "$PATH2SCRIPT"/fun_q2_set_path
-    fun_q2_set_path $*
+    . "$PATH2SCRIPT"/fun_qp_set_path
+    fun_qp_set_path $*
 
     export PATH="$quartus_bin_dir:$PATH"
     # QSYS_ROOTDIR:

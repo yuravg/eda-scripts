@@ -17,7 +17,7 @@ PATH2EDA_SCRIPTS="$HOME/projects/eda-scripts"
 if [ -d "$PATH2EDA_SCRIPTS" ]; then
     export PATH="$PATH2EDA_SCRIPTS/bin:$PATH"
     # add alias for script to change path to Quartus
-    alias q2_set_path=". $PATH2EDA_SCRIPTS/bin/q2_set_path"
+    alias qp_set_path=". $PATH2EDA_SCRIPTS/bin/qp_set_path"
 fi
 
 # add file with aliases
