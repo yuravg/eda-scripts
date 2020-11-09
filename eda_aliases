@@ -13,6 +13,7 @@
 alias qp_megawizard="qmegawizq"
 alias qp_stp="quartus_stpw"
 alias qp_eclipse="eclipse-nios2"
+alias qp_pgm="quartus_pgmw"
 
 # * Wish messages
 alias wish_msg_ok="wish_msg Ok green"
