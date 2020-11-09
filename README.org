@@ -29,3 +29,4 @@ fi
 * Usage:
 
 $ wish_msg "Title message" green "message 1" message_2
+$ qp_build && wish_msg_ok || wish_msg_err
