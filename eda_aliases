@@ -10,10 +10,15 @@
 # fi
 
 # * Quartus
-alias qp_megawizard="qmegawizq"
-alias qp_stp="quartus_stpw"
-alias qp_eclipse="eclipse-nios2"
-alias qp_pgm="quartus_pgmw"
+if [ "$OS" = "Windows_NT" ]; then
+    export RUN_BACKGROUND="&"
+else
+    export RUN_BACKGROUND=""
+fi
+alias qp_megawizard="qmegawizq $RUN_BACKGROUND"
+alias qp_stp="quartus_stpw $RUN_BACKGROUND"
+alias qp_eclipse="eclipse-nios2 $RUN_BACKGROUND"
+alias qp_pgm="quartus_pgmw $RUN_BACKGROUND"
 
 # * Wish messages
 alias wish_msg_ok="wish_msg Ok green"
