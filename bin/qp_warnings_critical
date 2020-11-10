@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+CMD=grep
+if hash rg 2>/dev/null; then
+    CMD=rg
+fi
+
+qp_warnings_map | "$CMD" -e Critical
+qp_warnings_sta | "$CMD" -e Critical
+qp_warnings_fit | "$CMD" -e Critical
