@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-qp_warnings_map && qp_warnings_sta && qp_warnings_fit
+qp_warnings_map
+qp_warnings_sta
+qp_warnings_fit
