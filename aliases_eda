@@ -5,8 +5,8 @@
 # Usage:
 # add to your profile or bashrc:
 #
-# if [ -f <path2this_file/eda_aliases ]; then
-#     . <path2this_file>/eda_aliases
+# if [ -f <path2this_file/aliases_eda ]; then
+#     . <path2this_file>/aliases_eda
 # fi
 
 # * Quartus

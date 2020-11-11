@@ -21,8 +21,8 @@ if [ -d "$PATH2EDA_SCRIPTS" ]; then
 fi
 
 # add file with aliases
-if [ -f "$PATH2EDA_SCRIPTS"/eda_aliases ]; then
-    . "$PATH2EDA_SCRIPTS"/eda_aliases
+if [ -f "$PATH2EDA_SCRIPTS"/aliases_eda ]; then
+    . "$PATH2EDA_SCRIPTS"/aliases_eda
 fi
 #+end_src
 
