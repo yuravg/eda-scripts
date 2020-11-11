@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# To show success or error status using GUI(wish_msg script)
+
+"$@" && wish_msg Ok green || wish_msg Error red
