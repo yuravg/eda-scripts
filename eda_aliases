@@ -18,7 +18,7 @@ fi
 alias qp_megawizard="qmegawizq $RUN_BACKGROUND"
 alias qp_stp="quartus_stpw $RUN_BACKGROUND"
 alias qp_eclipse="eclipse-nios2 $RUN_BACKGROUND"
-alias qp_pgm="quartus_pgmw $RUN_BACKGROUND"
+alias qp_prg="quartus_pgmw $RUN_BACKGROUND"
 
 # * Wish messages
 alias wish_msg_ok="wish_msg Ok green"
