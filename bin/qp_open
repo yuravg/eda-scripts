@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 #
-# Open Altera Quartus project from current directory
-#  input parameter(s):
-#    $1 - quartus software version ( "" or empty - for default version )
-#         or quartus project revision number (only for $1 = 0,1..9 - one digit)
+# Open Altera Quartus project
+#
+# This script look for Intel Quartus Prime project file (qpf) and opens one of the revisions.
 #
 
 echo "+------------------------------------------------------------------------+"

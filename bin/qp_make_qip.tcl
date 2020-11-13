@@ -1,6 +1,6 @@
 #!/usr/bin/env tclsh
 
-# Script to make Quartus Qip-file
+# Make Quartus Prime QIP-file
 
 puts "+------------------------------------------------------+"
 puts "| Make Quartus Qip-file                                |"

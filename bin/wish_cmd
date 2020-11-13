@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-# To show success or error status using GUI(wish_msg script)
+# Show a command return code using GUI(wish_msg script)
+#
+# Usage example(s):
+#   wish_cmd <some_comman>
+#   wish_cmd qp_build
 
 "$@" && wish_msg Ok green || wish_msg Error red

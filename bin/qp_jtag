@@ -17,7 +17,7 @@
 # TODO: add cable name as argument
 
 echo "+------------------------------------------------------------------------+"
-echo "|  Quartus II Programmer ( JTAG )                                        |"
+echo "|  Quartus Prime Programmer ( JTAG )                                     |"
 echo "+------------------------------------------------------------------------+"
 
 read_yesno () {

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Show current Altera Quartus version
+# Show current Intel Quartus Prime version
 #
 
 echo "+------------------------------------------------------------------------+"

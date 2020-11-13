@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Run Makefile.questa - Mentor Graphics Makefile
+# Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets
 #
 
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
