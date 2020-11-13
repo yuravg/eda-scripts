@@ -113,14 +113,10 @@ case "$num_revision" in
 esac
 
 if [ -z "$QP_END_CMSG_OFF" ]; then
-    if [ -z "$SOUND_EN" ]; then
-        if [ $num_revision -eq 0 ]; then
-            wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &
-        else
-            wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: $revision" &
-        fi
+    if [ $num_revision -eq 0 ]; then
+        wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &
     else
-        echo -en "\007"
+        wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: $revision" &
     fi
 fi
 
