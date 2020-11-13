@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Show only Mapping Quartus Prime compilation warnings
+
 MSG="Qurtus Analysis and Syntheses Warning report:"
 printf "%b%s%b\n" "\e[43m" "$MSG" "\e[0m"
 

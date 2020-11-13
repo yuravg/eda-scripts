@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Show Quartus Prime compilation summary
+
 MSG="Fitter summary:"
 printf "%b%s%b\n" "\e[32m" "$MSG" "\e[0m"
 

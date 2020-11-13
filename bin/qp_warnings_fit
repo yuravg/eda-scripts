@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Show only Fitting Quartus Prime compilation warnings
+
 MSG="Fitter report:"
 printf "%b%s%b\n" "\e[43m" "$MSG" "\e[0m"
 

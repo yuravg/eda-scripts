@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Show Quartus Prime compilation errors
+
 MSG="Quaruts Analysis and Syntheses Error report:"
 printf "%b%s%b\n" "\e[31m" "$MSG" "\e[0m"
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Show only critical compilation warnings Quartus Prime
+
 CMD=grep
 if hash rg 2>/dev/null; then
     CMD=rg

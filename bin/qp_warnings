@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Show Quartus Prime compilation warnings
+
 qp_warnings_map
 qp_warnings_sta
 qp_warnings_fit

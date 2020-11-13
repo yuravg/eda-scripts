@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Show only Quartus Prime TimeQuest Timing Analyzer warnings
+
 MSG="TimeQuest Timing Analyzer report:"
 printf "%b%s%b\n" "\e[43m" "$MSG" "\e[0m"
 
