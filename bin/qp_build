@@ -20,6 +20,9 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo "ARGS:"
     echo "    <revision-number>"
     echo "                 Quartus revision file number."
+    echo "OPTIONS:"
+    echo "    -g"
+    echo "                 run 'wish_msg' at the end of programming."
     exit 0
 fi
 
@@ -42,7 +45,15 @@ for p in `ls *.qsf 2>/dev/null`; do
     cnt=`expr $cnt + 1`
 done
 
+EN_WISH_MSG=0
+if [ "$1" == '-g' ] || [ "$2" == '-g' ]; then
+    EN_WISH_MSG=1
+fi
+
 revision="$1"
+if [ "$1" == '-g' ] ; then
+    revision="$2"
+fi
 
 if [ ${#rev[@]} -gt 0 ]; then
     case "$revision" in
@@ -112,7 +123,7 @@ case "$num_revision" in
         ;;
 esac
 
-if [ -z "$QP_END_CMSG_OFF" ]; then
+if [ "$EN_WISH_MSG" -eq 1 ]; then
     if [ $num_revision -eq 0 ]; then
         wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &
     else
