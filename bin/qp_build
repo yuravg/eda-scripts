@@ -11,23 +11,17 @@ echo "+------------------------------------------------------------------------+
 echo "|  Build Quartus Prime project                                           |"
 echo "+------------------------------------------------------------------------+"
 
-case "$1" in
-    "-h"  )
-        echo ""
-        echo " Help:"
-        echo ""
-        echo "   Available variables:"
-        echo " SOUND_EN        - enable or disable sound in script"
-        echo " QP_END_CMSG_OFF - disable tcl/tk message \"end of compilation\""
-        echo ""
-        echo "Example usage:"
-        echo "export QP_END_CMSG_OFF=1"
-        echo "unset QP_END_CMSG_OFF"
-        echo ""
-        echo "Done (end of help)"
-        exit
-        ;;
-esac
+SCRIPT_NAME="${BASH_SOURCE##*/}"
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+    echo "Usage:"
+    echo "  $SCRIPT_NAME [revision-number]"
+    echo ""
+    echo "ARGS:"
+    echo "    <revision-number>"
+    echo "                 Quartus revision file number."
+    exit 0
+fi
 
 cnt=1
 for p in `ls *.qpf 2>/dev/null`; do
