@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Show list of Quartus Prime program files
+
+if [ "$(ls -A output_files)" ]; then
+    OUTDIR="./output_files/"
+else
+    OUTDIR=""
+fi
+
+for i in $(ls "$OUTDIR" 2>/dev/null | grep -e '.\(sof\|pof\)'); do
+    FILE="$OUTDIR$i";
+    TIMESTAMP=$(date +%c -r "$FILE");
+    echo "$FILE :  $TIMESTAMP";
+done
