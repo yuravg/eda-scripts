@@ -1,9 +1,66 @@
 #!/usr/bin/env bash
 
 # Show Quartus Prime compilation summary
+#
+# It is requested for a Quartus revision if there are several of them
 
-MSG="Fitter summary:"
-printf "%b%s%b\n" "\e[32m" "$MSG" "\e[0m"
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+    echo "Usage:"
+    echo "  ${BASH_SOURCE##*/} [revision-file-number]"
+    echo
+    echo "ARGS:"
+    echo "    <revision-file-number>"
+    echo "                 Quartus revision number."
+    exit 0
+fi
+
+RPT_FILE_NAME=""
+REVISION_NAME="*"
+
+select_file ()
+{
+    cnt=1
+    for p in $(ls $OUTDIR*.map.summary 2>/dev/null); do
+        rpt_file[$cnt]=$p
+        cnt=`expr $cnt + 1`
+    done
+
+    num_rpt_file=0
+    if [ -z "$1" ]; then
+
+        if [ ${#rpt_file[@]} -gt 0 ]; then
+            if [ ${#rpt_file[@]} -gt 1 ]; then
+                echo " report-files:"
+                for (( i=1; i<${#rpt_file[@]}+1; i++ )); do
+                    echo "$i : ${rpt_file[${i}]}"
+                done
+                echo "Select revision:"
+                read -r num_rpt_file
+            fi
+        else
+            echo "ERROR! There must be at least one report-file!"
+            exit 2
+        fi
+
+    else
+        num_rpt_file="$1"
+    fi
+
+    if [ -s "${rpt_file[$num_rpt_file]}" ]; then
+        RPT_FILE_NAME=${rpt_file[$num_rpt_file]}
+    else
+        RPT_FILE_NAME=${rpt_file[1]}
+        if [ ${#rpt_file[@]} -gt 1 ]; then
+            echo "WARNING: will be open default revision(can't find selected file)"
+        fi
+    fi
+
+    # Get revision name:
+    #  cut path from file name
+    RPT_FILE_NAME=${RPT_FILE_NAME##*/}
+    #  cut suffix from file name
+    REVISION_NAME=${RPT_FILE_NAME%.*.*}
+}
 
 if [ "$(ls -A output_files)" ]; then
     OUTDIR="./output_files/"
@@ -11,12 +68,19 @@ else
     OUTDIR=""
 fi
 
-cat "$OUTDIR"*fit.summary 2>/dev/null
+select_file "$1"
+
+MSG="Fitter summary:"
+printf "%b%s%b\n" "\e[32m" "$MSG" "\e[0m"
+
+FMASK="$OUTDIR$REVISION_NAME"
+
+cat "$FMASK"*fit.summary 2>/dev/null
 
 # End time and compile time:
 echo "------------------------------------------"
-START=$(cat "$OUTDIR"*.map.rpt 2>/dev/null | grep -e 'Processing started:' | sed 's/.*Processing started:\s-*//')
-DONE=$(cat "$OUTDIR"*done 2>/dev/null)
+START=$(cat "$FMASK"*.map.rpt 2>/dev/null | grep -e 'Processing started:' | sed 's/.*Processing started:\s-*//')
+DONE=$(cat "$FMASK"*done 2>/dev/null)
 
 START_TIME=$(echo $START | sed 's/\(.*\) \([0-9]\+:[0-9]\+:[0-9]\+\)\(.*\)/\2/')
 DONE_TIME=$(echo $DONE | sed 's/\(.*\) \([0-9]\+:[0-9]\+:[0-9]\+\)\(.*\)/\2/')
