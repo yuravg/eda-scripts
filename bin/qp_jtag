@@ -24,7 +24,7 @@ read_yesno () {
     while :
     do
         echo "$* (y/n)?"
-        read yn junk
+        read -r yn
 
         case $yn in
             y|Y|yes|Yes|YES)
@@ -41,7 +41,7 @@ read_yesno () {
 }
 
 if [ -z "$QP_CABLE_NAME" ]; then
-    QP_CABLE_NAME=USB-Blaster[USB-0]
+    QP_CABLE_NAME="USB-Blaster[USB-0]"
 fi
 
 select_file ()
@@ -61,10 +61,10 @@ select_file ()
                 echo "$i : ${sof_file[${i}]}"
             done
             echo "Select sof file :"
-            read num_sof_file
+            read -r num_sof_file
         fi
     else
-        echo "ERROR! There must be at least one *.sof file in dir: `pwd`"
+        echo "ERROR! There must be at least one *.sof file in dir: $(pwd)"
         exit 2
     fi
     if [ -s "${sof_file[$num_sof_file]}" ]; then
@@ -96,10 +96,10 @@ if [ -n "$1" ]; then
     fi
     sof_file_name=$1
 else
-    select_file
+    select_file "$@"
 fi
 
-f_time=$(date +%c -r $sof_file_name)
-echo "File to Programming: '$sof_file_name'" $f_time
+f_time=$(date +%c -r "$sof_file_name")
+echo "File to Programming: '$sof_file_name'" "$f_time"
 
-quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o p\;$sof_file_name
+quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o p\;"$sof_file_name"

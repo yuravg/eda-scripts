@@ -19,7 +19,7 @@ read_yesno () {
     while :
     do
         echo "$* (y/n)?"
-        read yn junk
+        read -r yn
 
         case $yn in
             y|Y|yes|Yes|YES)
@@ -36,7 +36,7 @@ read_yesno () {
 }
 
 if [ -z "$QP_CABLE_NAME" ]; then
-    QP_CABLE_NAME=USB-Blaster[USB-0]
+    QP_CABLE_NAME="USB-Blaster[USB-0]"
 fi
 
 SCRIPT_NAME="${BASH_SOURCE##*/}"
@@ -70,10 +70,10 @@ select_file ()
                 echo "$i : ${pof_file[${i}]}"
             done
             echo "Select pof file :"
-            read num_pof_file
+            read -r num_pof_file
         fi
     else
-        echo "ERROR! There must be at least one *.pof file in dir: `pwd`"
+        echo "ERROR! There must be at least one *.pof file in dir: $(pwd)"
         exit 2
     fi
     if [ -s "${pof_file[$num_pof_file]}" ]; then
@@ -105,8 +105,8 @@ if [ -n "$1" ]; then
     fi
     pof_file_name=$1
 else
-    select_file
+    select_file "$@"
 fi
 echo "File to Programmer: '$pof_file_name'"
 
-quartus_pgm -c "$QP_CABLE_NAME" -m as -o v\;$pof_file_name
+quartus_pgm -c "$QP_CABLE_NAME" -m as -o v\;"$pof_file_name"

@@ -16,7 +16,7 @@ for p in `ls *.qpf 2>/dev/null`; do
     cnt=`expr $cnt + 1`
 done
 if [ ${#prj[@]} -ne 1 ]; then
-    echo "ERROR! There must be only one *.qpf file in the directory: `pwd`"
+    echo "ERROR! There must be only one *.qpf file in the directory: $(pwd)"
     exit 2
 else
     project=${prj[1]}
@@ -41,14 +41,14 @@ if [ ${#rev[@]} -gt 0 ]; then
         if [ ${#rev[@]} -eq 1 ]; then
             num_revision=1
         else
-            read num_revision
+            read -r num_revision
         fi
     else
         echo "input parameter (revision): $revision"
         num_revision=$revision
     fi
 elif [ ${#rev[@]} -eq 0 ]; then
-    echo "ERROR! There must be at least one *.qsf file in dir: `pwd`"
+    echo "ERROR! There must be at least one *.qsf file in dir: $(pwd)"
     exit 3
 else
     num_revision=1
@@ -64,5 +64,5 @@ case "$num_revision" in
 esac
 echo "revision: '$revision_name'"
 
-quartus $project -c $revision_name &
+quartus "$project" -c "$revision_name" &
 echo "Done!"

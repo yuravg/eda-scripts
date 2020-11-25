@@ -32,7 +32,7 @@ for p in `ls *.qpf 2>/dev/null`; do
     cnt=`expr $cnt + 1`
 done
 if [ ${#prj[@]} -ne 1 ]; then
-    echo "ERROR! There must be only one *.qpf file in dir: `pwd`"
+    echo "ERROR! There must be only one *.qpf file in dir: $(pwd)"
     exit 2
 else
     project=${prj[1]}
@@ -74,12 +74,12 @@ if [ ${#rev[@]} -gt 0 ]; then
                     echo "$i : ${rev[${i}]}"
                 done
                 echo "Select revision for build (0 - for all revision):"
-                read num_revision
+                read -r num_revision
             fi
             ;;
     esac
 elif [ ${#rev[@]} -eq 0 ]; then
-    echo "ERROR! There must be at least one *.qsf file in dir: `pwd`"
+    echo "ERROR! There must be at least one *.qsf file in dir: $(pwd)"
     exit 3
 fi
 case "$num_revision" in
@@ -97,7 +97,7 @@ check_quartus_exit ()
     if [ "$?" -ne 0 ]; then
         echo "Error during compilation!"
         if [ -z "$QP_END_CMSG_OFF" ]; then
-           wish_msg "ERROR!" "red" "`pwd`/$project" &
+           wish_msg "ERROR!" "red" "$(pwd)/$project" &
         fi
         exit 4
     fi
@@ -112,22 +112,22 @@ case "$num_revision" in
         for (( i=1; i<${#rev[@]}+1; i++ )); do
             echo "---------------------------------------------------"
             echo "$i : ${rev[${i}]}"
-            quartus_sh --flow compile $project -c ${rev[${i}]}
+            quartus_sh --flow compile "$project" -c "${rev[${i}]}"
             check_quartus_exit
         done
         ;;
     *)
         echo " revision : '$revision'"
-        quartus_sh --flow compile $project -c $revision
+        quartus_sh --flow compile "$project" -c "$revision"
         check_quartus_exit
         ;;
 esac
 
 if [ "$EN_WISH_MSG" -eq 1 ]; then
-    if [ $num_revision -eq 0 ]; then
-        wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: 'ALL revisions'" &
+    if [ "$num_revision" -eq 0 ]; then
+        wish_msg "COMPILATION FINISHED" "green" "$(pwd)/$project" "revision: 'ALL revisions'" &
     else
-        wish_msg "COMPILATION FINISHED" "green" "`pwd`/$project" "revision: $revision" &
+        wish_msg "COMPILATION FINISHED" "green" "$(pwd)/$project" "revision: $revision" &
     fi
 fi
 
