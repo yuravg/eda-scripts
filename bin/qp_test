@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+# Jtagconfig output example:
+# 1) USB-Blaster [USB-0]
+#   02B020DD   5CGTFD5(C5|F5)/5CGXBC5C(6|7)/..
+#
+# 2) USB-Blaster [USB-1]
+#   Unable to read device chain - JTAG chain broken
+
+
+# substr="foo"
+# nonsub="$(echo "$string" | sed "s/$substr//")"
+# hassub=0 ; [ "$string" != "$nonsub" ] && hassub=1
+
+jtag_rpt=$(jtagconfig)
+jtag_name="$(echo "$jtag_rpt" | sed 's/[0-9])\s-*\(.*\)\s-*\(.*\)/\1\2/g')"
+
+name_array=( $jtag_name )
+
+for (( i=0; i<=${#name_array[@]}; i++ )); do
+    str="${name_array[$i]}"
+    clear_name="$(echo "$str" | sed 's/U.*]//')"
+    if [[ "$str" != "$clear_name" ]]; then
+        echo "$str"
+    fi
+done
+
+
+# echo "$jtag_rpt"
+
+# jtag_rpt="hi1-hi-end
+# hi2 fadsf asdf afd
+# hi3"
+
+# read -a array <<< $
+
+# read -a jtag_rpt_array <<< $jtag_rpt
+# read jtag_rpt_array <<< $jtag_rpt
+
+
+# echo "Number of elements in the array: ${#jtag_rpt_array[@]}"
+# for (( i=0; i<=${#jtag_rpt_array[@]}; i++ )); do
+#     echo "*** ${jtag_rpt_array[$i]} ***"
+# done
+
+# echo "$"
+
+
+# IFS="\n" read -a myarray <<< $jtag_rpt
+
+# echo "My array: ${myarray[@]}"
+# echo "Number of elements in the array: ${#myarray[@]}"
+
+# echo $jtag_rpt_array
+# echo "number of array ${#jtag_rpt_array[@]}"
+
+# for (( i=0; i<=${#jtag_rpt_array[@]}; i++ )); do
+#     str="** ${jtag_rpt_array[$i]} **"
+
+#     # echo "str = $str"
+
+#     # jtag_name="$(echo "$str" | sed 's/[0-9]).//')"
+
+#     # echo "jtag_name: ***** $jtag_name *****"
+
+#     # if [[ "$str" != "$jtag_name" ]]; then
+#     #     echo "!!!: $str"
+#     # fi
+#     # echo $arg
+#     # if [[ "$str" == "[0-9])"* ]]; then
+#     #     echo "find!!"
+#     # fi
+
+#     echo "$str"
+# done
+
+# myvar="string1
+# string2
+# string3"
+# myarray=($myvar)
+# echo "My array: ${myarray[@]}"
+# echo "Number of elements in the array: ${#myarray[@]}"
+
+# for (( i=0; i<=${#myarray[@]}; i++ )); do
+#     echo "*** ${myarray[$i]} ***"
+# done
