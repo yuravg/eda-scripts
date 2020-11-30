@@ -36,11 +36,11 @@ if [ ${#rev[@]} -gt 0 ]; then
     for (( i=1; i<${#rev[@]}+1; i++ )); do
         echo "$i -> ${rev[${i}]}"
     done
-    echo "Select revision:"
     if [ "$revision" = "" ]; then
         if [ ${#rev[@]} -eq 1 ]; then
             num_revision=1
         else
+            echo "Select revision:"
             read -r num_revision
         fi
     else
