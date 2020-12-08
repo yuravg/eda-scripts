@@ -10,7 +10,7 @@ if hash rg 2>/dev/null; then
     CMD=rg
 fi
 
-if [ "$(ls -A output_files)" ]; then
+if [ "$(ls -A output_files 2>/dev/null)" ]; then
     OUTDIR="./output_files/"
 else
     OUTDIR=""

@@ -62,7 +62,7 @@ select_file ()
     REVISION_NAME=${RPT_FILE_NAME%.*.*}
 }
 
-if [ "$(ls -A output_files)" ]; then
+if [ "$(ls -A output_files 2>/dev/null)" ]; then
     OUTDIR="./output_files/"
 else
     OUTDIR=""
