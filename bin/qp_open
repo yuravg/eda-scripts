@@ -10,6 +10,16 @@ echo "+------------------------------------------------------------------------+
 echo "|  Open quartus project                                                  |"
 echo "+------------------------------------------------------------------------+"
 
+if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
+    echo "Usage:"
+    echo "  ${BASH_SOURCE##*/} [revision-number]"
+    echo
+    echo "ARGS:"
+    echo "    <revision-number>"
+    echo "                 Quartus revision file number."
+    exit 0
+fi
+
 cnt=1
 for p in `ls *.qpf 2>/dev/null`; do
     prj[$cnt]=$p
