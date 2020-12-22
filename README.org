@@ -3,24 +3,24 @@ Collection of scripts for EDA tools
 
 * Installation
 
-- add path to scripts(or just copy to some /bin/ directory)
-- add file with aliases
-- add alias for script to change path to Quartus
+- add path to =eda-scripts= to your environment (or just copy to some /bin/ directory)
+- add alias for the script that set path to Quartus Prime
+- load aliases file (=aliases_eda=) with your shell
 
 ** Installation example for bash:
 
 Add to ~/.bashrc
 #+begin_src shell-script
-PATH2EDA_SCRIPTS="$HOME/projects/eda-scripts"
-
 # Add path to scripts
+PATH2EDA_SCRIPTS="$HOME/projects/eda-scripts"
 if [ -d "$PATH2EDA_SCRIPTS" ]; then
     export PATH="$PATH2EDA_SCRIPTS/bin:$PATH"
-    # add alias for script to change path to Quartus(to exprot variables to the enviroment)
+    # add alias for the script that set path to Quartus Prime
+    # (to export variables to the environment)
     alias qp_set_path=". $PATH2EDA_SCRIPTS/bin/qp_set_path"
 fi
 
-# add file with aliases
+# load alias file
 if [ -f "$PATH2EDA_SCRIPTS"/aliases_eda ]; then
     . "$PATH2EDA_SCRIPTS"/aliases_eda
 fi
