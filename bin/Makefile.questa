@@ -8,7 +8,7 @@ DIR  = $(shell basename `pwd`)
 OPTIMIZE     ?= +acc
 TIMESCALE    ?= 1ns/1ps
 VSIM_MODE    ?= "-c"
-PARAMETERS   ?= $(shell tail -n 1 .vlog_lint)
+PARAMETERS   ?= $(shell tail -n 1 .vlog_lint 2>/dev/null)
 VLOG_OPTIONS ?=
 DEF          ?=
 
