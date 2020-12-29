@@ -1,3 +1,4 @@
+#-*- mode: makefile -*-
 # -----------------------------------------------------------------------------------------------
 # Make-file to run Mentor Graphics QuestaSim/ModelSim targets
 # -----------------------------------------------------------------------------------------------
@@ -19,12 +20,11 @@ help:
 	@echo "Usage:  make [target(s)]"
 	@echo "where target is any of:"
 	@echo ""
-	@echo "  worklib - make and map to worklib (to work directory)"
-	@echo "  compile - compilation ALL files in current directory (and target woklib)"
-	@echo "             note1: compilation order: *_pkg.sv, *_if.sv, *.v, other *.sv"
-	@echo "             note2: compilation options: vlog -lint -incr -sv +acc -timescale 1ns/1ps)"
-	@echo "             note3: to add parameters for vlog, usage file: '.vlog_lint'"
-	@echo "  vlog    - compilation vlog for single sv-file (options as note2)"
+	@echo "  compile - SV compilation ALL files in current directory (and target woklib)"
+	@echo "             Note: -- compilation order: *_pkg.sv, *_if.sv, *.v, other *.sv"
+	@echo "                   -- compilation options: see 'variable' targets'"
+	@echo "                   -- use file: '.vlog_lint' to add parameters for 'vlog'"
+	@echo "  vlog    - SV compilation for single sv-file (options as note2)"
 	@echo "  clean   - removes derived files and work libs"
 	@echo "  all     - run all (targets: worklib, compile, clean)"
 	@echo "  rall    - run rebuld all (targets: clean, worklib, compile, clean)"
