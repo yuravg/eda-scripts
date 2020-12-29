@@ -2,6 +2,23 @@
 
 # Show list of Quartus Prime program files
 
+SCRIPT_NAME="${BASH_SOURCE##*/}"
+if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
+    echo "Usage:"
+    echo "  $SCRIPT_NAME [-v|--verbosity]"
+    echo
+    echo "OPTIONS:"
+    echo "    -v|--verbosity"
+    echo "                 Show compiler and target device."
+    exit 0
+fi
+
+if [ "$1" = "-v" ] || [ "$1" = "--verbosity" ] ; then
+    VERBOSITY=1
+else
+    VERBOSITY=0
+fi
+
 if [ "$(ls -A output_files 2>/dev/null)" ]; then
     OUTDIR="./output_files/"
 else
@@ -12,4 +29,8 @@ for i in `ls $OUTDIR 2>/dev/null | grep -e '.\(sof\|pof\)'`; do
     FILE="$OUTDIR$i";
     TIMESTAMP=$(date +%c -r "$FILE");
     echo "$FILE :  $TIMESTAMP";
+    if [ "$VERBOSITY" -eq 1 ]; then
+        strings "$FILE" 2>/dev/null | head -2
+        echo
+    fi
 done
