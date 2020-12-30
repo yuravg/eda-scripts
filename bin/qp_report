@@ -1,0 +1,336 @@
+#!/usr/bin/env bash
+
+# Show Quartus Prime compilation report
+
+if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
+    echo "Usage:"
+    echo "  ${BASH_SOURCE##*/} [revision-file-number]"
+    echo "    [-w|--warnings] [-c|--critical] [-e|--errors]"
+    echo "    [-m|--map] [-s|--sta] [-f|--fit]"
+    echo "    [-n|--name]"
+    echo
+    echo "ARGS:"
+    echo "    <revision-file-number>"
+    echo "                 Quartus revision number."
+    echo
+    echo "OPTIONS:"
+    echo "    -w, --warnings"
+    echo "                 Show warnings."
+    echo
+    echo "    -c, --critical"
+    echo "                 Show critical warnings."
+    echo
+    echo "    -e, --errors"
+    echo "                 Show errors."
+    echo
+    echo "    -m, --map"
+    echo "                 Mapping compilation report."
+    echo
+    echo "    -s, --sta"
+    echo "                 TimeQuest Timing Analyzer report."
+    echo
+    echo "    -f, --fit"
+    echo "                 Fitting compilation report."
+    echo
+    echo "    -n, --name"
+    echo "                 Show report-file name."
+    exit 0
+fi
+
+REVISION=
+WARNINGS=0
+CRITICALS=0
+ERRORS=0
+MAP=0
+STA=0
+FIT=0
+SHOW_FNAME=0
+
+for i in "$@"
+do
+    case $i in
+        [1-9])
+            REVISION="$i";;
+        -w|--warnings)
+            WARNINGS=1;;
+        -c|--critical)
+            CRITICALS=1;;
+        -e|--errors)
+            ERRORS=1;;
+        -m|--map)
+            MAP=1;;
+        -s|--sta)
+            STA=1;;
+        -f|--fit)
+            FIT=1;;
+        -n|--name)
+            SHOW_FNAME=1
+            ;;
+        -wm|-mw)
+            WARNINGS=1
+            MAP=1;;
+        -wf|-fw)
+            WARNINGS=1
+            FIT=1;;
+        -ws|-sw)
+            WARNINGS=1
+            STA=1;;
+        -cm|-mc)
+            CRITICALS=1
+            MAP=1;;
+        -cf|-fc)
+            CRITICALS=1
+            FIT=1;;
+        -cs|-sc)
+            CRITICALS=1
+            STA=1;;
+        -em|-me)
+            ERRORS=1
+            MAP=1;;
+        -ef|-fe)
+            ERRORS=1
+            FIT=1;;
+        -es|-se)
+            ERRORS=1
+            STA=1;;
+        *)
+            echo "ERROR! Unknown options!"
+            exit 1;;
+    esac
+done
+
+RPT_FILE_NAME=""
+REVISION_NAME="*"
+
+# argument(s): $1 - report file number
+select_file ()
+{
+    cnt=1
+    for p in "$OUTDIR"*.map.rpt; do
+        rpt_file[$cnt]=$p
+        cnt=`expr $cnt + 1`
+    done
+
+    num_rpt_file=0
+    if [ -z "$1" ]; then
+        # if directory do not have report file then the first element of the
+        # 'rpt_file' array is '*.map.rpt'; so should check that it is file
+        if [ -s "${rpt_file[1]}" ]; then
+            if [ ${#rpt_file[@]} -gt 1 ]; then
+                echo " report-files:"
+                for (( i=1; i<${#rpt_file[@]}+1; i++ )); do
+                    echo "$i : ${rpt_file[${i}]}"
+                done
+                echo "Select revision:"
+                read -r num_rpt_file
+            fi
+        else
+            echo "ERROR! There must be at least one report-file!"
+            exit 2
+        fi
+
+    else
+        num_rpt_file="$1"
+    fi
+
+    if [ -s "${rpt_file[$num_rpt_file]}" ]; then
+        RPT_FILE_NAME=${rpt_file[$num_rpt_file]}
+    else
+        RPT_FILE_NAME=${rpt_file[1]}
+        if [ ${#rpt_file[@]} -gt 1 ]; then
+            echo "WARNING: will be open default revision(can't find selected file)"
+        fi
+    fi
+
+    # Get revision name:
+    #  cut path from file name
+    RPT_FILE_NAME=${RPT_FILE_NAME##*/}
+    #  cut suffix from file name
+    REVISION_NAME=${RPT_FILE_NAME%.*.*}
+}
+
+if [ "$(ls -A output_files 2>/dev/null)" ]; then
+    OUTDIR="./output_files/"
+else
+    OUTDIR=""
+fi
+
+select_file "$REVISION"
+
+FMASK="$OUTDIR$REVISION_NAME"
+
+CMD_FLAGS=""
+CMD=grep
+
+if hash rg 2>/dev/null; then
+    CMD=rg
+    if [ "$SHOW_FNAME" -eq 1 ]; then
+        CMD_FLAGS="-Hn"
+    else
+        CMD_FLAGS="-IN"
+    fi
+else # grep
+    if [ "$SHOW_FNAME" -eq 1 ]; then
+        CMD_FLAGS="-Hn"
+    else
+        CMD_FLAGS="-h"
+    fi
+fi
+
+map_warnings() {
+    "$CMD" "$CMD_FLAGS" -e "^Warning" "$FMASK"*.map.rpt          2>/dev/null
+}
+map_critical() {
+    "$CMD" "$CMD_FLAGS" -e "^Critical Warning" "$FMASK"*.map.rpt 2>/dev/null
+}
+map_errors() {
+    "$CMD" "$CMD_FLAGS" -e "^Error" "$FMASK"*.map.rpt            2>/dev/null
+}
+
+sta_warnings() {
+    "$CMD" "$CMD_FLAGS" -e "^Warning" "$FMASK"*.sta.rpt          2>/dev/null
+}
+sta_critical() {
+    "$CMD" "$CMD_FLAGS" -e "^Critical Warning" "$FMASK"*.sta.rpt 2>/dev/null
+}
+
+fit_warnings() {
+    "$CMD" "$CMD_FLAGS" -e "^Warning" "$FMASK"*.fit.rpt          2>/dev/null
+}
+fit_critical() {
+    "$CMD" "$CMD_FLAGS" -e "^Critical Warning" "$FMASK"*.fit.rpt 2>/dev/null
+}
+fit_errors() {
+    "$CMD" "$CMD_FLAGS" -e "^Error" "$FMASK"*.fit.rpt            2>/dev/null
+}
+syn_errors() {
+    "$CMD" "$CMD_FLAGS" -e "^Error" "$FMASK"*.syn.rpt            2>/dev/null
+}
+
+# argument(s): $1 - message
+warninig_msg() {
+    printf "%b%s%b\n" "\e[43m" "$1" "\e[0m"
+}
+
+# argument(s): $1 - message
+error_msg() {
+    printf "%b%s%b\n" "\e[31m" "$1" "\e[0m"
+}
+
+# argument(s): $1 - message, $2 - enable
+show_warning_msg() {
+    if [ "$2" -eq 0 ]; then
+        warninig_msg "$1"
+    fi
+}
+# argument(s): $1 - message, $2 - enable
+show_error_msg() {
+    if [ "$2" -eq 0 ]; then
+        error_msg "$1"
+    fi
+}
+
+# for all reports(map, sta, fit) should show only one additional message from this script
+SHOW_ALL=0
+
+if [ "$MAP" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
+    SHOW_ALL=1;
+    warninig_msg "Quartus report:"
+fi
+
+if [ "$MAP" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
+    if [ "$WARNINGS" -eq 1 ]; then
+        show_warning_msg "Quartus Analysis and Syntheses Warning report:" "$SHOW_ALL"
+        map_warnings
+    fi
+
+    if [ "$CRITICALS" -eq 1 ]; then
+        show_warning_msg "Quartus Analysis and Syntheses Critical Warning report:" "$SHOW_ALL"
+        map_critical
+    fi
+
+    if [ "$ERRORS" -eq 1 ]; then
+        show_error_msg "Quartus Analysis and Syntheses Error report:" "$SHOW_ALL"
+        map_errors
+    fi
+
+    if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
+        show_warning_msg "Quartus Analysis and Syntheses report:" "$SHOW_ALL"
+        map_warnings
+        map_critical
+        map_errors
+    fi
+fi
+
+if [ "$STA" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
+    if [ "$WARNINGS" -eq 1 ]; then
+        show_warning_msg "TimeQuest Timing Analyzer warning report:" "$SHOW_ALL"
+        sta_warnings
+    fi
+
+    if [ "$CRITICALS" -eq 1 ]; then
+        show_warning_msg "TimeQuest Timing Analyzer critical warning report:" "$SHOW_ALL"
+        sta_critical
+    fi
+
+    if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
+        show_warning_msg "TimeQuest Timing Analyzer report:" "$SHOW_ALL"
+        sta_warnings
+        sta_critical
+    fi
+fi
+
+if [ "$FIT" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
+    if [ "$WARNINGS" -eq 1 ]; then
+        show_warning_msg "Quartus Fitter Warning report:" "$SHOW_ALL"
+        fit_warnings
+    fi
+
+    if [ "$CRITICALS" -eq 1 ]; then
+        show_warning_msg "Quartus Fitter Critical Warning report:" "$SHOW_ALL"
+        fit_critical
+    fi
+
+    if [ "$ERRORS" -eq 1 ]; then
+        show_error_msg "Quartus Fitter Error report:" "$SHOW_ALL"
+        fit_errors
+        syn_errors
+    fi
+
+    if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
+        show_warning_msg "Quartus Fitter report:" "$SHOW_ALL"
+        map_warnings
+        map_critical
+        map_errors
+    fi
+fi
+
+# if [ "$MAP" -eq 1 ]; then
+#     echo "MAP"
+# fi
+
+# if [ "$STA" -eq 1 ]; then
+#     echo "STA"
+# fi
+
+# if [ "$FIT" -eq 1 ]; then
+#     echo "FIT"
+# fi
+
+# if [ "$WARNINGS" -eq 1 ]; then
+#     echo "WARNINGS"
+# fi
+
+# if [ "$CRITICALS" -eq 1 ]; then
+#     echo "CRITICALS"
+# fi
+
+# if [ "$ERRORS" -eq 1 ]; then
+#     echo "ERRORS"
+# fi
+
+# if [ "$SHOW_ALL" -eq 1 ]; then
+#     echo "SHOW_ALL"
+# fi
+
+# echo "CMD_FLAGS: $CMD_FLAGS"
