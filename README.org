@@ -16,6 +16,7 @@ Collection of scripts for EDA tools
 | qp_set_path          | Set Altera Quartus path variable                           |
 | qp_show_prg_files    | Show list of Quartus Prime program files                   |
 | qp_summary           | Show Quartus Prime compilation summary                     |
+| qp_report            | Show Quartus Prime compilation report                      |
 | qp_version           | Show current Intel Quartus Prime version                   |
 | qp_warnings          | Show Quartus Prime compilation warnings                    |
 | qp_warnings_critical | Show only critical compilation warnings Quartus Prime      |
