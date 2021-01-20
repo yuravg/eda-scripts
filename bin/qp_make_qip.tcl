@@ -2,26 +2,45 @@
 
 # Make Quartus Prime QIP-file
 
-puts "+------------------------------------------------------+"
-puts "| Make Quartus Qip-file                                |"
-puts "+------------------------------------------------------+"
+puts "+------------------------------------------------------------------------+"
+puts "| Make Quartus Prime Qip-file                                            |"
+puts "+------------------------------------------------------------------------+"
+
+proc usage {} {
+    set scriptname [file tail [info script]]
+    puts "Usage:"
+    puts "       $scriptname \[qip-file-name\] \[path2dir\]"
+    puts ""
+    puts "ARGS:"
+    puts "    <qip-file-name>"
+    puts "                 output file name."
+    puts "    <path2dir>"
+    puts "                 path to search Quartus Prime files."
+    puts "                 You must specify from one to four paths."
+}
 
 if {[llength $argv]>0} {
+    set arg0 [lindex $argv 0]
+    if {[string compare $arg0 "-h"] == 0} {
+        usage
+        exit 0
+    } elseif {[string compare $arg0 "--help"] == 0} {
+        usage
+        exit 0
+    }
     puts "Input parameters:"
     set  file_name [lindex $argv 0]
     set  path0     [lindex $argv 1]
     set  path1     [lindex $argv 2]
     set  path2     [lindex $argv 3]
     set  path3     [lindex $argv 4]
-    puts " file name : '$file_name'"
-    puts " path0      : '$path0'"
-    puts " path1      : '$path1'"
-    puts " path2      : '$path2'"
-    puts " path3      : '$path3'"
+    puts " qip-file: '$file_name'"
+    puts " path1   : '$path0'"
+    puts " path2   : '$path1'"
+    puts " path3   : '$path2'"
+    puts " path4   : '$path3'"
 } else {
-    puts "Usage example(s): <script_name> <qip-file-name> <path2dir0>"
-    puts "                  <script_name> <qip-file-name> ."
-    puts "                  <script_name> <qip-file-name> <path2dir0> ... <path2dir3>"
+    usage
     exit 0
 }
 
