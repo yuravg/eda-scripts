@@ -16,22 +16,16 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "OPTIONS:"
     echo "    -w, --warnings"
     echo "                 Show warnings."
-    echo
     echo "    -c, --critical"
     echo "                 Show critical warnings."
-    echo
     echo "    -e, --errors"
     echo "                 Show errors."
-    echo
     echo "    -m, --map"
     echo "                 Mapping compilation report."
-    echo
     echo "    -s, --sta"
     echo "                 TimeQuest Timing Analyzer report."
-    echo
     echo "    -f, --fit"
     echo "                 Fitting compilation report."
-    echo
     echo "    -n, --name"
     echo "                 Show report-file name."
     exit 0
