@@ -238,34 +238,34 @@ show_error_msg() {
 }
 
 # for all reports(map/syn, sta, fit) should show only one additional message from this script
-SHOW_ALL=0
+FLOW_RPT=0
 
 if [ "$SYN" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
-    SHOW_ALL=1;
+    FLOW_RPT=1
     warninig_msg "Quartus report:"
 fi
 
-if [ "$SYN" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
+if [ "$SYN" -eq 1 ] || [ "$FLOW_RPT" -eq 1 ]; then
     if [ "$WARNINGS" -eq 1 ]; then
-        show_warning_msg "Quartus Analysis and Syntheses Warning report:" "$SHOW_ALL"
+        show_warning_msg "Quartus Analysis and Syntheses Warning report:" "$FLOW_RPT"
         map_warnings
         syn_warnings
     fi
 
     if [ "$CRITICALS" -eq 1 ]; then
-        show_warning_msg "Quartus Analysis and Syntheses Critical Warning report:" "$SHOW_ALL"
+        show_warning_msg "Quartus Analysis and Syntheses Critical Warning report:" "$FLOW_RPT"
         map_critical
         syn_critical
     fi
 
     if [ "$ERRORS" -eq 1 ]; then
-        show_error_msg "Quartus Analysis and Syntheses Error report:" "$SHOW_ALL"
+        show_error_msg "Quartus Analysis and Syntheses Error report:" "$FLOW_RPT"
         map_errors
         syn_errors
     fi
 
     if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
-        show_warning_msg "Quartus Analysis and Syntheses report:" "$SHOW_ALL"
+        show_warning_msg "Quartus Analysis and Syntheses report:" "$FLOW_RPT"
         map_warnings
         map_critical
         map_errors
@@ -275,42 +275,42 @@ if [ "$SYN" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
     fi
 fi
 
-if [ "$STA" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
+if [ "$STA" -eq 1 ] || [ "$FLOW_RPT" -eq 1 ]; then
     if [ "$WARNINGS" -eq 1 ]; then
-        show_warning_msg "TimeQuest Timing Analyzer warning report:" "$SHOW_ALL"
+        show_warning_msg "TimeQuest Timing Analyzer warning report:" "$FLOW_RPT"
         sta_warnings
     fi
 
     if [ "$CRITICALS" -eq 1 ]; then
-        show_warning_msg "TimeQuest Timing Analyzer critical warning report:" "$SHOW_ALL"
+        show_warning_msg "TimeQuest Timing Analyzer critical warning report:" "$FLOW_RPT"
         sta_critical
     fi
 
     if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
-        show_warning_msg "TimeQuest Timing Analyzer report:" "$SHOW_ALL"
+        show_warning_msg "TimeQuest Timing Analyzer report:" "$FLOW_RPT"
         sta_warnings
         sta_critical
     fi
 fi
 
-if [ "$FIT" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
+if [ "$FIT" -eq 1 ] || [ "$FLOW_RPT" -eq 1 ]; then
     if [ "$WARNINGS" -eq 1 ]; then
-        show_warning_msg "Quartus Fitter Warning report:" "$SHOW_ALL"
+        show_warning_msg "Quartus Fitter Warning report:" "$FLOW_RPT"
         fit_warnings
     fi
 
     if [ "$CRITICALS" -eq 1 ]; then
-        show_warning_msg "Quartus Fitter Critical Warning report:" "$SHOW_ALL"
+        show_warning_msg "Quartus Fitter Critical Warning report:" "$FLOW_RPT"
         fit_critical
     fi
 
     if [ "$ERRORS" -eq 1 ]; then
-        show_error_msg "Quartus Fitter Error report:" "$SHOW_ALL"
+        show_error_msg "Quartus Fitter Error report:" "$FLOW_RPT"
         fit_errors
     fi
 
     if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
-        show_warning_msg "Quartus Fitter report:" "$SHOW_ALL"
+        show_warning_msg "Quartus Fitter report:" "$FLOW_RPT"
         map_warnings
         map_critical
         map_errors
@@ -341,8 +341,8 @@ fi
 #     echo "ERRORS"
 # fi
 
-# if [ "$SHOW_ALL" -eq 1 ]; then
-#     echo "SHOW_ALL"
+# if [ "$FLOW_RPT" -eq 1 ]; then
+#     echo "FLOW_RPT"
 # fi
 
 # echo "CMD_FLAGS: $CMD_FLAGS"
