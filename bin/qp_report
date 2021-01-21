@@ -6,7 +6,7 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "Usage:"
     echo "  ${BASH_SOURCE##*/} [revision-file-number]"
     echo "    [-w|--warnings] [-c|--critical] [-e|--errors]"
-    echo "    [-m|--map] [-s|--sta] [-f|--fit]"
+    echo "    [-s|--map|--syn] [-s|--sta] [-f|--fit]"
     echo "    [-n|--name]"
     echo
     echo "ARGS:"
@@ -20,9 +20,9 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "                 Show critical warnings."
     echo "    -e, --errors"
     echo "                 Show errors."
-    echo "    -m, --map"
-    echo "                 Mapping compilation report."
-    echo "    -s, --sta"
+    echo "    -s, --map, --syn"
+    echo "                 Analysis & Synthesis report."
+    echo "    -t, --sta"
     echo "                 TimeQuest Timing Analyzer report."
     echo "    -f, --fit"
     echo "                 Fitting compilation report."
@@ -35,7 +35,7 @@ REVISION=
 WARNINGS=0
 CRITICALS=0
 ERRORS=0
-MAP=0
+SYN=0
 STA=0
 FIT=0
 SHOW_FNAME=0
@@ -51,40 +51,40 @@ do
             CRITICALS=1;;
         -e|--errors)
             ERRORS=1;;
-        -m|--map)
-            MAP=1;;
-        -s|--sta)
+        -s|--map|--syn)
+            SYN=1;;
+        -t|--sta)
             STA=1;;
         -f|--fit)
             FIT=1;;
         -n|--name)
             SHOW_FNAME=1
             ;;
-        -wm|-mw)
+        -ws|-sw)
             WARNINGS=1
-            MAP=1;;
+            SYN=1;;
         -wf|-fw)
             WARNINGS=1
             FIT=1;;
-        -ws|-sw)
+        -wt|-tw)
             WARNINGS=1
             STA=1;;
-        -cm|-mc)
+        -cs|-sc)
             CRITICALS=1
-            MAP=1;;
+            SYN=1;;
         -cf|-fc)
             CRITICALS=1
             FIT=1;;
-        -cs|-sc)
+        -ct|-tc)
             CRITICALS=1
             STA=1;;
-        -em|-me)
+        -es|-se)
             ERRORS=1
-            MAP=1;;
+            SYN=1;;
         -ef|-fe)
             ERRORS=1
             FIT=1;;
-        -es|-se)
+        -et|-te)
             ERRORS=1
             STA=1;;
         *)
@@ -240,12 +240,12 @@ show_error_msg() {
 # for all reports(map/syn, sta, fit) should show only one additional message from this script
 SHOW_ALL=0
 
-if [ "$MAP" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
+if [ "$SYN" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
     SHOW_ALL=1;
     warninig_msg "Quartus report:"
 fi
 
-if [ "$MAP" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
+if [ "$SYN" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
     if [ "$WARNINGS" -eq 1 ]; then
         show_warning_msg "Quartus Analysis and Syntheses Warning report:" "$SHOW_ALL"
         map_warnings
@@ -317,8 +317,8 @@ if [ "$FIT" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
     fi
 fi
 
-# if [ "$MAP" -eq 1 ]; then
-#     echo "MAP"
+# if [ "$SYN" -eq 1 ]; then
+#     echo "SYN"
 # fi
 
 # if [ "$STA" -eq 1 ]; then
