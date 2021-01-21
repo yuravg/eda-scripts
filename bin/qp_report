@@ -100,7 +100,8 @@ REVISION_NAME="*"
 select_file ()
 {
     cnt=1
-    for p in "$OUTDIR"*.map.rpt; do
+
+    for p in `ls "$OUTDIR"*.map.rpt "$OUTDIR"*.syn.rpt 2>/dev/null`; do
         rpt_file[$cnt]=$p
         cnt=`expr $cnt + 1`
     done
@@ -171,6 +172,12 @@ else # grep
     fi
 fi
 
+# Typical Design Flow
+# QPP/QPS:
+# Analysis & Synthesis: quartus_map/quartus_syn
+# Fitter:               quartus_fit
+# Timing Analyzer:      quartus_sta
+
 map_warnings() {
     "$CMD" "$CMD_FLAGS" -e "^Warning" "$FMASK"*.map.rpt          2>/dev/null
 }
@@ -179,6 +186,15 @@ map_critical() {
 }
 map_errors() {
     "$CMD" "$CMD_FLAGS" -e "^Error" "$FMASK"*.map.rpt            2>/dev/null
+}
+syn_warnings() {
+    "$CMD" "$CMD_FLAGS" -e "^Warning" "$FMASK"*.syn.rpt          2>/dev/null
+}
+syn_critical() {
+    "$CMD" "$CMD_FLAGS" -e "^Critical Warning" "$FMASK"*.syn.rpt 2>/dev/null
+}
+syn_errors() {
+    "$CMD" "$CMD_FLAGS" -e "^Error" "$FMASK"*.syn.rpt            2>/dev/null
 }
 
 sta_warnings() {
@@ -196,9 +212,6 @@ fit_critical() {
 }
 fit_errors() {
     "$CMD" "$CMD_FLAGS" -e "^Error" "$FMASK"*.fit.rpt            2>/dev/null
-}
-syn_errors() {
-    "$CMD" "$CMD_FLAGS" -e "^Error" "$FMASK"*.syn.rpt            2>/dev/null
 }
 
 # argument(s): $1 - message
@@ -224,7 +237,7 @@ show_error_msg() {
     fi
 }
 
-# for all reports(map, sta, fit) should show only one additional message from this script
+# for all reports(map/syn, sta, fit) should show only one additional message from this script
 SHOW_ALL=0
 
 if [ "$MAP" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
@@ -236,16 +249,19 @@ if [ "$MAP" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
     if [ "$WARNINGS" -eq 1 ]; then
         show_warning_msg "Quartus Analysis and Syntheses Warning report:" "$SHOW_ALL"
         map_warnings
+        syn_warnings
     fi
 
     if [ "$CRITICALS" -eq 1 ]; then
         show_warning_msg "Quartus Analysis and Syntheses Critical Warning report:" "$SHOW_ALL"
         map_critical
+        syn_critical
     fi
 
     if [ "$ERRORS" -eq 1 ]; then
         show_error_msg "Quartus Analysis and Syntheses Error report:" "$SHOW_ALL"
         map_errors
+        syn_errors
     fi
 
     if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
@@ -253,6 +269,9 @@ if [ "$MAP" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
         map_warnings
         map_critical
         map_errors
+        syn_warnings
+        syn_critical
+        syn_errors
     fi
 fi
 
@@ -288,7 +307,6 @@ if [ "$FIT" -eq 1 ] || [ "$SHOW_ALL" -eq 1 ]; then
     if [ "$ERRORS" -eq 1 ]; then
         show_error_msg "Quartus Fitter Error report:" "$SHOW_ALL"
         fit_errors
-        syn_errors
     fi
 
     if [ "$WARNINGS" -eq 0 ] && [ "$CRITICALS" -eq 0 ] && [ "$ERRORS" -eq 0 ]; then
