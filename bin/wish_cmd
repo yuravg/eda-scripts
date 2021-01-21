@@ -6,4 +6,18 @@
 #   wish_cmd <some_comman>
 #   wish_cmd qp_build
 
-"$@" && wish_msg Ok green || wish_msg Error red
+if [ "$#" -eq 0 ] || [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
+    echo "Usage:"
+    echo "  $(basename "${BASH_SOURCE##*/}") [command]"
+    echo
+    echo "ARGS:"
+    echo "    <command>"
+    echo "                 command to use with 'wish_msg' script."
+    exit 0
+fi
+
+if ! "$@"; then
+    wish_msg Error red
+else
+    wish_msg Ok green
+fi
