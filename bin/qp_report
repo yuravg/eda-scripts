@@ -242,7 +242,26 @@ FLOW_RPT=0
 
 if [ "$SYN" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
     FLOW_RPT=1
-    warninig_msg "Quartus report:"
+    if [ "$WARNINGS" -eq 1 ] && [ "$CRITICALS" -eq 1 ] && [ "$ERRORS" -eq 1 ]; then
+        msg="Quartus report:"
+    else
+        if [ "$WARNINGS" -eq 1 ]; then
+            msg="Quartus report(warnings):"
+            if [ "$CRITICALS" -eq 1 ]; then
+                msg="Quartus report(warnings, critical):"
+            elif [ "$ERRORS" -eq 1 ]; then
+                msg="Quartus report(warnings, errors):"
+            fi
+        elif [ "$CRITICALS" -eq 1 ]; then
+            msg="Quartus report(critical):"
+            if [ "$ERRORS" -eq 1 ]; then
+                msg="Quartus report(critical, errors):"
+            fi
+        elif [ "$ERRORS" -eq 1 ]; then
+            msg="Quartus report(errors):"
+        fi
+    fi
+    warninig_msg "$msg"
 fi
 
 if [ "$SYN" -eq 1 ] || [ "$FLOW_RPT" -eq 1 ]; then
