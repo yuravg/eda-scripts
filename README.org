@@ -16,6 +16,7 @@ Collection of scripts for EDA tools
 | [[bin/qp_show_prg_files][qp_show_prg_files]] | Show list of Quartus Prime program files             |
 | [[bin/qp_summary][qp_summary]]        | Show Quartus Prime compilation summary               |
 | [[bin/qp_report][qp_report]]         | Show Quartus Prime compilation report                |
+| [[bin/qp_info][qp_info]]           | Show information about Quartus Prime project         |
 | [[bin/qp_version][qp_version]]        | Show current Intel Quartus Prime version             |
 | [[bin/qp_make_qip.tcl][qp_make_qip.tcl]]   | Make Quartus Prime QIP-file                          |
 |-------------------+------------------------------------------------------|
