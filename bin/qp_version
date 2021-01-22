@@ -4,12 +4,47 @@
 # Show current Intel Quartus Prime version
 #
 
-echo "+------------------------------------------------------------------------+"
-echo "| Current Altera Quartus version                                         |"
-echo "+------------------------------------------------------------------------+"
-PATH2QUARTUS_VERSION=${QUARTUS_ROOTDIR_OVERRIDE:0:(${#QUARTUS_ROOTDIR_OVERRIDE} - 8)}
-echo "path: $PATH2QUARTUS_VERSION"
-echo ""
-echo "`env | grep QUARTUS_ROOTDIR`"
-echo ""
-echo "Done!"
+SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
+if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
+    echo "Usage:"
+    echo "  $SCRIPT_NAME [-v|--verbosity]"
+    echo
+    echo "OPTIONS:"
+    echo "    -v|--verbosity"
+    echo "                 show all Quartus environment variables."
+    exit 0
+fi
+
+if [ "$1" = "-v" ] || [ "$1" = "--verbosity" ] ; then
+    VERBOSITY=1
+else
+    VERBOSITY=0
+fi
+
+qp_path_info() {
+    PATH2QP=$(quartus_sh --version 2>/dev/null|grep Ver)
+    if [ -z "$PATH2QP" ]; then
+        echo "WARNING! Can not find path to Quartus Prime!"
+    else
+        echo "Current Quartus Prime version:"
+        echo "$PATH2QP"
+    fi
+}
+
+qp_variables(){
+    echo "Variables:"
+    PATH2QP=$(type quartus_sh | sed 's/.*\s*is\s*//')
+
+    echo "QUARTUS_ROOTDIR_OVERRIDE: $QUARTUS_ROOTDIR_OVERRIDE"
+    echo "Quaruts prime shell:      $PATH2QP"
+    echo "Nios:                     $SOPC_KIT_NIOS2"
+
+    if [ "$VERBOSITY" -eq 1 ]; then
+        echo "Quartus environment variables"
+        env | grep QUARTUS
+    fi
+
+}
+
+qp_path_info
+qp_variables
