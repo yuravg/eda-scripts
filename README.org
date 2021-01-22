@@ -9,36 +9,35 @@ Collection of scripts for EDA tools
 |-------------------+------------------------------------------------------|
 | File              | Description                                          |
 |-------------------+------------------------------------------------------|
-| [[bin/qp_asp][qp_asp]]            | Programming with Quartus Prime Programmer via ASP    |
-| [[bin/qp_asp_verify][qp_asp_verify]]     | Verifying with Quartus Prime Programmer via ASP      |
-| [[bin/qp_build][qp_build]]          | Build Quartus Prime project in the current directory |
-| [[bin/qp_info][qp_info]]           | Show information about Quartus Prime project         |
-| [[bin/qp_jtag][qp_jtag]]           | Programming with Quartus Prime Programmer via JTAG   |
-| [[bin/qp_make_qip.tcl][qp_make_qip.tcl]]   | Make Quartus Prime QIP-file                          |
-| [[bin/qp_open][qp_open]]           | Open Altera Quartus project                          |
-| [[bin/qp_report][qp_report]]         | Show Quartus Prime compilation report                |
-| [[bin/qp_set_path][qp_set_path]]       | Set Altera Quartus path variable                     |
-| [[bin/qp_show_prg_files][qp_show_prg_files]] | Show list of Quartus Prime program files             |
-| [[bin/qp_summary][qp_summary]]        | Show Quartus Prime compilation summary               |
-| [[bin/qp_version][qp_version]]        | Show current Intel Quartus Prime version             |
+| [[file:bin/qp_asp_verify][qp_asp_verify]]     | Verifying with Quartus Prime Programmer via ASP      |
+| [[file:bin/qp_build][qp_build]]          | Build Quartus Prime project in the current directory |
+| [[file:bin/qp_info][qp_info]]           | Show information about Quartus Prime project         |
+| [[file:bin/qp_jtag][qp_jtag]]           | Programming with Quartus Prime Programmer via JTAG   |
+| [[file:bin/qp_make_qip.tcl][qp_make_qip.tcl]]   | Make Quartus Prime QIP-file                          |
+| [[file:bin/qp_open][qp_open]]           | Open Altera Quartus project                          |
+| [[file:bin/qp_report][qp_report]]         | Show Quartus Prime compilation report                |
+| [[file:bin/qp_set_path][qp_set_path]]       | Set Altera Quartus path variable                     |
+| [[file:bin/qp_show_prg_files][qp_show_prg_files]] | Show list of Quartus Prime program files             |
+| [[file:bin/qp_summary][qp_summary]]        | Show Quartus Prime compilation summary               |
+| [[file:bin/qp_version][qp_version]]        | Show current Intel Quartus Prime version             |
 |-------------------+------------------------------------------------------|
 
 ** Mentor QuestaSim
 |-----------------+-----------------------------------------------------------------------|
 | File            | Description                                                           |
 |-----------------+-----------------------------------------------------------------------|
-| [[bin/Makefile.questa][Makefile.questa]] | Make-file to run Mentor Graphics QuestaSim/ModelSim targets           |
-| [[bin/mg_make][mg_make]]         | Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets |
+| [[file:bin/Makefile.questa][Makefile.questa]] | Make-file to run Mentor Graphics QuestaSim/ModelSim targets           |
+| [[file:bin/mg_make][mg_make]]         | Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets |
 |-----------------+-----------------------------------------------------------------------|
 
 ** Other
 |--------------+---------------------------------------------------------|
 | File         | Description                                             |
 |--------------+---------------------------------------------------------|
-| [[aliases_eda][aliases_eda]]  | Aliases for 'EDA-scripts'                               |
-| [[bin/del_eda_temp][del_eda_temp]] | Deleting temporary EDA files from the current directory |
-| [[bin/wish_msg][wish_msg]]     | Make windows by wish(Tcl/Tk Simple windowing shell)     |
-| [[bin/wish_cmd][wish_cmd]]     | Show a command return code using GUI(wish_msg script)   |
+| [[file:aliases_eda][aliases_eda]]  | Aliases for 'EDA-scripts'                               |
+| [[file:bin/del_eda_temp][del_eda_temp]] | Deleting temporary EDA files from the current directory |
+| [[file:bin/wish_msg][wish_msg]]     | Make windows by wish(Tcl/Tk Simple windowing shell)     |
+| [[file:bin/wish_cmd][wish_cmd]]     | Show a command return code using GUI(wish_msg script)   |
 |--------------+---------------------------------------------------------|
 
 * Installation
