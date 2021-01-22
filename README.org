@@ -1,4 +1,6 @@
-* eda-scripts
+#+title: eda-scripts
+#+author: Yuriy Gritsenko
+
 Collection of scripts for EDA tools
 
 * Contents
@@ -10,15 +12,15 @@ Collection of scripts for EDA tools
 | [[bin/qp_asp][qp_asp]]            | Programming with Quartus Prime Programmer via ASP    |
 | [[bin/qp_asp_verify][qp_asp_verify]]     | Verifying with Quartus Prime Programmer via ASP      |
 | [[bin/qp_build][qp_build]]          | Build Quartus Prime project in the current directory |
+| [[bin/qp_info][qp_info]]           | Show information about Quartus Prime project         |
 | [[bin/qp_jtag][qp_jtag]]           | Programming with Quartus Prime Programmer via JTAG   |
+| [[bin/qp_make_qip.tcl][qp_make_qip.tcl]]   | Make Quartus Prime QIP-file                          |
 | [[bin/qp_open][qp_open]]           | Open Altera Quartus project                          |
+| [[bin/qp_report][qp_report]]         | Show Quartus Prime compilation report                |
 | [[bin/qp_set_path][qp_set_path]]       | Set Altera Quartus path variable                     |
 | [[bin/qp_show_prg_files][qp_show_prg_files]] | Show list of Quartus Prime program files             |
 | [[bin/qp_summary][qp_summary]]        | Show Quartus Prime compilation summary               |
-| [[bin/qp_report][qp_report]]         | Show Quartus Prime compilation report                |
-| [[bin/qp_info][qp_info]]           | Show information about Quartus Prime project         |
 | [[bin/qp_version][qp_version]]        | Show current Intel Quartus Prime version             |
-| [[bin/qp_make_qip.tcl][qp_make_qip.tcl]]   | Make Quartus Prime QIP-file                          |
 |-------------------+------------------------------------------------------|
 
 ** Mentor QuestaSim
