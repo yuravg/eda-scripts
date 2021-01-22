@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# Show information about Quartus Prime project
+
+qp_prj_info() {
+    PRJ=$(ls ./*.qpf 2>/dev/null)
+
+    if [ -z "$PRJ" ]; then
+        echo "ERROR! Can not find Quartus Prime project (qsf) file!"
+        exit 0
+    else
+        echo "Project file: $PRJ"
+    fi
+}
+
+parsing_revision_file() {
+    REVFNAME="$1"
+
+    QP_VERISON=$("$CMD" "$CMD_FLAGS" -e "-name LAST_QUARTUS_VERSION\s" "$REVFNAME" |\
+                     sed 's/.*LAST_QUARTUS_VERSION\s\"\(.*\)\"/\1/')
+
+    FAMILY=$("$CMD" "$CMD_FLAGS" -e "-name FAMILY" "$REVFNAME" | \
+                 sed 's/.*FAMILY\s*\"\(.*\)\"/\1/')
+
+    DEVICE=$("$CMD" "$CMD_FLAGS" -e "-name DEVICE\s" "$REVFNAME" | \
+                 sed 's/.*DEVICE\s*\(.*\)/\1/')
+
+    echo "Quartus:       $QP_VERISON"
+    echo "Family/Device: $FAMILY / $DEVICE"
+}
+
+qp_revision_info() {
+    cnt=1
+    for p in $(ls $OUTDIR*.qsf 2>/dev/null); do
+        revision[$cnt]=$p
+        cnt=`expr $cnt + 1`
+    done
+
+    echo "Revision(s):"
+    for (( i=1; i<${#revision[@]}+1; i++ )); do
+        REVFNAME=${revision[${i}]}
+        echo "$i. $REVFNAME"
+        parsing_revision_file "$REVFNAME"
+    done
+}
+
+if hash rg 2>/dev/null; then
+    CMD=rg
+    CMD_FLAGS="-IN"
+else
+    CMD=grep
+    CMD_FLAGS="-h"
+fi
+
+qp_prj_info
+qp_revision_info
