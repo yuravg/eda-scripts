@@ -8,6 +8,7 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "    [-w|--warnings] [-c|--critical] [-e|--errors]"
     echo "    [-s|--map|--syn] [-s|--sta] [-f|--fit]"
     echo "    [-n|--name]"
+    echo "    [-ws|sw|wf|fw|wt|tw|cs|sc|cf|fc|ct|tc|es|se|ef|fe|et|te]"
     echo
     echo "ARGS:"
     echo "    <revision-file-number>"
