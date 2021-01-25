@@ -1,5 +1,6 @@
 #+title: eda-scripts
 #+author: Yuriy Gritsenko
+#+link: https://github.com/yuravg/eda-scripts
 
 Collection of scripts for EDA tools
 
@@ -42,6 +43,7 @@ Collection of scripts for EDA tools
 
 * Installation
 
+- Download =eda-scripts=: =git clone https://github.com/yuravg/eda-scripts= or [[https://github.com/yuravg/eda-scripts/archive/master.zip][zip-file]]
 - add path to =eda-scripts= to your environment (or just copy to some /bin/ directory)
 - add alias for the script that set path to Quartus Prime
 - load aliases file (=aliases_eda=) with your shell
