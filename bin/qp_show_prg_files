@@ -25,7 +25,7 @@ else
     OUTDIR=""
 fi
 
-for i in `ls $OUTDIR 2>/dev/null | grep -e '.*\.\(sof\|pof\)$'`; do
+for i in `ls $OUTDIR 2>/dev/null | grep -e '.*\.\(sof\|pof\|jic\)$'`; do
     FILE="$OUTDIR$i";
     TIMESTAMP=$(date +%c -r "$FILE");
     echo "$FILE :  $TIMESTAMP";
