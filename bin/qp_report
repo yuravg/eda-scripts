@@ -32,6 +32,11 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     exit 0
 fi
 
+# TODO: add verbosity option for extend messages, for example:
+# Warning (13024): Output pins are stuck at VCC or GND
+#     Warning (13410): ...
+#     Warning (13410): ...
+
 REVISION=
 WARNINGS=0
 CRITICALS=0
