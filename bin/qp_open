@@ -54,7 +54,6 @@ if [ ${#rev[@]} -gt 0 ]; then
             read -r num_revision
         fi
     else
-        echo "input parameter (revision): $revision"
         num_revision=$revision
     fi
 elif [ ${#rev[@]} -eq 0 ]; then
@@ -72,7 +71,6 @@ case "$num_revision" in
         echo "WARNING: will be open default revision"
         ;;
 esac
-echo "revision: '$revision_name'"
+echo "open revision: '$revision_name'"
 
 quartus "$project" -c "$revision_name" &
-echo "Done!"
