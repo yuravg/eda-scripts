@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+
+#
+# Verifying with Quartus Prime Programmer via JTAG
+#
+# This script launches Intel Quartus Prime Programmer to program 'jic' file via JTAG.
+#
+# For more then one program cable:
+#     set environment variable 'QP_CABLE_NAME':
+#     # export QP_CABLE_NAME=USB-Blaster[USB-0]
+#
+# NOTE:  jtagconfig.exe -n -- for describe current status information
+#
+# TODO: add handler for error: Error (213019): Can't scan JTAG chain. Error code 87.
+# for example latch command: 'jtagconfig.exe'
+# TODO: add cable name as argument
+
+echo "+------------------------------------------------------------------------+"
+echo "|  Quartus Prime Programmer ( JTAG )                                     |"
+echo "+------------------------------------------------------------------------+"
+
+read_yesno () {
+    while :
+    do
+        echo "$* (y/n)?"
+        read -r yn
+
+        case $yn in
+            y|Y|yes|Yes|YES)
+                return 0
+                ;;
+            n|N|no|No|NO)
+                return 1
+                ;;
+            *)
+                echo Please answer Yes or No.
+                ;;
+        esac
+    done
+}
+
+if [ -z "$QP_CABLE_NAME" ]; then
+    QP_CABLE_NAME="USB-Blaster[USB-0]"
+fi
+
+SCRIPT_NAME="${BASH_SOURCE##*/}"
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+    echo "Usage:"
+    echo "  $SCRIPT_NAME [prg-file-name]"
+    echo ""
+    echo "ARGS:"
+    echo "    <prg-file-name>"
+    echo "                 file name for verification."
+    exit 0
+fi
+
+select_file ()
+{
+    cnt=1
+    for p in `ls *.jic output_files/*.jic 2>/dev/null`; do
+        prg_file[$cnt]=$p
+        cnt=`expr $cnt + 1`
+    done
+
+    if [ ${#prg_file[@]} -gt 0 ]; then
+        if [ ${#prg_file[@]} -eq 1 ]; then
+            echo " ${prg_file[${1}]}"
+        else
+            echo " sof file(s):"
+            for (( i=1; i<${#prg_file[@]}+1; i++ )); do
+                echo "$i : ${prg_file[${i}]}"
+            done
+            echo "Select sof file :"
+            read -r num_prg_file
+        fi
+    else
+        echo "ERROR! There must be at least one *.jic file in dir: $(pwd)"
+        exit 2
+    fi
+    if [ -s "${prg_file[$num_prg_file]}" ]; then
+        prg_file_name=${prg_file[$num_prg_file]}
+    else
+        prg_file_name=${prg_file[1]}
+        if [ ${#prg_file[@]} -gt 1 ]; then
+            echo "WARNING: will be open default sof file (can't find selected file)"
+        fi
+    fi
+
+    if [ ${#prg_file[@]} -gt 1 ]; then
+        while :
+        do
+            if read_yesno "Would you like verification with file: '$prg_file_name'" ; then
+                break;
+            else
+                echo "NOTE! Exit without load!";
+                exit 0;
+            fi
+        done
+    fi
+}
+
+if [ -n "$1" ]; then
+    if [ ! -s "$1" ]; then
+        echo "ERROR! Can't find selected file: '$1'"
+        exit 3
+    fi
+    prg_file_name=$1
+else
+    select_file "$@"
+fi
+
+f_time=$(date +%c -r "$prg_file_name")
+echo "Verification file: '$prg_file_name'" "$f_time"
+
+quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o v\;"$prg_file_name"
