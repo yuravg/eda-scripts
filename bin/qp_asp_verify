@@ -107,6 +107,6 @@ if [ -n "$1" ]; then
 else
     select_file "$@"
 fi
-echo "File to Programmer: '$pof_file_name'"
+echo "Verification file: '$pof_file_name'"
 
 quartus_pgm -c "$QP_CABLE_NAME" -m as -o v\;"$pof_file_name"
