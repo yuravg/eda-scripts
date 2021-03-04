@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Report about project latches from Quartus report files
+
+if hash rg 2>/dev/null; then
+    CMD=rg
+    CMD_FLAGS="-Hn"
+else
+    CMD=grep
+    CMD_FLAGS="-Hn --color"
+fi
+
+$CMD $CMD_FLAGS -e " latch " *.rpt 2>/dev/null
+$CMD $CMD_FLAGS -e " latch " output_files/*.rpt 2>/dev/null
