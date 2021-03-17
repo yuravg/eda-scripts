@@ -20,7 +20,7 @@ REVISION_NAME="*"
 select_file ()
 {
     cnt=1
-    for p in $(ls $OUTDIR*.map.summary 2>/dev/null); do
+    for p in $(ls $OUTDIR*.fit.summary 2>/dev/null); do
         rpt_file[$cnt]=$p
         cnt=`expr $cnt + 1`
     done
