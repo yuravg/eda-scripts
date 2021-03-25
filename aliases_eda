@@ -21,8 +21,6 @@ alias qp_stp='eval quartus_stpw $RUN_BACKGROUND'
 alias qp_eclipse='eval eclipse-nios2 $RUN_BACKGROUND'
 alias qp_prg='eval quartus_pgmw $RUN_BACKGROUND'
 
-alias qp_system_console='eval $QUARTUS_ROOTDIR/sopc_builder/bin/system-console --project_dir=`pwd` $RUN_BACKGROUND'
-
 alias mm='mg_make'
 
 # * Wish messages

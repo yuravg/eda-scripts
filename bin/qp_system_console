@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+#
+# Open Quartus Prime System Console
+#
+# This script also:
+#  - directs System Console to the location of your hardware project.
+#  - run System Console Tcl desktop script 'system_console_rc.tcl' from project directory(if it
+#    exist); looking for initial script at project directory or 'system console' subdirectory.
+
+system_console="$QUARTUS_ROOTDIR/sopc_builder/bin/system-console"
+
+if ! hash $system_console 2>/dev/null; then
+    echo "'$system_console' was not found in PATH"
+fi
+
+desk_src_name1="system_console_rc.tcl"
+desk_src_name2="system_console/system_console_rc.tcl"
+desk_src_arg=""
+if [ -s "$desk_src_name1" ]; then
+    desk_src_arg="--desktop_script=$desk_src_name1"
+elif [ -s "$desk_src_name2" ]; then
+    desk_src_arg="--desktop_script=$desk_src_name2"
+fi
+
+$system_console --project_dir=$(pwd) "$desk_src_arg" &
