@@ -1,0 +1,58 @@
+#!/usr/bin/env perl
+
+# Simplification of the Quartus Prime report file
+#
+# This script simplify Quartus Prime report file to show user assignment pins only or sort pins
+# by group: user, power, ground, other
+
+use v5.14;
+
+use File::Basename;
+my $script_name = basename($0);
+
+if (@ARGV < 1 or @ARGV > 2) {
+    say "Usage:";
+    say "  $script_name [quartus_pin_file] [output-report-file]\n";
+    say "ARGS:";
+    say "   <quartus_pin_file>";
+    say "            Quartus pin-file.";
+    say "   <output-report-file>";
+    say "            Output report file; by default <quartus_pin_file>.log.";
+    exit;
+}
+
+my $input_file = shift(@ARGV);
+@ARGV = "$input_file.log" unless @ARGV;
+my $output_file = shift(@ARGV);
+
+say "Input  file: $input_file";
+say "Output file: $output_file";
+
+open(my $fh_in,  "<", $input_file)  or die "Can't open input  file: $!\n";
+open(my $fh_out, ">", $output_file) or die "Can't open output file: $!\n";
+
+my $pin_list = 0;
+while (<$fh_in>) {
+    chomp;
+    if (/^Pin Name\/Usage/) {
+        $pin_list = 1;
+    }
+    if ($pin_list == 1) {
+        # Quartus Prime pin-file fields:
+        #   <Pin Name/Usage : Location : Dir. : I/O Standard : Voltage : I/O Bank : User Assignment>
+        my @rpt = split(/:/);
+        my $user_assignment = $rpt[6];
+        $user_assignment =~ s/^\s(.*?)\s*$/$1/;  # trim whitespace from both sides
+        if ($user_assignment eq "Y") {
+                say $fh_out $_;
+        }
+        # if (!/^(GND|NC|^RESERVED_INPUT_WITH_WEAK_PULLUP|GXB_GND\*|VCCIO[0-9][A-Z]|VCC|VCCA_PLL|VCCERAM|VCCT_GXBL[0-9][A-Z]|VCCP|GXB_NC|VCCPT|VCCR_GXBL[0-9][A-Z]|VREFB[0-9][A-Z]N0|VCCBAT|VCCPGM|VCCH_GXBL) /) {
+        #     if (!/^~ALTERA_/) {
+        #         say $fh_out $_;
+        #     }
+        # }
+    }
+}
+
+close($fh_in);
+close($fh_out);

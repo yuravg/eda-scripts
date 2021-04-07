@@ -19,6 +19,7 @@ Collection of scripts for EDA tools
 | [[file:bin/qp_open][qp_open]]           | Open Altera Quartus project                            |
 | [[file:bin/qp_report][qp_report]]         | Show Quartus Prime compilation report                  |
 | [[file:bin/qp_report_latches][qp_report_latches]] | Report about project latches from Quartus report files |
+| [[file:bin/qp_report_pin][qp_report_pin]]     | Simplification of the Quartus Prime report file        |
 | [[file:bin/qp_set_path][qp_set_path]]       | Set Altera Quartus path variable                       |
 | [[file:bin/qp_show_prg_files][qp_show_prg_files]] | Show list of Quartus Prime program files               |
 | [[file:bin/qp_summary][qp_summary]]        | Show Quartus Prime compilation summary                 |
