@@ -8,6 +8,8 @@
 use v5.14;
 
 use File::Basename;
+use Term::ANSIColor qw(:constants);
+
 my $script_name = basename($0);
 
 sub help {
@@ -59,8 +61,8 @@ if (!$output_file) {
 say "Input  file: $input_file";
 say "Output file: $output_file";
 
-open(my $fh_in,  "<", $input_file)  or die "ERROR! Can't open input  file: $!\n";
-open(my $fh_out, ">", $output_file) or die "ERROR! Can't open output file: $!\n";
+open(my $fh_in,  "<", $input_file) or die BOLD RED,  "ERROR! Can't open input file: $!",  RESET "\n";
+open(my $fh_out, ">", $output_file) or die BOLD RED, "ERROR! Can't open output file: $!", RESET "\n";
 
 my $pin_list = 0;
 my ($power, $gnd, $other, $nc) = ("", "", "", "");
@@ -92,6 +94,11 @@ while (<$fh_in>) {
             }
         }
     }
+}
+
+if (!$pin_list) {
+    local $Term::ANSIColor::AUTORESET = 1;
+    say BOLD RED "ERROR! Can't find Quartus pin-file data!";
 }
 
 say $fh_out "";
