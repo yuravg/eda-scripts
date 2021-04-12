@@ -10,28 +10,60 @@ use v5.14;
 use File::Basename;
 my $script_name = basename($0);
 
-if (@ARGV < 1 or @ARGV > 2) {
+sub help {
     say "Usage:";
-    say "  $script_name [quartus_pin_file] [output-report-file]\n";
+    say "  $script_name [quartus_pin_file] [output-report-file] [-a|--all]\n";
     say "ARGS:";
     say "   <quartus_pin_file>";
     say "            Quartus pin-file.";
     say "   <output-report-file>";
-    say "            Output report file; by default <quartus_pin_file>.log.";
-    exit;
+    say "            Output report file; by default <quartus_pin_file>.log.\n";
+    say "OPTIONS:";
+    say "    -a|--all";
+    say "            Write information about all pins.";
 }
 
-my $input_file = shift(@ARGV);
-@ARGV = "$input_file.log" unless @ARGV;
-my $output_file = shift(@ARGV);
+my $input_file;
+my $output_file;
+my $all_pins = 0;
+
+if (@ARGV < 1 or @ARGV > 3) {
+    help;
+    exit;
+} else {
+    while (@ARGV) {
+        $_ = shift;
+        if (/-h|--help/) {
+            help;
+            exit;
+        } elsif (/-|--/) {
+            if (/-a|--all/) {
+                $all_pins = 1;
+            } else {
+                say "Warning! Unsupported options: $_!"
+            }
+        } else {
+            if (!$input_file) {
+                $input_file = $_;
+            } elsif (!$output_file) {
+                $output_file = $_;
+            }
+        }
+    }
+}
+
+if (!$output_file) {
+    $output_file = "$input_file.log";
+}
 
 say "Input  file: $input_file";
 say "Output file: $output_file";
 
-open(my $fh_in,  "<", $input_file)  or die "Can't open input  file: $!\n";
-open(my $fh_out, ">", $output_file) or die "Can't open output file: $!\n";
+open(my $fh_in,  "<", $input_file)  or die "ERROR! Can't open input  file: $!\n";
+open(my $fh_out, ">", $output_file) or die "ERROR! Can't open output file: $!\n";
 
 my $pin_list = 0;
+my ($power, $gnd, $other, $nc) = ("", "", "", "");
 while (<$fh_in>) {
     chomp;
     if (/^Pin Name\/Usage/) {
@@ -41,18 +73,32 @@ while (<$fh_in>) {
         # Quartus Prime pin-file fields:
         #   <Pin Name/Usage : Location : Dir. : I/O Standard : Voltage : I/O Bank : User Assignment>
         my @rpt = split(/:/);
-        my $user_assignment = $rpt[6];
-        $user_assignment =~ s/^\s(.*?)\s*$/$1/;  # trim whitespace from both sides
-        if ($user_assignment eq "Y") {
-                say $fh_out $_;
+        my ($dir, $user_assignment) = ($rpt[2], $rpt[6]);
+        $dir =~ s/^\s(.*?)\s*$/$1/;             # trim whitespace from both sides
+        $user_assignment =~ s/^\s(.*?)\s*$/$1/; # trim whitespace from both sides
+        if ($user_assignment eq "Y" || $dir =~ "input|output") {
+            say $fh_out $_;
+        } elsif ($all_pins) {
+            if (/power/) {
+                $power .= "$_\n";
+            } elsif (/gnd/) {
+                $gnd .= "$_\n";
+            } elsif (/NC|RESERVED_/) {
+                $nc .= "$_\n";
+            } else {
+                if (!/^Pin Name\/Usage|---/) { # part of header
+                    $other .= "$_\n";
+                }
+            }
         }
-        # if (!/^(GND|NC|^RESERVED_INPUT_WITH_WEAK_PULLUP|GXB_GND\*|VCCIO[0-9][A-Z]|VCC|VCCA_PLL|VCCERAM|VCCT_GXBL[0-9][A-Z]|VCCP|GXB_NC|VCCPT|VCCR_GXBL[0-9][A-Z]|VREFB[0-9][A-Z]N0|VCCBAT|VCCPGM|VCCH_GXBL) /) {
-        #     if (!/^~ALTERA_/) {
-        #         say $fh_out $_;
-        #     }
-        # }
     }
 }
+
+say $fh_out "";
+say $fh_out "$power";
+say $fh_out "$gnd";
+say $fh_out "$other";
+say $fh_out "$nc";
 
 close($fh_in);
 close($fh_out);
