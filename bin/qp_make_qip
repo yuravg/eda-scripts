@@ -44,7 +44,13 @@ if {[llength $argv]>0} {
     exit 0
 }
 
-set p_file [open $file_name w]
+set p_file ""
+if {[catch {set p_file [open $file_name w]} err_msg]} {
+    puts stderr "ERROR opening qip-file, $err_msg!\n"
+    usage
+    exit 1
+}
+
 set cnt 0
 
 proc find {path pattern key_word} {
