@@ -14,7 +14,8 @@ my $script_name = basename($0);
 
 sub help {
     say "Usage:";
-    say "  $script_name [quartus_pin_file] [output-report-file] [-a|--all]\n";
+    say "  $script_name [quartus_pin_file] [output-report-file]";
+    say "                   [-a|--all] [-p|--sort-power]\n";
     say "ARGS:";
     say "   <quartus_pin_file>";
     say "            Quartus pin-file.";
@@ -23,11 +24,14 @@ sub help {
     say "OPTIONS:";
     say "    -a|--all";
     say "            Write information about all pins.";
+    say "    -p|--sort-power";
+    say "            Sort power pins by voltage(will turn on option: -a).";
 }
 
 my $input_file;
 my $output_file;
 my $all_pins = 0;
+my $sort_power = 0;
 
 if (@ARGV < 1 or @ARGV > 3) {
     help;
@@ -39,8 +43,14 @@ if (@ARGV < 1 or @ARGV > 3) {
             help;
             exit;
         } elsif (/-|--/) {
-            if (/-a|--all/) {
+            if (/-p?a|-ap?|--all/) {
                 $all_pins = 1;
+                if (/p/) {
+                    $sort_power = 1;
+                }
+            } elsif (/-p|--sort-power/) {
+                $all_pins = 1;
+                $sort_power = 1;
             } else {
                 say "Warning! Unsupported options: $_!"
             }
@@ -65,7 +75,8 @@ open(my $fh_in,  "<", $input_file) or die BOLD RED,  "ERROR! Can't open input fi
 open(my $fh_out, ">", $output_file) or die BOLD RED, "ERROR! Can't open output file: $!", RESET "\n";
 
 my $pin_list = 0;
-my ($power, $gnd, $other, $nc) = ("", "", "", "");
+my @power;
+my ($gnd, $other, $nc) = ("", "", "", "");
 while (<$fh_in>) {
     chomp;
     if (/^Pin Name\/Usage/) {
@@ -81,8 +92,9 @@ while (<$fh_in>) {
         if ($user_assignment eq "Y" || $dir =~ "input|output") {
             say $fh_out $_;
         } elsif ($all_pins) {
-            if (/power/) {
-                $power .= "$_\n";
+            if (
+                /power/) {
+                push(@power, "$_\n");
             } elsif (/gnd/) {
                 $gnd .= "$_\n";
             } elsif (/NC|RESERVED_/) {
@@ -101,8 +113,14 @@ if (!$pin_list) {
     say BOLD RED "ERROR! Can't find Quartus pin-file data!";
 }
 
+if ($sort_power) {
+    @power = reverse sort {(split(/:/, $b))[4] cmp (split(/:/, $a))[4] ||
+                               (split(/:/, $b))[1] cmp (split(/:/, $a))[1]
+                           } @power;
+}
+
 say $fh_out "";
-say $fh_out "$power";
+say $fh_out @power;
 say $fh_out "$gnd";
 say $fh_out "$other";
 say $fh_out "$nc";
