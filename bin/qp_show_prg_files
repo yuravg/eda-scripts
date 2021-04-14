@@ -5,19 +5,35 @@
 SCRIPT_NAME="${BASH_SOURCE##*/}"
 if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "Usage:"
-    echo "  $SCRIPT_NAME [-v|--verbosity]"
+    echo "  $SCRIPT_NAME [-v|--verbosity] [-s|--md5sum]"
+    echo "                    [-sv|vs]"
     echo
     echo "OPTIONS:"
     echo "    -v|--verbosity"
     echo "                 Show compiler and target device."
+    echo "    -s|--md5sum"
+    echo "                 Show md5sum for program file."
     exit 0
 fi
 
-if [ "$1" = "-v" ] || [ "$1" = "--verbosity" ] ; then
-    VERBOSITY=1
-else
-    VERBOSITY=0
-fi
+VERBOSITY=0
+MD5SUM=0
+
+for i in "$@"
+do
+    case "$i" in
+        -v|--verbosity)
+            VERBOSITY=1;;
+        -s|--md5sum)
+            MD5SUM=1;;
+        -sv|-vs)
+            VERBOSITY=1
+            MD5SUM=1;;
+        *)
+            echo "ERROR! Unknown options!"
+            exit 1;;
+    esac
+done
 
 if [ "$(ls -A output_files 2>/dev/null)" ]; then
     OUTDIR="./output_files/"
@@ -29,8 +45,16 @@ for i in `ls $OUTDIR 2>/dev/null | grep -e '.*\.\(sof\|pof\|jic\)$'`; do
     FILE="$OUTDIR$i";
     TIMESTAMP=$(date +%c -r "$FILE");
     echo "$FILE :  $TIMESTAMP";
+
     if [ "$VERBOSITY" -eq 1 ]; then
         strings "$FILE" 2>/dev/null | head -2
+    fi
+
+    if [ "$MD5SUM" -eq 1 ]; then
+        echo "md5sum: $(md5sum "$FILE" | cut -d' ' -f1)"
+    fi
+
+    if [ "$MD5SUM" -eq 1 ] || [ "$VERBOSITY" -eq 1 ]; then
         echo
     fi
 done
