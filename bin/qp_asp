@@ -46,12 +46,12 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo ""
     echo "ARGS:"
     echo "    <pof-file-name>"
-    echo "                 file name for programming."
+    echo "            File name for programming."
     echo "    <pof-file-number>"
-    echo "                 file number for programming."
+    echo "            File number for programming."
     echo "OPTIONS:"
     echo "    -g"
-    echo "                 run 'wish_msg' at the end of programming."
+    echo "            Run 'wish_msg' at the end of programming."
     exit 0
 fi
 

@@ -10,9 +10,9 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo
     echo "OPTIONS:"
     echo "    -v|--verbosity"
-    echo "                 Show compiler and target device."
+    echo "            Show compiler and target device."
     echo "    -s|--md5sum"
-    echo "                 Show md5sum for program file."
+    echo "            Show md5sum for program file."
     exit 0
 fi
 

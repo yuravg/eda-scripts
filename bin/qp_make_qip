@@ -13,10 +13,10 @@ proc usage {} {
     puts ""
     puts "ARGS:"
     puts "    <qip-file-name>"
-    puts "                 output file name."
+    puts "            Output file name."
     puts "    <path2dir>"
-    puts "                 path to search Quartus Prime files."
-    puts "                 You must specify from one to four paths."
+    puts "            Path to search Quartus Prime files."
+    puts "            You must specify from one to four paths."
 }
 
 if {[llength $argv]>0} {

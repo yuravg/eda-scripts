@@ -12,23 +12,23 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo
     echo "ARGS:"
     echo "    <revision-file-number>"
-    echo "                 Quartus revision number."
+    echo "            Quartus revision number."
     echo
     echo "OPTIONS:"
     echo "    -w, --warnings"
-    echo "                 Show warnings."
+    echo "            Show warnings."
     echo "    -c, --critical"
-    echo "                 Show critical warnings."
+    echo "            Show critical warnings."
     echo "    -e, --errors"
-    echo "                 Show errors."
+    echo "            Show errors."
     echo "    -s, --map, --syn"
-    echo "                 Analysis & Synthesis report."
+    echo "            Analysis & Synthesis report."
     echo "    -t, --sta"
-    echo "                 TimeQuest Timing Analyzer report."
+    echo "            Timequest Timing Analyzer report."
     echo "    -f, --fit"
-    echo "                 Fitting compilation report."
+    echo "            Fitting compilation report."
     echo "    -n, --name"
-    echo "                 Show report-file name."
+    echo "            Show report-file name."
     exit 0
 fi
 

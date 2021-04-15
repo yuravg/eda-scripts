@@ -12,7 +12,7 @@ if [ "$#" -eq 0 ] || [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' 
     echo
     echo "ARGS:"
     echo "    <command>"
-    echo "                 command to use with 'wish_msg' script."
+    echo "            Command to use with 'wish_msg' script."
     exit 0
 fi
 

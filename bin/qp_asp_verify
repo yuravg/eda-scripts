@@ -47,9 +47,9 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo ""
     echo "ARGS:"
     echo "    <pof-file-name>"
-    echo "                 file name for verification."
+    echo "            File name for verification."
     echo "    <pof-file-number>"
-    echo "                 file number for verification."
+    echo "            File number for verification."
     exit 0
 fi
 

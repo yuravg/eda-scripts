@@ -16,7 +16,7 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo
     echo "ARGS:"
     echo "    <revision-number>"
-    echo "                 Quartus revision file number."
+    echo "            Quartus revision file number."
     exit 0
 fi
 

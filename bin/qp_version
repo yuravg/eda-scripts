@@ -11,7 +11,7 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo
     echo "OPTIONS:"
     echo "    -v|--verbosity"
-    echo "                 show all Quartus environment variables."
+    echo "            Show all Quartus environment variables."
     exit 0
 fi
 

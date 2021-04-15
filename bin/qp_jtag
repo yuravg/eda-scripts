@@ -52,7 +52,7 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo ""
     echo "ARGS:"
     echo "    <prg-file-name>"
-    echo "                 file name for programming."
+    echo "            File name for programming."
     exit 0
 fi
 
