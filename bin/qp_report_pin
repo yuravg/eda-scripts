@@ -26,11 +26,14 @@ sub help {
     say "            Write information about all pins.";
     say "    -p|--sort-power";
     say "            Sort power pins by voltage(will turn on option: -a).";
+    say "    -n|--sort-nodes";
+    say "            Sort nodes alphabetically.";
 }
 
 my $input_file;
 my $output_file;
 my $all_pins = 0;
+my $sort_nodes = 0;
 my $sort_power = 0;
 
 if (@ARGV < 1 or @ARGV > 3) {
@@ -43,11 +46,21 @@ if (@ARGV < 1 or @ARGV > 3) {
             help;
             exit;
         } elsif (/-|--/) {
-            if (/-p?a|-ap?|--all/) {
+            if (/--all/) {
                 $all_pins = 1;
+            } elsif (/-[anp]{1,3}/) {
+                if (/a/) {
+                    $all_pins = 1;
+                }
+                if (/n/) {
+                    $sort_nodes = 1;
+                }
                 if (/p/) {
+                    $all_pins = 1;
                     $sort_power = 1;
                 }
+            } elsif (/-n|--sort-nodes/) {
+                $sort_nodes = 1;
             } elsif (/-p|--sort-power/) {
                 $all_pins = 1;
                 $sort_power = 1;
@@ -68,13 +81,19 @@ if (!$output_file) {
     $output_file = "$input_file.log";
 }
 
-say "Input  file: $input_file";
+my $opt = "(options: ";
+if ($all_pins == 1) {$opt .= "all"};
+if ($sort_nodes == 1) {$opt .= " sort-nodes"};
+if ($sort_power == 1) {$opt .= " sort-power"};
+$opt .= ")";
+say "Input  file: $input_file $opt";
 say "Output file: $output_file";
 
 open(my $fh_in,  "<", $input_file) or die BOLD RED,  "ERROR! Can't open input file: $!",  RESET "\n";
 open(my $fh_out, ">", $output_file) or die BOLD RED, "ERROR! Can't open output file: $!", RESET "\n";
 
 my $pin_list = 0;
+my @nodes;
 my @power;
 my ($gnd, $other, $nc) = ("", "", "", "");
 while (<$fh_in>) {
@@ -90,7 +109,7 @@ while (<$fh_in>) {
         $dir =~ s/^\s(.*?)\s*$/$1/;             # trim whitespace from both sides
         $user_assignment =~ s/^\s(.*?)\s*$/$1/; # trim whitespace from both sides
         if ($user_assignment eq "Y" || $dir =~ "input|output") {
-            say $fh_out $_;
+            push(@nodes, "$_\n");
         } elsif ($all_pins) {
             if (
                 /power/) {
@@ -119,7 +138,11 @@ if ($sort_power) {
                            } @power;
 }
 
-say $fh_out "";
+if ($sort_nodes) {
+    @nodes = reverse sort {(split(/:/, $b))[0] cmp (split(/:/, $a))[0]} @nodes;
+}
+
+say $fh_out @nodes;
 say $fh_out @power;
 say $fh_out "$gnd";
 say $fh_out "$other";
