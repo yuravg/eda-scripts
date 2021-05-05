@@ -28,6 +28,7 @@ sub help {
     say "            Sort power pins by voltage(will turn on option: -a).";
     say "    -n|--sort-nodes";
     say "            Sort nodes alphabetically.";
+    say "            (sort user and not-user assignment pins; sort all except power and gnd).";
 }
 
 my $input_file;
@@ -95,7 +96,9 @@ open(my $fh_out, ">", $output_file) or die BOLD RED, "ERROR! Can't open output f
 my $pin_list = 0;
 my @nodes;
 my @power;
-my ($gnd, $other, $nc) = ("", "", "", "");
+my @other;
+my @nc;
+my $gnd = "";
 while (<$fh_in>) {
     chomp;
     if (/^Pin Name\/Usage/) {
@@ -117,10 +120,10 @@ while (<$fh_in>) {
             } elsif (/gnd/) {
                 $gnd .= "$_\n";
             } elsif (/NC|RESERVED_/) {
-                $nc .= "$_\n";
+                push(@nc, "$_\n");
             } else {
                 if (!/^Pin Name\/Usage|---/) { # part of header
-                    $other .= "$_\n";
+                    push(@other, "$_\n");
                 }
             }
         }
@@ -140,13 +143,15 @@ if ($sort_power) {
 
 if ($sort_nodes) {
     @nodes = reverse sort {(split(/:/, $b))[0] cmp (split(/:/, $a))[0]} @nodes;
+    @other = reverse sort {(split(/:/, $b))[0] cmp (split(/:/, $a))[0]} @other;
+    @nc    = reverse sort {(split(/:/, $b))[0] cmp (split(/:/, $a))[0]} @nc;
 }
 
 say $fh_out @nodes;
 say $fh_out @power;
 say $fh_out "$gnd";
-say $fh_out "$other";
-say $fh_out "$nc";
+say $fh_out @other;
+say $fh_out @nc;
 
 close($fh_in);
 close($fh_out);
