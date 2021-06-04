@@ -15,7 +15,7 @@ my $script_name = basename($0);
 sub help {
     say "Usage:";
     say "  $script_name [quartus_pin_file] [output-report-file]";
-    say "                   [-a|--all] [-p|--sort-power]\n";
+    say "                   [-a|--all] [-p|--sort-power] [-n|--sort-nodes]\n";
     say "ARGS:";
     say "   <quartus_pin_file>";
     say "            Quartus pin-file.";
