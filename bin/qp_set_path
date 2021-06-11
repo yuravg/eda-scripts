@@ -3,10 +3,8 @@
 #
 # Set Altera Quartus path variable
 #  usage:
-#   qp_set_path         - info (list Quartus install dir)
-#   qp_set_path -i      - info (list Quartus install dir)
-#   qp_set_path 12.1    - set Quartus root dir (only if there is path to version 12.1)
-#
+#   qp_set_path                       - info (list Quartus install dir)
+#   qp_set_path /c/intelFPGA_pro/21.1 - set path to Quartus
 #
 
 echo "+------------------------------------------------------------------------+"
@@ -20,22 +18,12 @@ echo "+------------------------------------------------------------------------+
 #   nios2_bin_dir.
 #
 # Input parameter:
-#  1 - Quartus version number
-#  2 - Path to Quartus directory
-
-# FIXME: set Standard Quartus version after Pro
+#  1 - Path to Quartus
 
 fun_qp_set_path ()
 {
     if [ -n "$1" ]; then
-        PATH2QUARTUS_VERSION=${QUARTUS_ROOTDIR_OVERRIDE:0:(${#QUARTUS_ROOTDIR_OVERRIDE} - 8)}
-        PATH2QUARTUS=${PATH2QUARTUS_VERSION%/*.*}
-        if [ "$2" = "pro" ]; then
-            PATH2QUARTUS=${PATH2QUARTUS_VERSION%/*.*}_pro
-        else
-            PATH2QUARTUS=${PATH2QUARTUS_VERSION%/*.*}
-        fi
-        _PATH="${PATH2QUARTUS}/$1/quartus"
+        _PATH="${1}quartus"
         if [ -d "$_PATH" ]; then
             export QUARTUS_ROOTDIR_OVERRIDE="${_PATH}"
             export QUARTUS_ROOTDIR="${_PATH}"
@@ -65,6 +53,7 @@ fun_qp_set_path ()
     fi
 
     quartus_bin_dir="$QUARTUS_ROOTDIR_OVERRIDE/$BITS"
+    quartus_sopc_bin_dir="$QUARTUS_ROOTDIR_OVERRIDE/sopc_builder/bin"
     nios2_bin_dir="$QUARTUS_ROOTDIR_OVERRIDE/../nios2eds/bin"
 }
 
@@ -77,13 +66,16 @@ list_dir() {
     fi
 }
 
+SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
 if [ "$#" -eq 0 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
-    echo "Input variables:"
-    echo "  1 - Quartus version number"
-    echo "  2 - Quartus version suffix(Pro/Std): pro/<empty>"
-    echo "Usage example:"
-    echo "  <script_name> 13.0sp1"
-    echo "  <script_name> 18.1 pro"
+    echo "Usage:"
+    echo "  ${BASH_SOURCE##*/} [path2quartus]"
+    echo
+    echo "ARGS:"
+    echo "    <path2quartus>"
+    echo "            Path to Quartus, example(s):"
+    echo "                /c/intelFPGA_pro/21.1/"
+    echo "                /opt/altera/19.1/"
     echo ""
     echo "List of available Quartus directories:"
     if [ "`uname`" = Linux ]; then
@@ -98,12 +90,16 @@ else
     fun_qp_set_path $*
 
     export PATH="$quartus_bin_dir:$PATH"
+    export PATH="$quartus_sopc_bin_dir:$PATH"
+    export PATH="$nios2_bin_dir:$PATH"
     # QSYS_ROOTDIR:
     export PATH="$quartus_bin_dir/../sopc_builder/bin:$PATH"
 
-    echo " Set (version '$1' $2):"
+    echo " Set variables:"
     echo "  QUARTUS_ROOTDIR_OVERRIDE = $QUARTUS_ROOTDIR_OVERRIDE"
     echo "  QUARTUS_ROOTDIR          = $QUARTUS_ROOTDIR"
-    echo "  PATH(added to PATH)      = $quartus_bin_dir"
-    echo " Done!"
+    echo " Add to PATH variable:"
+    echo "  $quartus_bin_dir"
+    echo "  $quartus_sopc_bin_dir"
+    echo "  $nios2_bin_dir"
 fi
