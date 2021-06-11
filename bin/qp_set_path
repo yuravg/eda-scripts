@@ -95,8 +95,6 @@ if [ "$#" -eq 0 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-hel
         list_dir "/c/intelFPGA_pro"
     fi
 else
-
-    . "$PATH2SCRIPT"/fun_qp_set_path
     fun_qp_set_path $*
 
     export PATH="$quartus_bin_dir:$PATH"
