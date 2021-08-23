@@ -35,7 +35,7 @@ Collection of scripts for EDA tools
 | [[file:bin/mg_make][mg_make]]         | Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets |
 |-----------------+-----------------------------------------------------------------------|
 
-** Other
+** Unsorted commands
 |--------------+---------------------------------------------------------|
 | File         | Description                                             |
 |--------------+---------------------------------------------------------|
@@ -71,18 +71,6 @@ if [ -f "$PATH2EDA_SCRIPTS"/aliases_eda ]; then
 fi
 #+end_src
 
-* Tips
+* Commands
 
-Show GUI message
-#+begin_src shell-script
-wish_msg "Title message" green "message 1" message_2
-#+end_src
-
-[[./images/wish_msg.png]]
-
-Show GUI message after compilation
-#+begin_src shell-script
-qp_build && wish_msg_ok || wish_msg_err
-# or
-wish_cmd qp_build
-#+end_src
+Go to [[file:commands.org][commands]] page for basic usage and examples.

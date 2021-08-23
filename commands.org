@@ -1,0 +1,277 @@
+
+Basic usage and examples
+
+** Intel Quartus Prime
+
+*** qp_asp_verify
+
+Verifying with Quartus Prime Programmer via ASP
+
+*** qp_build
+
+Build Quartus Prime project in the current directory
+
+#+begin_src shell-script
+$ qp_build
++------------------------------------------------------------------------+
+|  Build Quartus Prime project                                           |
++------------------------------------------------------------------------+
+ project : 'project_name.qpf'
+ revisions:
+1 : revision1.qsf
+2 : revision2.qsf
+2
+ revision : revision2.qsf'
+Start compilation revision 'revision2.qsf'
+...Running Quartus Prime Build...
+#+end_src
+
+#+begin_src shell-script
+$ qp_build 2
++------------------------------------------------------------------------+
+|  Build Quartus Prime project                                           |
++------------------------------------------------------------------------+
+ project : 'project_name.qpf'
+Start compilation revision revision2.qsf'
+ revision : 'revision2.qsf'
+...Running Quartus Prime Build...
+#+end_src
+
+*** qp_info
+
+Show information about Quartus Prime project
+
+#+begin_src shell-script
+$ qp_info
+Project file: ./project_file_name.qpf
+Revision(s):
+1. revision1_file_name.qsf
+Quartus:       20.1.0 Standard Edition
+Family/Device: Cyclone V / 5CGTFD5C5F23C7
+Config.device: EPCQ16 (scheme: "ACTIVE SERIAL X4")
+2. revision2_file_name.qsf
+Quartus:       20.1.0 Standard Edition
+Family/Device: Cyclone V / 5CGTFD5C5F23C7
+Config.device: EPCQ32 (scheme: "ACTIVE SERIAL X4")
+#+end_src
+
+*** qp_jtag
+
+Programming with Quartus Prime Programmer via JTAG
+
+*** qp_jtag_verify
+
+Verifying with Quartus Prime Programmer via JTAG
+
+*** qp_make_qip
+
+Make Quartus Prime QIP-file
+
+#+begin_src shell-script
+$ qp_make_qip <QIP_file_name> . <path2files1> <path2files2>
++------------------------------------------------------------------------+
+| Make Quartus Prime Qip-file                                            |
++------------------------------------------------------------------------+
+Input parameters:
+ qip-file: 'prj.qip'
+ path1   : '.'
+ path2   : 'path2files1'
+ path3   : 'path2files2'
+ path4   : ''
+...
+...
+----------------------------------
+ Find <NUM> files
+ Write file 'QIP_file_name'
+#+end_src
+
+*** qp_open
+
+Open Altera Quartus project
+
+#+begin_src shell-script
+$ qp_open
+Project  : 'project_name.qpf'
+Revisions:
+1 -> revison1.qsf
+2 -> revison2.qsf
+Select revision:
+2
+open revision: 'revision2.qsf'
+#+end_src
+
+*** qp_report
+
+Show Quartus Prime compilation report
+
+#+begin_src shell-script
+$ qp_report
+Warning (12251): Clk_0: Used clock_source 20.1 (instead of 19.1)
+Warning (12251): Irq_bridge_0: Used altera_irq_bridge 20.1 (instead of 19.1)
+...
+...
+#+end_src
+
+#+begin_src shell-script
+$ qp_report -c
+Quartus report(critical):
+Critical Warning (332148): Timing requirements not met
+Critical Warning (169085): No exact pin location assignment(s) for 4 pins of 80 total pins.
+#+end_src
+
+*** qp_report_latches
+
+Report about project latches from Quartus report files
+
+#+begin_src shell-script
+$ qp_report_latches
+output_files/project.map.rpt
+38289:Info (10041): Inferred latch for "reg_name[1]" at file_name.sv(565) File: C:/path2file/file_name.sv Line: 565
+38290:Info (10041): Inferred latch for "reg_name[2]" at file_name.sv(565) File: C:/path2file/file_name.sv Line: 565
+#+end_src
+
+*** qp_report_pin
+
+Simplification of the Quartus Prime report file
+
+#+begin_src shell-script
+$ qp_report_pin output_files/quartus_pin_file.pin
+Input  file: output_files/quartus_pin_file.pin (options: )
+Output file: output_files/quartus_pin_file.log
+#+end_src
+
+*** qp_set_path
+
+Set Altera Quartus path variable
+
+#+begin_src shell-script
+$ qp_set_path
++------------------------------------------------------------------------+
+| Set Altera Quartus path variable                                       |
++------------------------------------------------------------------------+
+Usage:
+  qp_set_path [path2quartus]
+
+ARGS:
+    <path2quartus>
+            Path to Quartus, example(s):
+                /c/intelFPGA_pro/21.1/
+                /opt/altera/19.1/
+
+List of available Quartus directories:
+ * Path: /c/intelFPGA
+20.1
+ * Path: /c/intelFPGA_pro
+21.1
+#+end_src
+
+#+begin_src shell-script
+$ qp_set_path /c/intelFPGA_pro/21.1/
++------------------------------------------------------------------------+
+| Set Altera Quartus path variable                                       |
++------------------------------------------------------------------------+
+Setup of path successful!
+ Set variables:
+  QUARTUS_ROOTDIR_OVERRIDE = /c/intelFPGA_pro/21.1/quartus
+  QUARTUS_ROOTDIR          = /c/intelFPGA_pro/21.1/quartus
+ Add to PATH variable:
+  /c/intelFPGA_pro/21.1/quartus/bin64
+  /c/intelFPGA_pro/21.1/quartus/sopc_builder/bin
+  /c/intelFPGA_pro/21.1/quartus/../nios2eds/bin
+#+end_src
+
+*** qp_show_prg_files
+
+Show list of Quartus Prime program files
+
+#+begin_src shell-script
+$ qp_show_prg_files
+./output_files/project.sof :  Fri, Jun 11, 2021 12:10:36 PM
+./output_files/project.pof :  Fri, Jun 11, 2021 12:10:37 PM
+#+end_src
+
+#+begin_src shell-script
+$ qp_show_prg_files -v
+./output_files/project.sof :  Fri, Jun 11, 2021 12:10:36 PM
+Quartus Prime Compiler Version 20.1.0 Build 711 06/05/2020 SJ Standard Edition
+5CGTFD5C5F23C7
+
+./output_files/project.pof :  Fri, Jun 11, 2021 12:10:37 PM
+Quartus Prime Programmer Version 20.1.0 Build 711 06/05/2020 SJ Standard Edition
+EPCQ32
+#+end_src
+
+*** qp_summary
+
+Show Quartus Prime compilation summary
+
+#+begin_src shell-script
+$ qp_summary
+Fitter summary:
+Fitter Status : Successful - Fri Jun 11 12:10:22 2021
+Quartus Prime Version : 20.1.0 Build 711 06/05/2020 SJ Standard Edition
+Revision Name : revision_name
+Top-level Entity Name : top_name
+Family : Cyclone V
+Device : 5CGTFD5C5F23C7
+Timing Models : Final
+Logic utilization (in ALMs) : 6,716 / 29,080 ( 23 % )
+Total registers : 12070
+Total pins : 68 / 268 ( 25 % )
+Total virtual pins : 0
+Total block memory bits : 423,584 / 4,567,040 ( 9 % )
+Total RAM Blocks : 71 / 446 ( 16 % )
+Total DSP Blocks : 0 / 150 ( 0 % )
+Total HSSI RX PCSs : 2 / 6 ( 33 % )
+Total HSSI PMA RX Deserializers : 2 / 6 ( 33 % )
+Total HSSI TX PCSs : 2 / 6 ( 33 % )
+Total HSSI PMA TX Serializers : 2 / 6 ( 33 % )
+Total PLLs : 6 / 12 ( 50 % )
+Total DLLs : 0 / 4 ( 0 % )
+------------------------------------------
+Done : Fri Jun 11 12:10:56 2021 (00:05:40)
+#+end_src
+
+*** qp_system_console
+
+Open Quartus Prime System Console
+
+#+begin_src shell-script
+$ qp_system_console
+#+end_src
+
+*** qp_version
+
+Show current Intel Quartus Prime version
+
+#+begin_src shell-script
+$ qp_version
+Current Quartus Prime version:
+Version 20.1.0 Build 711 06/05/2020 SJ Standard Edition
+Variables:
+QUARTUS_ROOTDIR_OVERRIDE: /c/intelFPGA/20.1/quartus
+Quaruts prime shell:      /c/intelFPGA/20.1/quartus/bin64/quartus_sh
+Nios:                     /c/intelFPGA/20.1/quartus/../nios2eds
+#+end_src
+
+** Unsorted commands
+
+*** wish_msg, wish_cmd
+
+Make windows by wish(Tcl/Tk Simple windowing shell);
+show a command return code using GUI(wish_msg script)
+
+Show GUI message
+
+#+begin_src shell-script
+$ wish_msg "Title message" green "message 1" message_2
+#+end_src
+
+[[./images/wish_msg.png]]
+
+Show GUI message after compilation
+#+begin_src shell-script
+$ qp_build && wish_msg_ok || wish_msg_err
+# or
+$ wish_cmd qp_build
+#+end_src
