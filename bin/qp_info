@@ -28,15 +28,29 @@ parsing_revision_file() {
     CFG_DEVICE=$("$CMD" "$CMD_FLAGS" -e "-name\s.*CONFIGURATION_DEVICE\s" "$REVFNAME" | \
                      "$CMD" "$CMD_FLAGS" -e "\s*EPC" | \
                      sed 's/.*CONFIGURATION_DEVICE\s*\(.*\)/\1/')
-    if [ -z "$CFG_DEVICE" ]; then
-        CFG_DEVICE="-"
-    fi
     CFG_SCH=$("$CMD" "$CMD_FLAGS" -e "-name\s.*CONFIGURATION_SCHEME\s" "$REVFNAME" | \
-                     sed 's/.*CONFIGURATION_SCHEME\s*\(.*\)/\1/')
+                  sed 's/.*CONFIGURATION_SCHEME\s*\(.*\)/\1/')
+    if [ -z "$FAMILY" ]; then
+        FAMILY="-"
+    fi
+    if [ -z "$DEVICE" ]; then
+        DEVICE="-"
+    fi
+    CFG_INFO=""
+    if [ -z "$CFG_DEVICE" ]; then
+        CFG_INFO="-"
+    else
+        CFG_INFO="$CFG_DEVICE"
+        if [ -n "$CFG_SCH" ]; then
+            CFG_INFO="$CFG_INFO (scheme: $CFG_SCH)"
+        fi
+    fi
 
     echo "Quartus:       $QP_VERISON"
     echo "Family/Device: $FAMILY / $DEVICE"
-    echo "Config.device: $CFG_DEVICE (scheme: $CFG_SCH)"
+    if [ "$CFG_INFO" != "-" ]; then
+        echo "Config.device: $CFG_INFO"
+    fi
 }
 
 qp_revision_info() {
