@@ -58,22 +58,21 @@ fi
 
 select_file ()
 {
-    cnt=1
-    for p in `ls *.sof *.jic output_files/*.sof output_files/*.jic 2>/dev/null`; do
-        sof_file[$cnt]=$p
-        cnt=`expr $cnt + 1`
-    done
+    IFS=$'\n' sof_file=($(find . -type f \( -name "*.sof" -o -name "*.jic" \)))
 
+    cnt=1;
     if [ ${#sof_file[@]} -gt 0 ]; then
         if [ ${#sof_file[@]} -eq 1 ]; then
             echo " ${sof_file[${1}]}"
         else
-            echo " sof file(s):"
-            for (( i=1; i<${#sof_file[@]}+1; i++ )); do
-                echo "$i : ${sof_file[${i}]}"
+            echo " file(s) for programming:"
+            for i in "${sof_file[@]}"; do
+                echo "$cnt: $i"
+                ((cnt++))
             done
-            echo "Select sof file :"
+            echo "Select file :"
             read -r num_sof_file
+            ((num_sof_file--))
         fi
     else
         echo "ERROR! There must be at least one *.sof file in dir: $(pwd)"
