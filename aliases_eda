@@ -16,13 +16,13 @@ else
     export RUN_BACKGROUND=""
 fi
 
-alias qp_megawizard='eval qmegawizq $RUN_BACKGROUND'
-alias qp_stp='eval quartus_stpw $RUN_BACKGROUND'
 alias qp_eclipse='eval eclipse-nios2 $RUN_BACKGROUND'
+alias qp_megawizard='eval qmegawizq $RUN_BACKGROUND'
 alias qp_prg='eval quartus_pgmw $RUN_BACKGROUND'
+alias qp_stp='eval quartus_stpw $RUN_BACKGROUND'
 
 alias mm='mg_make'
 
 # * Wish messages
-alias wish_msg_ok="wish_msg Ok green"
 alias wish_msg_err="wish_msg Error red"
+alias wish_msg_ok="wish_msg Ok green"
