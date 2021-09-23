@@ -60,12 +60,12 @@ select_file ()
 {
     IFS=$'\n' f_arr=($(find . -type f \( -name "*.sof" -o -name "*.jic" \)))
 
-    cnt=1;
     if [ ${#f_arr[@]} -gt 0 ]; then
         if [ ${#f_arr[@]} -eq 1 ]; then
             echo " ${f_arr[${1}]}"
         else
             echo " file(s) for programming:"
+            cnt=1
             for i in "${f_arr[@]}"; do
                 echo "$cnt: $i"
                 ((cnt++))
