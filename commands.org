@@ -59,6 +59,33 @@ Config.device: EPCQ32 (scheme: "ACTIVE SERIAL X4")
 
 Programming with Quartus Prime Programmer via JTAG
 
+Run with path to file to programming
+
+#+begin_src shell-script
+$ qp_jtag ./output_files/project
+...Running Quartus Prime Programmer...
+#+end_src
+
+Run without path to file to programming
+
+#+begin_src shell-script
+$ qp_jtag
++------------------------------------------------------------------------+
+|  Quartus Prime Programmer ( JTAG )                                     |
++------------------------------------------------------------------------+
+ file(s) for programming:
+1: ./project_rev1.sof
+2: ./output_files/project_rev2.sof
+3: ./output_files/project_rev3.sof
+4: ./output_files/project_rev2.jic
+Select file :
+2
+Would you like load file: './output_files/project_rev2.sof' (y/n)?
+y
+File to Programming: './output_files/project_rev2.sof' Thu, Sep 23, 2021  1:34:04 PM
+...Running Quartus Prime Programmer...
+#+end_src
+
 *** qp_jtag_verify
 
 Verifying with Quartus Prime Programmer via JTAG
