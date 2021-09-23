@@ -55,22 +55,21 @@ fi
 
 select_file ()
 {
-    cnt=1
-    for p in `ls *.pof 2>/dev/null`; do
-        f_arr[$cnt]=$p
-        cnt=`expr $cnt + 1`
-    done
+    IFS=$'\n' f_arr=($(find . -type f \( -name "*.pof" \)))
 
     if [ ${#f_arr[@]} -gt 0 ]; then
         if [ ${#f_arr[@]} -eq 1 ]; then
             echo " ${f_arr[${1}]}"
         else
-            echo " pof file(s):"
-            for (( i=1; i<${#f_arr[@]}+1; i++ )); do
-                echo "$i : ${f_arr[${i}]}"
+            echo " file(s) to check:"
+            cnt=1
+            for i in "${f_arr[@]}"; do
+                echo "$cnt: $i"
+                ((cnt++))
             done
-            echo "Select pof file :"
+            echo "Select file :"
             read -r file_num
+            ((file_num--))
         fi
     else
         echo "ERROR! There must be at least one *.pof file in dir: $(pwd)"
