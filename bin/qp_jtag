@@ -58,39 +58,39 @@ fi
 
 select_file ()
 {
-    IFS=$'\n' sof_file=($(find . -type f \( -name "*.sof" -o -name "*.jic" \)))
+    IFS=$'\n' f_arr=($(find . -type f \( -name "*.sof" -o -name "*.jic" \)))
 
     cnt=1;
-    if [ ${#sof_file[@]} -gt 0 ]; then
-        if [ ${#sof_file[@]} -eq 1 ]; then
-            echo " ${sof_file[${1}]}"
+    if [ ${#f_arr[@]} -gt 0 ]; then
+        if [ ${#f_arr[@]} -eq 1 ]; then
+            echo " ${f_arr[${1}]}"
         else
             echo " file(s) for programming:"
-            for i in "${sof_file[@]}"; do
+            for i in "${f_arr[@]}"; do
                 echo "$cnt: $i"
                 ((cnt++))
             done
             echo "Select file :"
-            read -r num_sof_file
-            ((num_sof_file--))
+            read -r file_num
+            ((file_num--))
         fi
     else
         echo "ERROR! There must be at least one *.sof file in dir: $(pwd)"
         exit 2
     fi
-    if [ -s "${sof_file[$num_sof_file]}" ]; then
-        sof_file_name=${sof_file[$num_sof_file]}
+    if [ -s "${f_arr[$file_num]}" ]; then
+        f_name=${f_arr[$file_num]}
     else
-        sof_file_name=${sof_file[1]}
-        if [ ${#sof_file[@]} -gt 1 ]; then
+        f_name=${f_arr[1]}
+        if [ ${#f_arr[@]} -gt 1 ]; then
             echo "WARNING: will be open default sof file (can't find selected file)"
         fi
     fi
 
-    if [ ${#sof_file[@]} -gt 1 ]; then
+    if [ ${#f_arr[@]} -gt 1 ]; then
         while :
         do
-            if read_yesno "Would you like load file: '$sof_file_name'" ; then
+            if read_yesno "Would you like load file: '$f_name'" ; then
                 break;
             else
                 echo "NOTE! Exit without load!";
@@ -105,17 +105,17 @@ if [ -n "$1" ]; then
         echo "ERROR! Can't find selected file: '$1'"
         exit 3
     fi
-    sof_file_name=$1
+    f_name=$1
 else
     select_file "$@"
 fi
 
-f_time=$(date +%c -r "$sof_file_name")
-echo "File to Programming: '$sof_file_name'" "$f_time"
+f_time=$(date +%c -r "$f_name")
+echo "File to Programming: '$f_name'" "$f_time"
 
-if [[ "$sof_file_name" == *.jic ]]; then
+if [[ "$f_name" == *.jic ]]; then
     # Blank-checking device(s), Performing CRC verification on device(s)
-    quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o pvbi\;"$sof_file_name"
+    quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o pvbi\;"$f_name"
 else
-    quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o p\;"$sof_file_name"
+    quartus_pgm -c "$QP_CABLE_NAME" -m jtag -o p\;"$f_name"
 fi
