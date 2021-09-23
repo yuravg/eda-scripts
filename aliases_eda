@@ -16,6 +16,7 @@ else
     export RUN_BACKGROUND=""
 fi
 
+alias qp_jtag_info=jtagconfig
 alias qp_eclipse='eval eclipse-nios2 $RUN_BACKGROUND'
 alias qp_megawizard='eval qmegawizq $RUN_BACKGROUND'
 alias qp_prg='eval quartus_pgmw $RUN_BACKGROUND'
