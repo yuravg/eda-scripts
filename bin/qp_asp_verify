@@ -57,38 +57,38 @@ select_file ()
 {
     cnt=1
     for p in `ls *.pof 2>/dev/null`; do
-        pof_file[$cnt]=$p
+        f_arr[$cnt]=$p
         cnt=`expr $cnt + 1`
     done
 
-    if [ ${#pof_file[@]} -gt 0 ]; then
-        if [ ${#pof_file[@]} -eq 1 ]; then
-            echo " ${pof_file[${1}]}"
+    if [ ${#f_arr[@]} -gt 0 ]; then
+        if [ ${#f_arr[@]} -eq 1 ]; then
+            echo " ${f_arr[${1}]}"
         else
             echo " pof file(s):"
-            for (( i=1; i<${#pof_file[@]}+1; i++ )); do
-                echo "$i : ${pof_file[${i}]}"
+            for (( i=1; i<${#f_arr[@]}+1; i++ )); do
+                echo "$i : ${f_arr[${i}]}"
             done
             echo "Select pof file :"
-            read -r num_pof_file
+            read -r file_num
         fi
     else
         echo "ERROR! There must be at least one *.pof file in dir: $(pwd)"
         exit 2
     fi
-    if [ -s "${pof_file[$num_pof_file]}" ]; then
-        pof_file_name=${pof_file[$num_pof_file]}
+    if [ -s "${f_arr[$file_num]}" ]; then
+        f_name=${f_arr[$file_num]}
     else
-        pof_file_name=${pof_file[1]}
-        if [ ${#pof_file[@]} -gt 1 ]; then
+        f_name=${f_arr[1]}
+        if [ ${#f_arr[@]} -gt 1 ]; then
             echo "WARNING: will be open default pof file (can't find selected file)"
         fi
     fi
 
-    if [ ${#pof_file[@]} -gt 1 ]; then
+    if [ ${#f_arr[@]} -gt 1 ]; then
         while :
         do
-            if read_yesno "Would you like verification with file: '$pof_file_name'" ; then
+            if read_yesno "Would you like verification with file: '$f_name'" ; then
                 break;
             else
                 echo "NOTE! Exit without verification!";
@@ -103,10 +103,10 @@ if [ -n "$1" ]; then
         echo "ERROR! Can't find selected file: '$1'"
         exit 3
     fi
-    pof_file_name=$1
+    f_name=$1
 else
     select_file "$@"
 fi
-echo "Verification file: '$pof_file_name'"
+echo "Verification file: '$f_name'"
 
-quartus_pgm -c "$QP_CABLE_NAME" -m as -o v\;"$pof_file_name"
+quartus_pgm -c "$QP_CABLE_NAME" -m as -o v\;"$f_name"
