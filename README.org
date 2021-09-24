@@ -10,6 +10,7 @@ Collection of scripts for EDA tools
 |-------------------+--------------------------------------------------------|
 | File              | Description                                            |
 |-------------------+--------------------------------------------------------|
+| [[file:bin/qp_asp_verify][qp_asp]]            | Programming with Quartus Prime Programmer via ASP      |
 | [[file:bin/qp_asp_verify][qp_asp_verify]]     | Verifying with Quartus Prime Programmer via ASP        |
 | [[file:bin/qp_build][qp_build]]          | Build Quartus Prime project in the current directory   |
 | [[file:bin/qp_info][qp_info]]           | Show information about Quartus Prime project           |
