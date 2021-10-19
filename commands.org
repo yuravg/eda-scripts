@@ -312,6 +312,19 @@ $ qp_show_prg_files
 ./output_files/project.pof :  Fri, Jun 11, 2021 12:10:37 PM
 #+end_src
 
+Show list with md5sum
+
+#+begin_src shell-script
+$ qp_show_prg_files -s
+./output_files/project.sof :  Fri, Jun 11, 2021 12:10:36 PM
+md5sum: 1234567890ABCDEF123456790ABCDEF1
+
+./output_files/project.pof :  Fri, Jun 11, 2021 12:10:37 PM
+md5sum: 1234567890ABCDEF123456790ABCDEF2
+#+end_src
+
+Show verbosity list
+
 #+begin_src shell-script
 $ qp_show_prg_files -v
 ./output_files/project.sof :  Fri, Jun 11, 2021 12:10:36 PM
