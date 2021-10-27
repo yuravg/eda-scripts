@@ -30,7 +30,7 @@ if [ ${#prj[@]} -ne 1 ]; then
     exit 2
 else
     project=${prj[1]}
-    echo "Project  : '$project'"
+    echo "Project: $project"
 fi
 
 cnt=1
@@ -39,38 +39,43 @@ for p in `ls *.qsf 2>/dev/null`; do
     cnt=`expr $cnt + 1`
 done
 
+nrevs=${#rev[@]}
 revision="$1"
 
-if [ ${#rev[@]} -gt 0 ]; then
+echo_revisions () {
     echo "Revisions:"
-    for (( i=1; i<${#rev[@]}+1; i++ )); do
+    for (( i=1; i<$nrevs+1; i++ )); do
         echo "$i -> ${rev[${i}]}"
     done
-    if [ "$revision" = "" ]; then
-        if [ ${#rev[@]} -eq 1 ]; then
-            num_revision=1
-        else
-            echo "Select revision:"
-            read -r num_revision
-        fi
+}
+
+if [ "$revision" = "" ]; then
+    if [ "$nrevs" -eq 0 ]; then
+        echo "ERROR! There must be at least one *.qsf file in dir: $(pwd)"
+        exit 3
+    elif [ "$nrevs" -eq 1 ]; then
+        num_revision=1
     else
-        num_revision=$revision
+        echo_revisions
+        echo "Select revision:"
+        read -r num_revision
     fi
-elif [ ${#rev[@]} -eq 0 ]; then
-    echo "ERROR! There must be at least one *.qsf file in dir: $(pwd)"
-    exit 3
 else
-    num_revision=1
+    num_revision=$revision
 fi
+
 case "$num_revision" in
     [1-9])
         revision_name=${rev[$num_revision]}
         ;;
-    *)
-        revision_name=${rev[1]}
-        echo "WARNING: will be open default revision"
-        ;;
 esac
-echo "open revision: '$revision_name'"
+
+if [ ! -s "$revision_name" ]; then
+    echo "ERROR! You select non exist revision!"
+    echo_revisions
+    exit 1
+fi
+
+echo "open revision: $revision_name"
 
 quartus "$project" -c "$revision_name" &
