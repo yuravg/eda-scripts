@@ -24,6 +24,9 @@ alias qp_stp='eval quartus_stpw $RUN_BACKGROUND'
 
 alias mm='mg_make'
 
+# Setting the cable allows to speed up the work of scripts which are using JTAG cable
+export QP_CABLE_NAME=USB-Blaster[USB-0]
+
 # * Wish messages
 alias wish_msg_err="wish_msg Error red"
 alias wish_msg_ok="wish_msg Ok green"
