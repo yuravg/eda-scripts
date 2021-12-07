@@ -121,14 +121,19 @@ get_file_name () {
     file_num=0
     if [ ${#f_arr[@]} -gt 0 ]; then
         echo " file(s) for programming:"
-        cnt=1
-        for i in "${f_arr[@]}"; do
-            echo "$cnt: $i"
-            ((cnt++))
-        done
-        echo "Select file :"
-        read -r file_num
-        ((file_num--))
+        if [ ${#f_arr[@]} -eq 1 ]; then
+            file_num=0
+            echo "${f_arr[$file_num]}"
+        else
+            cnt=1
+            for i in "${f_arr[@]}"; do
+                echo "$cnt: $i"
+                ((cnt++))
+            done
+            echo "Select file :"
+            read -r file_num
+            ((file_num--))
+        fi
     else
         echo "ERROR! There must be at least one *.sof file in dir: $(pwd)"
         exit 2
