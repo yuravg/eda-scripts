@@ -172,3 +172,5 @@ if [ "$RC" != 0 ]; then
 else
     printf "\e[32m\e[1mProgramming successful!\e[0m\n"
 fi
+
+exit "$RC"
