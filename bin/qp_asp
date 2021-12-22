@@ -128,3 +128,5 @@ if [ "$1" == '-g' ] || [ "$2" == '-g' ]; then
         wish_msg "Programming done." &
     fi
 fi
+
+exit "$RC"
