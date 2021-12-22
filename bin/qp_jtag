@@ -135,7 +135,7 @@ get_file_name () {
             ((file_num--))
         fi
     else
-        echo "ERROR! There must be at least one *.sof file in dir: $(pwd)"
+        echo "ERROR! There must be at least one *.sof or *.jic file in dir: $(pwd)"
         exit 2
     fi
     f_name="${f_arr[$file_num]}"
