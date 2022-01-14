@@ -98,3 +98,12 @@ fi
 * Commands
 
 Go to [[file:commands.org][commands]] page for basic usage and examples.
+
+* TODO
+
+- mg_questasim_templates: add arguments: output-dir, select gen-file(s) name
+- mg_questasim_templates: add option for debug
+- Fix: colors for *qp_report*
+- Add TimingAnalizer report
+- add report by fit entity
+- extend qp_show_prg_files with region, data size, crc
