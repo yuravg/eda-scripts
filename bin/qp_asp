@@ -115,10 +115,13 @@ echo "File to Programming: '$f_name'" "$f_time"
 quartus_pgm -c "$QP_CABLE_NAME" -m as -o bpv\;"$f_name"
 
 RC=$?
+RED="\e[31m\e[1m"
+GREEN="\e[32m\e[1m"
+NORMAL="\e[0m"
 if [ "$RC" != 0 ]; then
-    printf "\e[31m\e[1mProgramming Error!\e[0m\n"
+    printf "${RED}Programming Error!${NORMAL}\n"
 else
-    printf "\e[32m\e[1mProgramming successful!\e[0m\n"
+    printf "${GREEN}Programming successful!${NORMAL}\n"
 fi
 
 if [ "$1" == '-g' ] || [ "$2" == '-g' ]; then
