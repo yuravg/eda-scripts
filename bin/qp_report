@@ -217,12 +217,12 @@ fit_errors() {
 
 # argument(s): $1 - message
 warninig_msg() {
-    printf "%b%s%b\n" "\e[43m" "$1" "\e[0m"
+    printf "%b%s%b\n" "\e[33m\e[1m" "$1" "\e[0m"
 }
 
 # argument(s): $1 - message
 error_msg() {
-    printf "%b%s%b\n" "\e[31m" "$1" "\e[0m"
+    printf "%b%s%b\n" "\e[31m\e[1m" "$1" "\e[0m"
 }
 
 # argument(s): $1 - message, $2 - enable
@@ -243,6 +243,7 @@ FLOW_RPT=0
 
 if [ "$SYN" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
     FLOW_RPT=1
+    ERR_MSG_EN=0
     if [ "$WARNINGS" -eq 1 ] && [ "$CRITICALS" -eq 1 ] && [ "$ERRORS" -eq 1 ]; then
         msg="Quartus report:"
     else
@@ -252,17 +253,24 @@ if [ "$SYN" -eq 0 ] && [ "$STA" -eq 0 ] && [ "$FIT" -eq 0 ]; then
                 msg="Quartus report(warnings, critical):"
             elif [ "$ERRORS" -eq 1 ]; then
                 msg="Quartus report(warnings, errors):"
+                ERR_MSG_EN=1
             fi
         elif [ "$CRITICALS" -eq 1 ]; then
             msg="Quartus report(critical):"
             if [ "$ERRORS" -eq 1 ]; then
                 msg="Quartus report(critical, errors):"
+                ERR_MSG_EN=1
             fi
         elif [ "$ERRORS" -eq 1 ]; then
             msg="Quartus report(errors):"
+            ERR_MSG_EN=1
         fi
     fi
-    warninig_msg "$msg"
+    if [ "$ERR_MSG_EN" -eq 1 ]; then
+        error_msg "$msg"
+    else
+        warninig_msg "$msg"
+    fi
 fi
 
 if [ "$SYN" -eq 1 ] || [ "$FLOW_RPT" -eq 1 ]; then
