@@ -38,7 +38,7 @@ read_yesno () {
 usage() {
     SCRIPT_NAME="${BASH_SOURCE##*/}"
     echo "Usage:"
-    echo "  $SCRIPT_NAME [-1..9|-c=1..9] [prg-file-name] "
+    echo "  $SCRIPT_NAME [-1..9|-c=1..9] [-a|--auto] [prg-file-name] "
     echo ""
     echo "ARGS:"
     echo "    <prg-file-name>"
@@ -46,7 +46,8 @@ usage() {
     echo "OPTIONS:"
     echo "    -1..9|-c=1..9"
     echo "            Cable index from 'jtagconfig'."
-    echo ""
+    echo "    -a|--auto"
+    echo "            Automatic programming start if only one file is find."
     echo "Examples:"
     echo "  $SCRIPT_NAME"
     echo "  $SCRIPT_NAME path/project.sof"
@@ -55,7 +56,7 @@ usage() {
     echo "  export QP_CABLE_NAME=USB-Blaster[USB-0] # set environment variable for Bash."
 }
 
-if [ "$#" -gt 2 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+if [ "$#" -gt 3 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     usage
     exit 0
 fi
@@ -93,11 +94,14 @@ get_cable_name () {
 
 ARG1=$(echo "$1" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
 ARG2=$(echo "$2" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
+ARG3=$(echo "$3" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
 
 if [ -n "$ARG1" ]; then
     get_cable_name "$ARG1"
 elif [ -n "$ARG2" ]; then
     get_cable_name "$ARG2"
+elif [ -n "$ARG3" ]; then
+    get_cable_name "$ARG3"
 elif [ -n "$QP_CABLE_NAME" ]; then
     CNAME="$QP_CABLE_NAME"
 fi
@@ -107,10 +111,13 @@ FNAME=""
 if [ "$#" -eq 1 ] || [ "$#" -eq 2 ]; then
     FNAME_ARG1="$1"
     FNAME_ARG2="$2"
+    FNAME_ARG3="$3"
     if [ -s "$1" ]; then
         FNAME="$FNAME_ARG1"
     elif [ -s "$2" ]; then
         FNAME="$FNAME_ARG2"
+    elif [ -s "$3" ]; then
+        FNAME="$FNAME_ARG3"
     fi
 fi
 
@@ -146,12 +153,23 @@ get_file_name () {
     fi
 }
 
+# Automatic programming
+AUTOPGM=0
+if [ "$1" = "-a" ] || [ "$1" = "--auto" ] \
+       || [ "$2" = "-a" ] || [ "$2" = "--auto" ] \
+       || [ "$3" = "-a" ] || [ "$3" = "--auto" ]; then
+    AUTOPGM=1
+fi
+
+
 # if the path to the file is specified as script argument, programming is started without request
 if [ -z "$FNAME" ]; then
     get_file_name
-    if ! read_yesno "Would you like load file: $FNAME" ; then
-        echo "Exit without load!";
-        exit 0;
+    if [ "$AUTOPGM" -eq 0 ]; then
+        if ! read_yesno "Would you like load file: $FNAME" ; then
+            echo "Exit without load!";
+            exit 0;
+        fi
     fi
 fi
 
