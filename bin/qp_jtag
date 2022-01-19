@@ -97,7 +97,6 @@ ARG2=$(echo "$2" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
 if [ -n "$ARG1" ]; then
     get_cable_name "$ARG1"
 elif [ -n "$ARG2" ]; then
-    CINDEX="$ARG2"
     get_cable_name "$ARG2"
 elif [ -n "$QP_CABLE_NAME" ]; then
     CNAME="$QP_CABLE_NAME"
