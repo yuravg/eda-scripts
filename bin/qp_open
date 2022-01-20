@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Open Altera Quartus project
+# Open Intel Quartus project
 #
 # This script look for Intel Quartus Prime project file (qpf) and opens one of the revisions.
 #

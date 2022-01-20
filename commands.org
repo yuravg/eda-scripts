@@ -221,7 +221,7 @@ Info: (./cpu/app/project.elf) 68 KBytes program size (code + initialized data).
 
 *** qp_open
 
-Open Altera Quartus project
+Open Intel Quartus project
 
 #+begin_src shell-script
 $ qp_open
@@ -276,12 +276,12 @@ Output file: output_files/quartus_pin_file.log
 
 *** qp_set_path
 
-Set Altera Quartus path variable
+Set Intel Quartus path variable
 
 #+begin_src shell-script
 $ qp_set_path
 +------------------------------------------------------------------------+
-| Set Altera Quartus path variable                                       |
+| Set Intel Quartus path variable                                       |
 +------------------------------------------------------------------------+
 Usage:
   qp_set_path [path2quartus]
@@ -302,7 +302,7 @@ List of available Quartus directories:
 #+begin_src shell-script
 $ qp_set_path /c/intelFPGA_pro/21.1/
 +------------------------------------------------------------------------+
-| Set Altera Quartus path variable                                       |
+| Set Intel Quartus path variable                                       |
 +------------------------------------------------------------------------+
 Setup of path successful!
  Set variables:

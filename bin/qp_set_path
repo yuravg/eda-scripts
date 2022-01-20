@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 #
-# Set Altera Quartus path variable
+# Set Intel Quartus path variable
 #  usage:
 #   qp_set_path                       - info (list Quartus install dir)
 #   qp_set_path /c/intelFPGA_pro/21.1 - set path to Quartus
 #
 
 echo "+------------------------------------------------------------------------+"
-echo "| Set Altera Quartus path variable                                       |"
+echo "| Set Intel Quartus path variable                                        |"
 echo "+------------------------------------------------------------------------+"
 
 # Function to set variable coupled to Quartus:
