@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Show Intel Nios II stack report
+
+# This script find and show Nios stack report.
+
+echo "Stack Report"
+find . -name *.elf -exec nios2-stackreport {} \;
+find . -name *.elf -exec nios2-elf-size.exe {} \;

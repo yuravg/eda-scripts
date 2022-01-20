@@ -207,6 +207,18 @@ Input parameters:
  Write file 'QIP_file_name'
 #+end_src
 
+*** qp_nios_stack_rpt
+
+Show Intel Nios II stack report
+
+#+begin_src shell-script
+$ qp_nios_stack_rpt
+Stack Report
+Info: (./cpu/app/project.elf) 68 KBytes program size (code + initialized data).
+    text     data    bss     dec      hex      filename
+    61768    400     8044    70212    11244    ./cpu/app/project.elf
+#+end_src
+
 *** qp_open
 
 Open Altera Quartus project

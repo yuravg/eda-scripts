@@ -17,6 +17,7 @@ Collection of scripts for EDA tools
 | [[file:bin/qp_jtag][qp_jtag]]           | Programming with Quartus Prime Programmer via JTAG     |
 | [[file:bin/qp_jtag_verify][qp_jtag_verify]]    | Verifying with Quartus Prime Programmer via JTAG       |
 | [[file:bin/qp_make_qip][qp_make_qip]]       | Make Quartus Prime QIP-file                            |
+| [[file:bin/qp_nios_stack_rpt][qp_nios_stack_rpt]] | Show Intel Nios II stack report                        |
 | [[file:bin/qp_open][qp_open]]           | Open Altera Quartus project                            |
 | [[file:bin/qp_report][qp_report]]         | Show Quartus Prime compilation report                  |
 | [[file:bin/qp_report_latches][qp_report_latches]] | Report about project latches from Quartus report files |
