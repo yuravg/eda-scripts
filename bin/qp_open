@@ -70,10 +70,15 @@ case "$num_revision" in
         ;;
 esac
 
-if [ ! -s "$revision_name" ]; then
-    echo "ERROR! You select non exist revision!"
+if [ ! -f "$revision_name" ]; then
+    echo "ERROR! You have selected a non-existent version!"
     echo_revisions
     exit 1
+fi
+
+if [ ! -s "$revision_name" ]; then
+    echo "Warning! You select an empty revision file!"
+    echo_revisions
 fi
 
 echo "open revision: $revision_name"
