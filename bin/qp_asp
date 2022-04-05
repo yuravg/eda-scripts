@@ -42,16 +42,13 @@ SCRIPT_NAME="${BASH_SOURCE##*/}"
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo "Usage:"
-    echo "  $SCRIPT_NAME [pof-file-name | pof-file-number] [-g]"
+    echo "  $SCRIPT_NAME [pof-file-name | pof-file-number]"
     echo ""
     echo "ARGS:"
     echo "    <pof-file-name>"
     echo "            File name for programming."
     echo "    <pof-file-number>"
     echo "            File number for programming."
-    echo "OPTIONS:"
-    echo "    -g"
-    echo "            Run 'wish_msg' at the end of programming."
     exit 0
 fi
 
@@ -99,7 +96,7 @@ select_file ()
     fi
 }
 
-if [ -n "$1" ] && [ "$1" != "-g" ]; then
+if [ -n "$1" ]; then
     if [ ! -s "$1" ]; then
         echo "ERROR! Can't find selected file: '$1'"
         exit 3
@@ -122,14 +119,6 @@ if [ "$RC" != 0 ]; then
     printf "${RED}Programming Error!${NORMAL}\n"
 else
     printf "${GREEN}Programming successful!${NORMAL}\n"
-fi
-
-if [ "$1" == '-g' ] || [ "$2" == '-g' ]; then
-    if [ "$RC" != 0 ]; then
-        wish_msg "End with ERROR!" "red" &
-    else
-        wish_msg "Programming done." &
-    fi
 fi
 
 exit "$RC"
