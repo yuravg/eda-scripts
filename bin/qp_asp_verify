@@ -39,9 +39,9 @@ if [ -z "$QP_CABLE_NAME" ]; then
     QP_CABLE_NAME="USB-Blaster[USB-0]"
 fi
 
-SCRIPT_NAME="${BASH_SOURCE##*/}"
+usage() {
+    SCRIPT_NAME="${BASH_SOURCE##*/}"
 
-if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo "Usage:"
     echo "  $SCRIPT_NAME [pof-file-name | pof-file-number]"
     echo ""
@@ -50,6 +50,10 @@ if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
     echo "            File name for verification."
     echo "    <pof-file-number>"
     echo "            File number for verification."
+}
+
+if [ "$#" -gt 1 ] || [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == '-help' ]; then
+    usage
     exit 0
 fi
 
