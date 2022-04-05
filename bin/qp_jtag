@@ -174,7 +174,7 @@ if [ -z "$FNAME" ]; then
 fi
 
 FTIME=$(date +%c -r "$FNAME")
-echo "File to Programming: $FNAME " "$FTIME"
+echo "File to Programming: $FNAME $FTIME"
 
 if [[ "$f_name" == *.jic ]]; then
     # Blank-checking device(s), Performing CRC verification on device(s)

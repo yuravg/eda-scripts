@@ -157,6 +157,6 @@ if [ -z "$FNAME" ]; then
 fi
 
 FTIME=$(date +%c -r "$FNAME")
-echo "Verification file: $FNAME " "$FTIME"
+echo "Verification file: $FNAME $FTIME"
 
 quartus_pgm -c "$CNAME" -m jtag -o v\;"$FNAME"
