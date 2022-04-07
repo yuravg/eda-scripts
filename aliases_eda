@@ -19,7 +19,7 @@ fi
 alias qp_jtag_info='eval jtagconfig --enum'
 alias qp_eclipse='eval eclipse-nios2 $RUN_BACKGROUND'
 alias qp_megawizard='eval qmegawizq $RUN_BACKGROUND'
-alias qp_prg='eval quartus_pgmw $RUN_BACKGROUND'
+alias qp_prgw='eval quartus_pgmw $RUN_BACKGROUND'
 alias qp_stp='eval quartus_stpw $RUN_BACKGROUND'
 
 alias mm='mg_make'
