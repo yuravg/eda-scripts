@@ -29,6 +29,14 @@ Collection of scripts for EDA tools
 | [[file:bin/qp_version][qp_version]]        | Show current Intel Quartus Prime version               |
 |-------------------+--------------------------------------------------------|
 
+*** Aliases
+[[file:aliases_eda][aliases_eda]]:
+- qp_eclipse - NIOSII Eclipce GUI
+- qp_jtag_info - JTAG Server Configuration
+- qp_megawizard - Quartus Prime MegaWizard GUI
+- qp_prgw - Quartus Prime Programmer GUI
+- qp_stp - Quartus Prime SignalTap GUI
+
 ** Mentor QuestaSim
 |-----------------+-----------------------------------------------------------------------|
 | File            | Description                                                           |
@@ -46,6 +54,11 @@ Collection of scripts for EDA tools
 | [[file:bin/wish_msg][wish_msg]]     | Make windows by wish(Tcl/Tk Simple windowing shell)     |
 | [[file:bin/wish_cmd][wish_cmd]]     | Show a command return code using GUI(wish_msg script)   |
 |--------------+---------------------------------------------------------|
+
+**** Aliases
+[[file:aliases_eda][aliases_eda]]:
+- wish_msg_err - TCL/TK 'Error' message
+- wish_msg_ok - TCL/TK 'Ok' message
 
 * Installation
 
