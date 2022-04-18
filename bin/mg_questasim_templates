@@ -1,0 +1,256 @@
+#!/usr/bin/env perl
+
+# Script to prepare templates for simulation using Mentor QuestaSim/ModelSim.
+#
+# This script write files:
+#  - Makefile
+#  - alias.do
+#  - prj_name_tb.sv
+#  - wave_prj_name_tb.do
+# which may be used for simulation.
+
+use v5.14;
+use File::Basename;
+
+sub help {
+    my $script_name = basename($0);
+    say "Usage:";
+    say "  $script_name [project-name] [end-time]";
+    say "ARGS:";
+    say "   <project-name>";
+    say "            Project name for simulation.";
+    say "   <end-time>";
+    say "            End of simulation time(1us, 2ms, etc)";
+}
+
+sub get_from_data_literal {
+    my $data = do { undef $/; <DATA>; };
+}
+
+sub scalar2arr {
+    my @arr = split /\n/, shift;
+}
+
+sub template_parser {
+    my @data = @_;
+    my @all_files = ();
+    my %file = ();
+    my @fdata = ();
+    local $" = "\n";            # list separator
+    foreach (@data) {
+        if (/FILE_NAME=(.*)/) {
+            if (defined $file{'fname'}) { # new File template
+                $file{'data'} = "@fdata";
+                my %new_file = %file;
+                push(@all_files, \%new_file);
+            }
+            $file{'fname'} = $1;
+            @fdata = ();
+        } else {
+            push @fdata, $_;
+        }
+    }
+    $file{'data'} = "@fdata";
+    push(@all_files, \%file);
+    return @all_files;
+}
+
+sub write2file {
+    my ($fname, @data) = @_;
+    if (-e $fname) {
+        print("Warning! File '$fname' already exist!\n");
+        $fname = $fname.-$$;
+    }
+    my $fh;
+    open($fh, ">", $fname) or die "Can't open file: '$fname'. $!\n";
+    print "Write file: $fname\n";
+    foreach (@data) {
+        print $fh $_;
+    }
+    close($fh);
+}
+
+sub replace_in_array {
+    my $rarr = shift;
+    my @mask = @_;
+
+    foreach my $i (@mask) {
+        my ($x, $y) = (@{$i}[0], @{$i}[1]);
+        foreach (@{$rarr}) {
+            s/$x/$y/;
+        }
+    }
+}
+
+{
+    if (@ARGV < 1 or @ARGV > 2) {
+        help();
+        exit;
+    }
+    my $prj_name = shift;
+    my $end_time = shift // '1us';
+    my $end2wave = ($end_time =~ s/([0-9]+)/$1 /r);
+    $end2wave =~ s/([0-9]+)/($1*1.05)/e;
+
+    my $rmask0 = ["PRJNAME", $prj_name];
+    my $rmask1 = ["ENDTIME", $end_time];
+    my $rmask2 = ["ENDINWAVE", $end2wave];
+
+    my $templates = get_from_data_literal;
+    my @templates = scalar2arr($templates);
+    replace_in_array(\@templates, $rmask0, $rmask1, $rmask2);
+    my @files = template_parser(@templates);
+    foreach (@files) {
+        my $href = $_;
+        my ($fname, @data) = ($href->{fname}, $href->{data});
+        write2file($fname, @data);
+    }
+}
+
+__DATA__
+FILE_NAME=alias.do
+alias run_PRJNAME {
+    make compile
+    make opt
+    vsim PRJNAME_tb_opt
+    view wave
+    do wave_PRJNAME_tb.do
+    run ENDTIME
+}
+
+alias h {
+    puts "User alases:"
+    help run_PRJNAME
+}
+
+puts "Add aliases:"
+puts "   h         - List of all user aliases"
+puts "   run_PRJNAME - Run simulation"
+
+FILE_NAME=wave_PRJNAME_tb.do
+onerror {resume}
+quietly WaveActivateNextPane {} 0
+# -----------------------------------------------------------------------------------------------
+
+add wave -noupdate -divider TB
+add wave /PRJNAME_tb/tb_status
+add wave -noupdate -radix hexadecimal /PRJNAME_tb/*
+
+# ----------------------------------------------------------------------------------------------
+quietly WaveActivateNextPane
+
+add wave -noupdate -divider DUT
+add wave -noupdate -radix hexadecimal /PRJNAME_tb/dut/*
+
+# -----------------------------------------------------------------------------------------------
+TreeUpdate [SetDefaultTree]
+WaveRestoreCursors {{Cursor 1} {1 us} 0}
+quietly wave cursor active 1
+configure wave -namecolwidth 179
+configure wave -valuecolwidth 60
+configure wave -justifyvalue left
+configure wave -signalnamewidth 1
+configure wave -snapdistance 10
+configure wave -datasetprefix 0
+configure wave -rowmargin 4
+configure wave -childrowmargin 2
+configure wave -gridoffset 0
+configure wave -gridperiod 1
+configure wave -griddelta 40
+configure wave -timeline 0
+configure wave -timelineunits ns
+update
+# End cotime = 105% simulation time
+WaveRestoreZoom {0 ps} {ENDINWAVE}
+
+FILE_NAME=Makefile
+
+MAKE = make --no-print-directory
+
+TIMESCALE ?= 1ns/1ps
+VLOG = vlog -incr -sv +acc -timescale $(TIMESCALE)
+VSIM_MODE ?= "-c"
+END_TIME_VSIM ?= ENDTIME
+
+DUT = PRJNAME
+
+.PHONY: h
+h:
+	@echo ""
+	@echo "Usage:  make [target(s)]"
+	@echo "where target is any of:"
+	@echo ""
+	@echo "  all         - compilation, optimization, simulation DUT project"
+	@echo "  rall        - run 'clean' and 'all' target"
+	@echo "  compile_rtl - compile all rtl"
+	@echo "  compile_tb  - compile all testbench"
+	@echo "  compile     - compile all rtl and testbench"
+	@echo "  opt         - optimization project"
+	@echo "  sim         - run simulation project (in 'VSIM_MODE' - variable)"
+	@echo "  clean       - clean local"
+	@echo ""
+
+.PHONY: compile_rtl compile_tb compile opt sim sim_cmd sim_gui all rall clean
+
+LIBS =
+RTL = ../
+
+compile_rtl:
+	$(VLOG) $(LIBS) $(RTL)/PRJNAME.sv
+
+compile_tb:
+	$(VLOG) ./$(DUT)_tb.sv
+
+compile:
+	$(MAKE) compile_rtl
+	$(MAKE) compile_tb
+
+opt:
+	@vopt $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt
+
+sim:
+	@-if [ "$(VSIM_MODE)" = "-c" ]; then \
+		$(MAKE) sim_cmd;                 \
+	  else                               \
+		$(MAKE) sim_gui;                 \
+	  fi
+
+sim_cmd:
+	vsim -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
+
+sim_gui:
+	vsim $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM); exit" &
+
+all:
+	$(MAKE) compile
+	$(MAKE) opt
+	$(MAKE) sim
+
+rall:
+	$(MAKE) clean
+	$(MAKE) all
+
+clean:
+	@echo "Clean ..."
+	@rm -rf *~ work *.wlf* questa.tops transcript *.vstf wlft??????
+
+FILE_NAME=PRJNAME_tb.sv
+module PRJNAME_tb;
+
+string tb_status = "IDLE";
+
+PRJNAME dut(.*);
+
+`define CLK125 8ns
+initial begin
+	clk = 0;
+	forever #(`CLK125/2) clk = ~clk;
+end
+
+initial begin
+	rst = 1;
+	repeat (10) @(posedge clk);
+	rst = 0;
+end
+
+endmodule
