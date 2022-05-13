@@ -434,3 +434,13 @@ $ qp_build && wish_msg_ok || wish_msg_err
 # or
 $ wish_cmd qp_build
 #+end_src
+
+*** wopen
+
+Open GTKWave (with custom configuration)
+
+#+begin_src shell-script
+$ wopen
+# or
+$ wopen dump.vcd
+#+end_src

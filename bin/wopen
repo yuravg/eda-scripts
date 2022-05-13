@@ -1,0 +1,59 @@
+#!/usr/bin/env tclsh
+
+# Open GTKWave
+#
+# This script launches GTKWave with the custom command script(gtkwave_cfg.tcl),
+# searches for and opens a VCD-file in the directory from which it was launched.
+
+proc usage {} {
+    set scriptName [file tail [info script]]
+    puts "Usage:"
+    puts "       $scriptName \[vcd-fname\]"
+    puts ""
+    puts "OPTIONS:"
+    puts "    vcd-fname"
+    puts "            Name of a vcd-file."
+}
+
+set arg0 [lindex $argv 0]
+if {[string compare $arg0 "-h"] == 0} {
+    usage
+    exit 0
+} elseif {[string compare $arg0 "--help"] == 0} {
+    usage
+    exit 0
+}
+
+set dumpFname 0
+if {$argc == 1} {
+    set dumpFname [lindex $argv 0]
+    if {![file exists $dumpFname]} {
+        puts "ERROR! Can't find file $dumpFname!"
+        exit 1
+    }
+}
+
+if {$dumpFname == 0} {
+    if {[catch {glob -type f *.vcd} resultVar]} {
+        puts "ERROR! Can't find dump file!"
+        puts stderr $resultVar
+        exit 1
+    }
+    set vcdFlist [glob -type f *.vcd]
+    set num_vcd [llength $vcdFlist]
+
+    if {$num_vcd != 1} {
+        puts "ERROR! There must be only one vcd-file in the directory!"
+        puts "Find file(s): $vcdFlist"
+        puts ""
+        usage
+        exit 1
+    } else {
+        set dumpFname [lindex $vcdFlist 0]
+    }
+}
+
+set script_path [file dirname [file normalize [info script]]]
+
+catch {exec gtkwave -S ${script_path}/gtkwave_cfg.tcl $dumpFname} resultVar
+puts $resultVar

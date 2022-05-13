@@ -52,8 +52,9 @@ Collection of scripts for EDA tools
 |--------------+---------------------------------------------------------|
 | [[file:aliases_eda][aliases_eda]]  | Aliases for 'EDA-scripts'                               |
 | [[file:bin/del_eda_temp][del_eda_temp]] | Deleting temporary EDA files from the current directory |
-| [[file:bin/wish_msg][wish_msg]]     | Make windows by wish(Tcl/Tk Simple windowing shell)     |
 | [[file:bin/wish_cmd][wish_cmd]]     | Show a command return code using GUI(wish_msg script)   |
+| [[file:bin/wish_msg][wish_msg]]     | Make windows by wish(Tcl/Tk Simple windowing shell)     |
+| [[file:bin/wopen][wopen]]        | Open GTKWave(with custom configuration [[file:bin/gtkwave_cfg.tcl][gtkwave_cfg.tcl]]) |
 |--------------+---------------------------------------------------------|
 
 **** Aliases
