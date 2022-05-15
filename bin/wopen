@@ -57,3 +57,11 @@ set script_path [file dirname [file normalize [info script]]]
 
 catch {exec gtkwave -S ${script_path}/gtkwave_cfg.tcl $dumpFname} resultVar
 puts $resultVar
+
+# FIXME: ERROR at Fedora Linux 35, x86_64, 5.17.6-200.fc35.x86_64:
+# This script does not work and crashes during opening with errors:
+# gtkwave: /opt/altera/19.1/quartus/linux64/liblzma.so.5: no version information available (required by gtkwave)
+# gtkwave: /opt/altera/19.1/quartus/linux64/liblzma.so.5: no version information available (required by /lib64/libxml2.so.2)
+# gtkwave: /opt/altera/19.1/quartus/linux64/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by /lib64/libicuuc.so.69)
+# gtkwave: /opt/altera/19.1/quartus/linux64/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by /lib64/libicui18n.so.69)
+# gtkwave: /opt/altera/19.1/quartus/linux64/liblzma.so.5: no version information available (required by /lib64/libsystemd.so.0)
