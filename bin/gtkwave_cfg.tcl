@@ -49,7 +49,7 @@ puts "Num signals added: $numCnt"
 
 
 # * Zoom full
-gtkwave::/View/Scale_To_Time_Dimension/ns
+# gtkwave::/View/Scale_To_Time_Dimension/ns
 gtkwave::/Time/Zoom/Zoom_Full
 
 
