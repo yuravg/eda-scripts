@@ -88,6 +88,10 @@ sub replace_in_array {
         exit;
     }
     my $prj_name = shift;
+    if ($prj_name =~ /-h|--help/) {
+        help();
+        exit;
+    }
     my $end_time = shift // '1us';
     my $end2wave = ($end_time =~ s/([0-9]+)/$1 /r);
     $end2wave =~ s/([0-9]+)/($1*1.05)/e;
