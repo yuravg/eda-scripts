@@ -35,7 +35,8 @@ for {set i 0} {$i < $numFacility} {incr i} {
     set splitName [split $fullName "."]
     set facIndex [expr [llength $splitName] - 1]
     set facName [lindex $splitName $facIndex]
-    set instanceName [string trimright $fullName ".$facName"]
+    set facNameLenght [string length $facName]
+    set instanceName [string range $fullName 0 end-[expr $facNameLenght+1]]
     # Insert instance name
     if {[string compare $curretInstName $instanceName] != 0} {
         set curretInstName $instanceName
