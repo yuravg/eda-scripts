@@ -73,9 +73,9 @@ sub write2file {
 
 sub replace_in_array {
     my $rarr = shift;
-    my @mask = @_;
+    my $rmask = shift;
 
-    foreach my $i (@mask) {
+    foreach my $i (@{$rmask}) {
         my ($x, $y) = (@{$i}[0], @{$i}[1]);
         foreach (@{$rarr}) {
             s/$x/$y/;
@@ -85,6 +85,7 @@ sub replace_in_array {
 
 {
     do {help(); exit} if (@ARGV < 1 or @ARGV > 2);
+    # Get input arguments
 
     my $end_time = undef;
     my $prj_name = undef;
@@ -100,16 +101,20 @@ sub replace_in_array {
     $end_time = '1us' unless defined $end_time;
     print "Project-name: $prj_name; End-time: $end_time;\n";
 
+    # Prepare templates
     my $end2wave = ($end_time =~ s/([0-9]+)/$1 /r);
     $end2wave =~ s/([0-9]+)/($1*1.05)/e;
 
-    my $rmask0 = ["PRJNAME", $prj_name];
-    my $rmask1 = ["ENDTIME", $end_time];
-    my $rmask2 = ["ENDINWAVE", $end2wave];
+    my @mask = ();
+    push(@mask, ["PRJNAME", $prj_name]);
+    push(@mask, ["ENDTIME", $end_time]);
+    push(@mask, ["ENDINWAVE", $end2wave]);
 
     my $templates = get_from_data_literal;
     my @templates = scalar2arr($templates);
-    replace_in_array(\@templates, $rmask0, $rmask1, $rmask2);
+    replace_in_array(\@templates, \@mask);
+
+    # Write template files
     my @files = template_parser(@templates);
     foreach (@files) {
         my $href = $_;
