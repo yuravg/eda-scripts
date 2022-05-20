@@ -15,13 +15,15 @@ use File::Basename;
 sub help {
     my $script_name = basename($0);
     say "Usage:";
-    say "  $script_name [project-name] [end-time]";
+    say "  $script_name [project-name] [end-time] [-a]";
     say "ARGS:";
     say "   <project-name>";
     say "            Project name for simulation.";
     say "OPRIONS:";
     say "   end-time";
     say "            End of simulation time(1us, 2ms, etc).";
+    say "   -a";
+    say "            Add support SystemVerilog Assertion to templates."
 }
 
 sub get_from_data_literal {
@@ -84,28 +86,39 @@ sub replace_in_array {
 }
 
 {
-    do {help(); exit} if (@ARGV < 1 or @ARGV > 2);
     # Get input arguments
+    do {help(); exit} if (@ARGV < 1 or @ARGV > 3);
 
     my $end_time = undef;
     my $prj_name = undef;
+    my $sva_req = 0;
 
     while (@ARGV) {
         $_ = shift;
         if (/^[a-zA-Z]\w+$/) {$prj_name = $_; next};
         if (/^[0-9]+(.[0-9]+)?[fpnum]?s$/) {$end_time = $_; next};
+        if (/^[0-9]+\ws$/) {$end_time = $_; next};
+        if (/^-a$/) {$sva_req = 1; next};
         if (/^(-h|--help)$/) {help(); exit};
         do {say "ERROR! Unknown argument: $_"; help(); exit}
     }
     do {help(); exit} unless defined $prj_name;
     $end_time = '1us' unless defined $end_time;
-    print "Project-name: $prj_name; End-time: $end_time;\n";
+    print "Project-name: $prj_name; End-time: $end_time; SVA: $sva_req;\n";
 
     # Prepare templates
     my $end2wave = ($end_time =~ s/([0-9]+)/$1 /r);
     $end2wave =~ s/([0-9]+)/($1*1.05)/e;
 
     my @mask = ();
+    if ($sva_req) {
+        push(@mask, ["1ns/1ps",
+                     "1ns/1ps -assertdebug"]);
+        push(@mask, ["VSIM_OPTIONS =",
+                     "VSIM_OPTIONS = -msgmode both -assertdebug -immedassert -psl -sva"]);
+        push(@mask, ["vsim PRJNAME_tb_opt",
+                     "vsim PRJNAME_tb_opt -msgmode both -assertdebug -immedassert -psl -sva"]);
+    }
     push(@mask, ["PRJNAME", $prj_name]);
     push(@mask, ["ENDTIME", $end_time]);
     push(@mask, ["ENDINWAVE", $end2wave]);
