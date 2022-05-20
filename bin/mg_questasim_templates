@@ -92,8 +92,9 @@ sub replace_in_array {
     while (@ARGV) {
         $_ = shift;
         if (/^[a-zA-Z]\w+$/) {$prj_name = $_; next};
-        if (/^[0-9]+\ws$/) {$end_time = $_; next};
+        if (/^[0-9]+(.[0-9]+)?[fpnum]?s$/) {$end_time = $_; next};
         if (/^(-h|--help)$/) {help(); exit};
+        do {say "ERROR! Unknown argument: $_"; help(); exit}
     }
     do {help(); exit} unless defined $prj_name;
     $end_time = '1us' unless defined $end_time;
