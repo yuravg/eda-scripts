@@ -5,6 +5,8 @@
 # This script launches GTKWave with the custom command script(gtkwave_cfg.tcl),
 # searches for and opens a VCD-file in the directory from which it was launched.
 
+#  Time-stamp: <2022-07-07 09:20:21>
+
 SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
 if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "Usage:"
@@ -46,3 +48,10 @@ fi
 
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 gtkwave -S "$PATH2SCRIPT"/gtkwave_cfg.tcl "$FNAME"
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

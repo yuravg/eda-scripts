@@ -1,5 +1,7 @@
 #!/usr/bin/env wish
 
+#  Time-stamp: <2022-07-07 09:20:10>
+
 # Make windows by wish(Tcl/Tk Simple windowing shell)
 #
 #     +---------------------------------------+
@@ -66,3 +68,10 @@ if {$argc > 3} {
 }
 pack $lTimeEnd
 pack $bExit -pady {0 5}
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

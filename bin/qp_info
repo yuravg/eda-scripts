@@ -2,6 +2,8 @@
 
 # Show information about Quartus Prime project
 
+#  Time-stamp: <2022-07-07 09:19:25>
+
 qp_prj_info() {
     PRJ=$(ls ./*.qpf 2>/dev/null)
 
@@ -78,3 +80,10 @@ fi
 
 qp_prj_info
 qp_revision_info
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

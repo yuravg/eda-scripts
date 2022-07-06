@@ -6,6 +6,8 @@
 #    $1 - replay for question(yes or no)
 #
 
+#  Time-stamp: <2022-07-07 09:18:46>
+
 read_yesno () {
     while :
     do
@@ -144,3 +146,10 @@ rm -rf  xlnx_auto_0_xdb
 rm -rf  xst
 
 echo "Cleaning complete."
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

@@ -8,6 +8,8 @@
 #  - run System Console Tcl desktop script 'system_console_rc.tcl' from project directory(if it
 #    exist); looking for initial script at project directory or 'system console' subdirectory.
 
+#  Time-stamp: <2022-07-07 09:20:01>
+
 system_console="$QUARTUS_ROOTDIR/sopc_builder/bin/system-console"
 
 if ! hash $system_console 2>/dev/null; then
@@ -24,3 +26,10 @@ elif [ -s "$desk_src_name2" ]; then
 fi
 
 $system_console --project_dir=$(pwd) "$desk_src_arg" &
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

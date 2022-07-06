@@ -9,6 +9,8 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
+#  Time-stamp: <2022-07-07 09:19:06>
+
 use v5.14;
 use File::Basename;
 
@@ -41,6 +43,9 @@ sub template_parser {
     my @fdata = ();
     local $" = "\n";            # list separator
     foreach (@data) {
+        if (/__END__/) {
+            last;
+        }
         if (/FILE_NAME=(.*)/) {
             if (defined $file{'fname'}) { # new File template
                 $file{'data'} = "@fdata";
@@ -284,3 +289,12 @@ initial begin
 end
 
 endmodule
+
+__END__
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

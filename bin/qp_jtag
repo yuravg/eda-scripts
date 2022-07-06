@@ -11,6 +11,8 @@
 # TODO: add handler for error: Error (213019): Can't scan JTAG chain. Error code 87.
 # for example latch command: 'jtagconfig.exe'
 
+#  Time-stamp: <2022-07-07 09:19:28>
+
 echo "+------------------------------------------------------------------------+"
 echo "|  Quartus Prime Programmer ( JTAG )                                     |"
 echo "+------------------------------------------------------------------------+"
@@ -195,3 +197,10 @@ else
 fi
 
 exit "$RC"
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

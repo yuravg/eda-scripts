@@ -2,6 +2,8 @@
 
 # Show Quartus Prime compilation report
 
+#  Time-stamp: <2022-07-07 09:19:44>
+
 if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "Usage:"
     echo "  ${BASH_SOURCE##*/} [revision-file-number]"
@@ -374,3 +376,10 @@ fi
 # fi
 
 # echo "CMD_FLAGS: $CMD_FLAGS"
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

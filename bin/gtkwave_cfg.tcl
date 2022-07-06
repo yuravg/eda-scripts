@@ -14,6 +14,7 @@
 #  Print to PDF
 #  Notes on toggle menu items
 
+#  Time-stamp: <2022-07-07 09:18:56>
 
 # * Customize view settings
 # Show full signal hierarchy
@@ -96,3 +97,10 @@ gtkwave::/Time/Zoom/Zoom_Full
 # gtkwave::/View/Scale_To_Time_Dimension/ns
 # gtkwave::/View/Scale_To_Time_Dimension/ps
 # gtkwave::/View/Scale_To_Time_Dimension/fs
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

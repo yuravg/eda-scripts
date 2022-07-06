@@ -7,6 +7,8 @@
 # and build it.
 #
 
+#  Time-stamp: <2022-07-07 09:19:21>
+
 echo "+------------------------------------------------------------------------+"
 echo "|  Build Quartus Prime project                                           |"
 echo "+------------------------------------------------------------------------+"
@@ -132,3 +134,10 @@ if [ "$EN_WISH_MSG" -eq 1 ]; then
 fi
 
 exit 0
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

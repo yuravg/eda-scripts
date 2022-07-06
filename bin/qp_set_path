@@ -7,6 +7,8 @@
 #   qp_set_path /c/intelFPGA_pro/21.1 - set path to Quartus
 #
 
+#  Time-stamp: <2022-07-07 09:19:53>
+
 echo "+------------------------------------------------------------------------+"
 echo "| Set Intel Quartus path variable                                        |"
 echo "+------------------------------------------------------------------------+"
@@ -103,3 +105,10 @@ else
     echo "  $quartus_sopc_bin_dir"
     echo "  $nios2_bin_dir"
 fi
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

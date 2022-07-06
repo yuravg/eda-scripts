@@ -5,6 +5,8 @@
 # This script simplify Quartus Prime report file to show user assignment pins only or sort pins
 # by group: user, power, ground, other
 
+#  Time-stamp: <2022-07-07 09:19:50>
+
 use v5.14;
 
 use File::Basename;
@@ -155,3 +157,10 @@ say $fh_out @nc;
 
 close($fh_in);
 close($fh_out);
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

@@ -6,6 +6,8 @@
 # This script look for Intel Quartus Prime project file (qpf) and opens one of the revisions.
 #
 
+#  Time-stamp: <2022-07-07 09:19:41>
+
 echo "+------------------------------------------------------------------------+"
 echo "|  Open quartus project                                                  |"
 echo "+------------------------------------------------------------------------+"
@@ -84,3 +86,10 @@ fi
 echo "open revision: $revision_name"
 
 quartus "$project" -c "$revision_name" &
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

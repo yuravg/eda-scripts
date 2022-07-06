@@ -4,6 +4,8 @@
 # Show current Intel Quartus Prime version
 #
 
+#  Time-stamp: <2022-07-07 09:20:04>
+
 SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
 if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
     echo "Usage:"
@@ -48,3 +50,10 @@ qp_variables(){
 
 qp_path_info
 qp_variables
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

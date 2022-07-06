@@ -2,6 +2,8 @@
 
 # Make Quartus Prime QIP-file
 
+#  Time-stamp: <2022-07-07 09:19:35>
+
 puts "+------------------------------------------------------------------------+"
 puts "| Make Quartus Prime Qip-file                                            |"
 puts "+------------------------------------------------------------------------+"
@@ -106,3 +108,10 @@ close $p_file
 puts "----------------------------------"
 puts " Find $cnt files"
 puts " Write file '$file_name'"
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

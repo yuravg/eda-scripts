@@ -1,4 +1,7 @@
 #-*- mode: makefile -*-
+
+# Time-stamp: <2022-07-07 09:21:13>
+
 # -----------------------------------------------------------------------------------------------
 # Make-file to run Mentor Graphics QuestaSim/ModelSim targets
 # -----------------------------------------------------------------------------------------------
@@ -118,3 +121,10 @@ variables:
 	@echo "VSIM_MODE  = $(VSIM_MODE)"
 	@echo "PARAMETERS = $(PARAMETERS)"
 	@echo "VLOG       = $(VLOG)"
+
+# This is for the sake of Emacs.
+# Local Variables:
+# time-stamp-end: "$"
+# time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+# time-stamp-start: "Time-stamp: "
+# End:

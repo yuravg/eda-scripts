@@ -2,6 +2,8 @@
 
 # Report about project latches from Quartus report files
 
+#  Time-stamp: <2022-07-07 09:19:47>
+
 if hash rg 2>/dev/null; then
     CMD=rg
     CMD_FLAGS="-Hn"
@@ -12,3 +14,10 @@ fi
 
 $CMD $CMD_FLAGS -e " latch " *.rpt 2>/dev/null
 $CMD $CMD_FLAGS -e " latch " output_files/*.rpt 2>/dev/null
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:

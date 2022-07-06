@@ -4,5 +4,14 @@
 # Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets
 #
 
+#  Time-stamp: <2022-07-07 09:20:47>
+
 PATH2SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 make -f "$PATH2SCRIPT"/Makefile.questa $* PATH2SCRIPT="$PATH2SCRIPT"
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:
