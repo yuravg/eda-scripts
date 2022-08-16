@@ -30,6 +30,15 @@ export QP_CABLE_NAME=USB-Blaster[USB-0]
 alias qp_cable_name_set='export QP_CABLE_NAME=USB-Blaster[USB-0]'
 alias qp_cable_name_unset='unset QP_CABLE_NAME'
 
+# * Mentor
+
+# ** QuestaSim
+if [ "$(uname)" = Linux ]; then
+    alias rvsim='vsim $(pwd) &'
+else
+    alias rvsim='questasim &'
+fi
+
 # * Wish messages
 alias wish_msg_err="wish_msg Error red"
 alias wish_msg_ok="wish_msg Ok green"
