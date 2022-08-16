@@ -1,5 +1,7 @@
 # -*- mode: shell-script -*-
 
+# Time-stamp: <2022-08-16 14:33:15>
+
 # Aliases for 'EDA-scripts'
 #
 # Usage:
@@ -42,3 +44,10 @@ fi
 # * Wish messages
 alias wish_msg_err="wish_msg Error red"
 alias wish_msg_ok="wish_msg Ok green"
+
+# This is for the sake of Emacs.
+# Local Variables:
+# time-stamp-end: "$"
+# time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+# time-stamp-start: "Time-stamp: "
+# End:
