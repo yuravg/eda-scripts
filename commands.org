@@ -393,12 +393,16 @@ Show current Intel Quartus Prime version
 
 #+begin_src shell-script
 $ qp_version
-Current Quartus Prime version:
+,* Quartus Prime (Standard/Pro) version:
 Version 20.1.0 Build 711 06/05/2020 SJ Standard Edition
-Variables:
+,* Variables:
 QUARTUS_ROOTDIR_OVERRIDE: /c/intelFPGA/20.1/quartus
 Quaruts prime shell:      /c/intelFPGA/20.1/quartus/bin64/quartus_sh
 Nios:                     /c/intelFPGA/20.1/quartus/../nios2eds
+,* JTAG Server:
+Version 20.1.0 Build 711 06/05/2020 SJ Standard Edition
+Path:      c:\intelFPGA\20.1\quartus\bin64\jtagserver.exe
+Status:    Server is running; Remote clients are disabled
 #+end_src
 
 ** Mentor QuestaSim

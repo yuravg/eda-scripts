@@ -4,7 +4,7 @@
 # Show current Intel Quartus Prime version
 #
 
-#  Time-stamp: <2022-10-21 11:39:03>
+#  Time-stamp: <2022-10-21 11:40:29>
 
 SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
 if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
@@ -48,8 +48,21 @@ qp_variables() {
 
 }
 
+qp_jtagserver_version() {
+    echo "* JTAG Server:"
+    JS_VERSION=$(jtagserver --version 2>/dev/null | grep Ver)
+    JS_PATH=$(jtagserver --status 2>/dev/null | sed -r "s/[^']*//; s/'//g")
+    JS_STATUS=$(jtagserver --status 2>/dev/null | grep -i "^\s*server" | sed -r "s/^\s+//")
+    JS_CLIENT=$(jtagserver --status 2>/dev/null | grep -i "client" | sed -r "s/^\s+//")
+
+    echo "$JS_VERSION"
+    echo "Path:      $JS_PATH"
+    echo "Status:    $JS_STATUS; $JS_CLIENT"
+}
+
 qp_path_info
 qp_variables
+qp_jtagserver_version
 
 #  This is for the sake of Emacs.
 #  Local Variables:
