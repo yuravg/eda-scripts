@@ -4,7 +4,7 @@
 # Show current Intel Quartus Prime version
 #
 
-#  Time-stamp: <2022-07-07 09:20:04>
+#  Time-stamp: <2022-10-21 11:39:03>
 
 SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
 if [ "$1" = '-h' ] || [ "$1" = '--help' ]; then
@@ -24,18 +24,18 @@ else
 fi
 
 qp_path_info() {
-    PATH2QP=$(quartus_sh --version 2>/dev/null|grep Ver)
+    PATH2QP=$(quartus_sh --version 2>/dev/null | grep Ver)
     if [ -z "$PATH2QP" ]; then
         echo "WARNING! Can not find path to Quartus Prime!"
     else
-        echo "Current Quartus Prime version:"
+        echo "* Quartus Prime (Standard/Pro) version:"
         echo "$PATH2QP"
     fi
 }
 
-qp_variables(){
-    echo "Variables:"
-    PATH2QP=$(type quartus_sh | sed 's/.*\s*is\s*//')
+qp_variables() {
+    echo "* Variables:"
+    PATH2QP=$(type quartus_sh | sed -r 's/.+is\s+//')
 
     echo "QUARTUS_ROOTDIR_OVERRIDE: $QUARTUS_ROOTDIR_OVERRIDE"
     echo "Quaruts prime shell:      $PATH2QP"
