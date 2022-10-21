@@ -2,7 +2,18 @@
 
 # Show information about Quartus Prime project
 
-#  Time-stamp: <2022-07-07 09:19:25>
+#  Time-stamp: <2022-10-21 15:49:13>
+
+usage() {
+    SCRIPT_NAME="${BASH_SOURCE##*/}"
+    echo "Usage:"
+    echo "  $SCRIPT_NAME"
+}
+
+if [ "$#" -gt 0 ]; then
+    usage
+    exit 0
+fi
 
 qp_prj_info() {
     PRJ=$(ls ./*.qpf 2>/dev/null)
