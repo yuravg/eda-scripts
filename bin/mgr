@@ -1,0 +1,178 @@
+#!/usr/bin/env perl
+
+# Script to run Mentor QuestaSim/ModelSim commands.
+
+#  Time-stamp: <2022-10-26 11:11:33>
+
+use v5.12;
+
+use File::Basename;
+
+sub help {
+    my $script_name = basename($0);
+    say "Usage:";
+    say "  $script_name [vlog] [vsim] [crpt] [chtml] [copen]";
+    say "                   [fname] [ucdb-fname]";
+    say "                   [-c|--coverage] [-h|--help]";
+    say "ARGS:";
+    say "    <vlog>";
+    say "            Run QuestaSim compilation.";
+    say "    <vsim>";
+    say "            Run QuestaSim simulation.";
+    say "    <crpt>";
+    say "            Show QuestaSim coverage database report.";
+    say "    <chtml>";
+    say "            Make QuestaSim coverage database html-report.";
+    say "    <copen>";
+    say "            Open QuestaSim coverage database.";
+    say "    <fname>";
+    say "            File to compilation.";
+    say "    <ucdb-fname>";
+    say "            Coverage database name (file: *.ucdb).";
+    say "OPTIONS:";
+    say "    -c|--coverage";
+    say "            Enable coverage.";
+    exit;
+}
+
+{
+    do {help(); exit} if (@ARGV < 1 or @ARGV > 8);
+
+    my $src_fname = undef;
+    my $ucdb_fname = undef;
+    my $coverage = undef;
+
+    my $task = {
+        vlog => 0,
+        vsim => 0,
+        crpt => 0,
+        chtml => 0,
+        copen => 0,
+       };
+
+    while (@ARGV) {
+        $_ = shift;
+        if (/^(\w+).s?v$/) {$src_fname = $_; next}
+        if (/^(\w+).ucdb$/) {$ucdb_fname = $_; next}
+        if (/^vlog$/) {$task->{vlog} = 1; next}
+        if (/^vsim$/) {$task->{vsim} = 1; next}
+        if (/^crpt$/) {$task->{crpt} = 1; next}
+        if (/^chtml$/) {$task->{chtml} = 1; next}
+        if (/^copen$/) {$task->{copen} = 1; next}
+        if (/^-c|--coverage$/) {$coverage = 1; next}
+        if (/^(-h|--help)$/) {help(); exit}
+        do {say "ERROR! Unknown argument/option: $_"; help(); exit}
+    }
+
+    my $task_exist = 0;
+    foreach my $key (keys %{$task}) {
+        # print("$key => $task->{$key}\n");
+        if ($task->{$key}) {
+            $task_exist = 1;
+            last;
+        }
+    }
+
+    unless ($task_exist) {
+        print("ERROR! Undefined command!\n");
+        help();
+        exit;
+    }
+
+    if ($task->{vlog}) {
+        check_file($src_fname);
+        vlog($src_fname, $coverage);
+    }
+    if ($task->{vsim}) {
+        check_file($src_fname);
+        vsim($src_fname, $coverage);
+    }
+    if ($task->{crpt}) {
+        $ucdb_fname = get_db_file() unless $ucdb_fname;
+        check_file($ucdb_fname);
+        cover_report($ucdb_fname);
+    }
+    if ($task->{chtml}) {
+        $ucdb_fname = get_db_file() unless $ucdb_fname;
+        check_file($ucdb_fname);
+        make_cover_html($ucdb_fname);
+    }
+    if ($task->{copen}) {
+        $ucdb_fname = get_db_file() unless $ucdb_fname;
+        check_file($ucdb_fname);
+        cover_open($ucdb_fname);
+    }
+}
+
+sub check_file {
+    my $fname = shift;
+    die "ERROR! Can't open file: $fname. $!\n" unless -e $fname;
+}
+
+sub get_db_file {
+    my $fname;
+    unless (-e $fname) {
+        my @files = glob("./*.ucdb");
+        if (@files == 0) {
+            die "Can't find coverage database (*.ucdb)!"
+        }
+        if (@files > 1) {
+            print("Error! Should have only one coverage database, or set path to it!\n");
+            die "Should set path to coverage database!"
+        }
+        $fname = $files[0];
+    }
+    return $fname;
+}
+
+sub run_cmd {
+    my $cmd = shift;
+    print("$cmd\n");
+    system($cmd);
+}
+
+sub vlog {
+    my ($fname, $coverage) = @_;
+    my $vlog_cover = "";
+    if ($coverage =~ 1) {
+        $vlog_cover=" +cover=f";
+    }
+    run_cmd("vlog -incr$vlog_cover -lint -sv +acc -timescale 1ns/1ps -quiet -mfcu $fname");
+}
+
+sub vsim {
+    my ($fname, $coverage) = @_;
+    my $vlog_cover = "";
+    my $cover_db = "";
+    my $cover_do_cmd = "";
+    (my $prj_name = $fname) =~ s/(\w+).sv/$1/;
+    if ($coverage =~ 1) {
+        $vlog_cover =" +cover=f";
+        # $vlog_cover="+cover=sbceftx";
+        $cover_db = "test.ucdb";
+        $cover_do_cmd = "coverage save $cover_db -onexit; ";
+    }
+    run_cmd("vsim${vlog_cover} -c $prj_name -do \"${cover_do_cmd}run -all; quit\"");
+}
+
+sub cover_open {
+    my ($db_name) = shift;
+    run_cmd("vsim -cvgperinstance -viewcov $db_name");
+}
+
+sub cover_report {
+    my ($db_name) = shift;
+    run_cmd("vcover report -details $db_name");
+}
+
+sub make_cover_html {
+    my ($db_name) = shift;
+    run_cmd("vcover report -details $db_name -html");
+}
+
+#  This is for the sake of Emacs.
+#  Local Variables:
+#  time-stamp-end: "$"
+#  time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+#  time-stamp-start: "Time-stamp: "
+#  End:
