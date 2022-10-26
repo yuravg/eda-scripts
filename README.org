@@ -38,13 +38,14 @@ Collection of scripts for EDA tools
 - qp_stp - Quartus Prime SignalTap GUI
 
 ** Mentor QuestaSim
-|------------------------+-----------------------------------------------------------------------------|
-| File                   | Description                                                                 |
-|------------------------+-----------------------------------------------------------------------------|
-| [[file:bin/Makefile.questa][Makefile.questa]]        | Make-file to run Mentor Graphics QuestaSim/ModelSim targets                 |
-| [[file:bin/mg_make][mg_make]]                | Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets       |
-| [[file:bin/mg_questasim_templates][mg_questasim_templates]] | Script to prepare templates for simulation using Mentor QuestaSim/ModelSim. |
-|------------------------+-----------------------------------------------------------------------------|
+|------------------------+----------------------------------------------------------------------------|
+| File                   | Description                                                                |
+|------------------------+----------------------------------------------------------------------------|
+| [[file:bin/Makefile.questa][Makefile.questa]]        | Make-file to run Mentor Graphics QuestaSim/ModelSim targets                |
+| [[file:bin/mg_make][mg_make]]                | Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets      |
+| [[file:bin/mg_questasim_templates][mg_questasim_templates]] | Script to prepare templates for simulation using Mentor QuestaSim/ModelSim |
+| [[file:bin/mgr][mgr]]                    | Run Mentor QuestaSim/ModelSim commands                                     |
+|------------------------+----------------------------------------------------------------------------|
 
 ** Unsorted commands
 |--------------+---------------------------------------------------------|

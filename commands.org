@@ -407,6 +407,8 @@ Status:    Server is running; Remote clients are disabled
 
 ** Mentor QuestaSim
 
+*** mg_questasim_templates
+
 Prepare templates for simulation using Mentor QuestaSim/ModelSim.
 
 #+begin_src shell-script
@@ -415,6 +417,22 @@ Write file: alias.do
 Write file: wave_prj_name_tb.do
 Write file: Makefile
 Write file: prj_name_tb.sv
+#+end_src
+
+*** mgr
+
+Run Mentor QuestaSim/ModelSim commands
+
+Run compilation
+
+#+begin_src shell-script
+$ mgr src.sv vlog
+#+end_src
+
+Run compilation, simulation, show coverage report
+
+#+begin_src shell-script
+$ mgr src.sv -c vlog vsim crpt
 #+end_src
 
 ** Unsorted commands
