@@ -2,7 +2,7 @@
 
 # Script to run Mentor QuestaSim/ModelSim commands.
 
-#  Time-stamp: <2022-10-26 11:11:33>
+#  Time-stamp: <2022-10-26 16:18:34>
 
 use v5.12;
 
@@ -12,8 +12,8 @@ sub help {
     my $script_name = basename($0);
     say "Usage:";
     say "  $script_name [vlog] [vsim] [crpt] [chtml] [copen]";
-    say "                   [fname] [ucdb-fname]";
-    say "                   [-c|--coverage] [-h|--help]";
+    say "             [fname] [ucdb-fname]";
+    say "             [-c|--coverage] [-o<fname>|-o=<fname>] [-h|--help]";
     say "ARGS:";
     say "    <vlog>";
     say "            Run QuestaSim compilation.";
@@ -32,6 +32,9 @@ sub help {
     say "OPTIONS:";
     say "    -c|--coverage";
     say "            Enable coverage.";
+    say "    -o<fname>|-o=<fname>";
+    say "            Output coverage database (file: *.ucdb),";
+    say "            for vsim only.";
     exit;
 }
 
@@ -40,6 +43,7 @@ sub help {
 
     my $src_fname = undef;
     my $ucdb_fname = undef;
+    my $out_ucdb_fname = undef;
     my $coverage = undef;
 
     my $task = {
@@ -60,6 +64,7 @@ sub help {
         if (/^chtml$/) {$task->{chtml} = 1; next}
         if (/^copen$/) {$task->{copen} = 1; next}
         if (/^-c|--coverage$/) {$coverage = 1; next}
+        if (/^-o[=]?(\w+.ucdb)$/) {$out_ucdb_fname = $1; next}
         if (/^(-h|--help)$/) {help(); exit}
         do {say "ERROR! Unknown argument/option: $_"; help(); exit}
     }
@@ -85,7 +90,7 @@ sub help {
     }
     if ($task->{vsim}) {
         check_file($src_fname);
-        vsim($src_fname, $coverage);
+        vsim($src_fname, $coverage, $out_ucdb_fname);
     }
     if ($task->{crpt}) {
         $ucdb_fname = get_db_file() unless $ucdb_fname;
@@ -141,16 +146,15 @@ sub vlog {
 }
 
 sub vsim {
-    my ($fname, $coverage) = @_;
+    my ($fname, $coverage, $db_fname) = @_;
     my $vlog_cover = "";
-    my $cover_db = "";
     my $cover_do_cmd = "";
     (my $prj_name = $fname) =~ s/(\w+).sv/$1/;
     if ($coverage =~ 1) {
         $vlog_cover =" +cover=f";
         # $vlog_cover="+cover=sbceftx";
-        $cover_db = "test.ucdb";
-        $cover_do_cmd = "coverage save $cover_db -onexit; ";
+        $db_fname = "test.ucdb" unless $db_fname;
+        $cover_do_cmd = "coverage save $db_fname -onexit; ";
     }
     run_cmd("vsim${vlog_cover} -c $prj_name -do \"${cover_do_cmd}run -all; quit\"");
 }
