@@ -9,7 +9,7 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
-#  Time-stamp: <2022-07-11 09:51:02>
+#  Time-stamp: <2022-10-31 10:06:50>
 
 use v5.14;
 use File::Basename;
@@ -70,7 +70,7 @@ sub write2file {
         $fname = $fname.-$$;
     }
     my $fh;
-    open($fh, ">", $fname) or die "Can't open file: '$fname'. $!\n";
+    open($fh, ">", $fname) or die "Can't open file: '$fname' to write. $!\n";
     print "Write file: $fname\n";
     foreach (@data) {
         print $fh $_;
