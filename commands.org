@@ -419,20 +419,21 @@ Write file: Makefile
 Write file: prj_name_tb.sv
 #+end_src
 
-*** mgr
+*** rmc
 
 Run Mentor QuestaSim/ModelSim commands
 
 Run compilation
 
 #+begin_src shell-script
-$ mgr src.sv vlog
+$ rmc src.sv vlog
+$ rmc vlog vsim src2.sv
 #+end_src
 
 Run compilation, simulation, show coverage report
 
 #+begin_src shell-script
-$ mgr src.sv -c vlog vsim crpt
+$ rmc src.sv -c vlog vsim crpt
 #+end_src
 
 ** Unsorted commands
