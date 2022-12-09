@@ -6,7 +6,7 @@
 #    $1 - replay for question(yes or no)
 #
 
-#  Time-stamp: <2022-07-07 09:18:46>
+#  Time-stamp: <2022-12-09 11:12:07>
 
 read_yesno () {
     while :
@@ -69,6 +69,7 @@ rm -rf  *.summary
 rm -rf  *.tcl~
 rm -rf  *INFO.txt
 rm -rf  *_log.txt
+rm -rf  .qsys_edit/
 rm -rf  instal*.ptf
 rm -rf  wlft*.
 rm -rf *.sld
