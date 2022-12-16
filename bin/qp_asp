@@ -6,7 +6,7 @@
 # This script launches Intel Quartus Prime Programmer to program 'pof' file via ASP. The 'pof'
 # file is searched for in the current directory or given as an argument.
 
-#  Time-stamp: <2022-07-07 09:19:13>
+#  Time-stamp: <2022-12-16 10:50:45>
 
 echo "+------------------------------------------------------------------------+"
 echo "|  Quartus Prime Programmer (ASP) programming                            |"
@@ -89,9 +89,9 @@ get_cable_name () {
     CNAME="${cable_arr[$index]}"
 }
 
-ARG1=$(echo "$1" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
-ARG2=$(echo "$2" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
-ARG3=$(echo "$3" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
+ARG1=$(echo "$1" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
+ARG2=$(echo "$2" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
+ARG3=$(echo "$3" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
 
 if [ -n "$ARG1" ]; then
     get_cable_name "$ARG1"

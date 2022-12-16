@@ -11,7 +11,7 @@
 # TODO: add handler for error: Error (213019): Can't scan JTAG chain. Error code 87.
 # for example latch command: 'jtagconfig.exe'
 
-#  Time-stamp: <2022-07-07 09:19:32>
+#  Time-stamp: <2022-12-16 10:49:29>
 
 echo "+------------------------------------------------------------------------+"
 echo "|  Quartus Prime Programmer ( JTAG )                                     |"
@@ -93,8 +93,8 @@ get_cable_name () {
     CNAME="${cable_arr[$index]}"
 }
 
-ARG1=$(echo "$1" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
-ARG2=$(echo "$2" | sed -n "s/-\(c=\)\?\([0-9]\)/\2/ p")
+ARG1=$(echo "$1" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
+ARG2=$(echo "$2" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
 
 if [ -n "$ARG1" ]; then
     get_cable_name "$ARG1"
