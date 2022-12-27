@@ -1,0 +1,7 @@
+# This file has my personal configuration for QuestaSim
+#
+# Part of QuestaSim configuration file "~/.modelsim"
+#
+
+PrefDefault = waveFont {{Liberation Sans} 12 normal roman} inactive_bg #e0e0e0 disabled_fg #7fff7fff7fff treeFontV2 {{Liberation Sans} 14} sb_width 11 menuFontV2 {{Liberation Sans} 14} light1_bg #e665e665e665 dark1_bg #999999999999 textFontV2 {{Courier 10 Pitch} 14} menuFont {{Liberation Sans} 12 normal roman} footerFont {{Liberation Sans} 12 normal roman} waveFontV2 {{Liberation Sans} 14} treeFont {{Liberation Sans} 12 normal roman} footerFontV2 {{Liberation Sans} 14} troughcolor #bfffbfffbfff light1_fg #7fff7fff7fff dark1_fg #3fff3fff3fff fixedFontV2 {{Courier 10 Pitch} 14}
+PrefWave = displayfreq 0 displaycommas 0 waveBackground Gray10 gridColor Gray20
