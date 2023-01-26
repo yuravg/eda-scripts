@@ -405,6 +405,19 @@ Path:      c:\intelFPGA\20.1\quartus\bin64\jtagserver.exe
 Status:    Server is running; Remote clients are disabled
 #+end_src
 
+*** NOTE: Change path to Quartus JTAG server
+
+#+begin_src shell-script
+# 1. Remove JTAG server
+jtagserver --uninstall
+# 2. Check status
+$ jtagserver --status  # the returned string should be: "JTAG Server not installed"
+# 3. Install JTAG server
+<Path2QuartusBinDir>jtagserver --install
+# 4. Start JTAG sever
+jtagserver --start
+#+end_src
+
 ** Mentor QuestaSim
 
 *** mg_questasim_templates
