@@ -1,6 +1,6 @@
 # -*- mode: shell-script -*-
 
-# Time-stamp: <2022-08-16 14:33:15>
+# Time-stamp: <2023-03-10 10:32:01>
 
 # Aliases for 'EDA-scripts'
 #
@@ -35,6 +35,8 @@ alias qp_cable_name_unset='unset QP_CABLE_NAME'
 # * Mentor
 
 # ** QuestaSim
+alias vsim='vsim +UVM_NO_RELNOTES'
+
 if [ "$(uname)" = Linux ]; then
     alias rvsim='vsim $(pwd) &'
 else
