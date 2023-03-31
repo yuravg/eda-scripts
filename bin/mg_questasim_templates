@@ -9,7 +9,7 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
-#  Time-stamp: <2022-11-18 09:12:57>
+#  Time-stamp: <2023-03-31 09:29:20>
 
 use v5.14;
 use File::Basename;
@@ -275,6 +275,9 @@ FILE_NAME=PRJNAME_tb.sv
 module PRJNAME_tb;
 
 string tb_status = "IDLE";
+
+logic clk;
+logic rst;
 
 PRJNAME dut(.*);
 
