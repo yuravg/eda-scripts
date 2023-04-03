@@ -9,7 +9,7 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
-#  Time-stamp: <2023-03-31 09:29:20>
+#  Time-stamp: <2023-04-03 13:37:10>
 
 use v5.14;
 use File::Basename;
@@ -272,9 +272,13 @@ clean:
 	@rm -rf *~ work *.wlf* questa.tops transcript *.vstf wlft??????
 
 FILE_NAME=PRJNAME_tb.sv
+`define MSG(msg) \
+	tb_status = msg; \
+	$display("%0t, %s", $time, msg);
+
 module PRJNAME_tb;
 
-string tb_status = "IDLE";
+string tb_status;
 
 logic clk;
 logic rst;
@@ -289,8 +293,10 @@ end
 
 initial begin
 	rst = 1;
+	`MSG("Reset")
 	repeat (10) @(posedge clk);
 	rst = 0;
+	`MSG("Idle")
 end
 
 endmodule
