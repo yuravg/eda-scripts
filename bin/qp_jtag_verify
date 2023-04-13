@@ -11,7 +11,7 @@
 # TODO: add handler for error: Error (213019): Can't scan JTAG chain. Error code 87.
 # for example latch command: 'jtagconfig.exe'
 
-#  Time-stamp: <2022-12-16 10:49:29>
+#  Time-stamp: <2023-04-13 12:14:21>
 
 echo "+------------------------------------------------------------------------+"
 echo "|  Quartus Prime Programmer ( JTAG )                                     |"
@@ -162,6 +162,18 @@ FTIME=$(date +%c -r "$FNAME")
 echo "Verification file: $FNAME $FTIME"
 
 quartus_pgm -c "$CNAME" -m jtag -o v\;"$FNAME"
+
+RC=$?
+RED="\e[31m\e[1m"
+GREEN="\e[32m\e[1m"
+NORMAL="\e[0m"
+if [ "$RC" != 0 ]; then
+    printf "${RED}Verification failed!${NORMAL}\n"
+else
+    printf "${GREEN}Verification successful!${NORMAL}\n"
+fi
+
+exit "$RC"
 
 #  This is for the sake of Emacs.
 #  Local Variables:
