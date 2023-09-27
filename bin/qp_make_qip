@@ -2,7 +2,7 @@
 
 # Make Quartus Prime QIP-file
 
-#  Time-stamp: <2022-07-07 09:19:35>
+#  Time-stamp: <2023-09-27 15:05:09>
 
 puts "+------------------------------------------------------------------------+"
 puts "| Make Quartus Prime Qip-file                                            |"
@@ -57,10 +57,13 @@ set cnt 0
 
 proc find {path pattern key_word} {
     foreach i [glob -nocomplain $path/$pattern] {
-        puts $::p_file "set_global_assignment -name $key_word \[file join \$::quartus(qip_path) \"$i\"\]"
-        puts "$i\t\t$key_word"
-        global cnt
-        incr cnt
+        global file_name
+        if {"./$file_name" ne $i} {
+            puts $::p_file "set_global_assignment -name $key_word \[file join \$::quartus(qip_path) \"$i\"\]"
+            puts "$i\t\t$key_word"
+            global cnt
+            incr cnt
+        }
     }
 }
 
