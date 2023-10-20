@@ -2,9 +2,12 @@
 MAKE = make --no-print-directory
 
 QUIET_OPTION = -quiet
-VLOG_OPTIONS = -incr -sv +acc -timescale 1ns/1ps $(QUIET_OPTION)
-VSIM_OPTIONS =
-VLOG = vlog $(VLOG_OPTIONS)
+SCHEMATIC_OP = -debugdb
+
+VLOG = vlog -incr -sv +acc -timescale 1ns/1ps $(QUIET_OPTION)
+VOPT = vopt $(SCHEMATIC_OP) $(QUIET_OPTION)
+VSIM = vsim $(QUIET_OPTION)
+
 VSIM_MODE ?= "-c"
 END_TIME_VSIM ?= 1us
 
@@ -42,7 +45,7 @@ compile:
 	$(MAKE) compile_tb
 
 opt:
-	@vopt $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt $(QUIET_OPTION)
+	$(VOPT) $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt
 
 sim:
 	@-if [ "$(VSIM_MODE)" = "-c" ]; then \
@@ -52,11 +55,10 @@ sim:
 	  fi
 
 sim_cmd:
-	vsim $(VSIM_OPTIONS) -c $(DUT)_tb_opt $(QUIET_OPTION) -do "run $(END_TIME_VSIM); exit"
+	$(VSIM) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
 
 sim_gui:
-	vsim $(VSIM_OPTIONS) $(DUT)_tb_opt $(QUIET_OPTION) \
-		-do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM)" &
+	$(VSIM) $(SCHEMATIC_OP) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM)" &
 
 all:
 	$(MAKE) compile

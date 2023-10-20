@@ -1,6 +1,13 @@
+`define MSG(msg) \
+	tb_status = msg; \
+	$display("%0t, %s", $time, msg);
+
 module example1_tb;
 
-string tb_status = "IDLE";
+string tb_status;
+
+logic clk;
+logic rst;
 
 example1 dut(.*);
 
@@ -12,8 +19,10 @@ end
 
 initial begin
 	rst = 1;
+	`MSG("Reset")
 	repeat (10) @(posedge clk);
 	rst = 0;
+	`MSG("Idle")
 end
 
 endmodule
