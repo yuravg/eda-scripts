@@ -1,6 +1,6 @@
 # -*- mode: shell-script -*-
 
-# Time-stamp: <2023-03-10 10:32:01>
+# Time-stamp: <2023-10-27 15:08:59>
 
 # Aliases for 'EDA-scripts'
 #
@@ -42,6 +42,8 @@ if [ "$(uname)" = Linux ]; then
 else
     alias rvsim='questasim &'
 fi
+
+alias vsim_run='vsim -c -do "run -all; quit"'
 
 # * Wish messages
 alias wish_msg_err="wish_msg Error red"
