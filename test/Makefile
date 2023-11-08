@@ -6,12 +6,18 @@ SCHEMATIC_OP = -debugdb
 
 VLOG = vlog -incr -sv +acc -timescale 1ns/1ps $(QUIET_OPTION)
 VOPT = vopt $(SCHEMATIC_OP) $(QUIET_OPTION)
-VSIM = vsim $(QUIET_OPTION)
-
-VSIM_MODE ?= "-c"
-END_TIME_VSIM ?= 1us
 
 DUT = example1
+
+END_TIME_VSIM ?= 1us
+
+VSIM_MODE ?= "-c"
+ifeq ("$(VSIM_MODE)","-c")
+  VSIM =vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
+else
+  VSIM =vsim $(QUIET_OPTION) $(SCHEMATIC_OP) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM)" &
+endif
+
 
 .PHONY: h
 h:
@@ -25,7 +31,7 @@ h:
 	@echo "  compile_tb  - compile all testbench"
 	@echo "  compile     - compile all rtl and testbench"
 	@echo "  opt         - optimization project"
-	@echo "  sim         - run simulation project (in 'VSIM_MODE' - variable)"
+	@echo "  sim         - run simulation project (set VSIM_MODE=-c to Command line mode)"
 	@echo "  clean       - remove derived files"
 	@echo ""
 
@@ -48,17 +54,7 @@ opt:
 	$(VOPT) $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt
 
 sim:
-	@-if [ "$(VSIM_MODE)" = "-c" ]; then \
-		$(MAKE) sim_cmd;                 \
-	  else                               \
-		$(MAKE) sim_gui;                 \
-	  fi
-
-sim_cmd:
-	$(VSIM) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
-
-sim_gui:
-	$(VSIM) $(SCHEMATIC_OP) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM)" &
+	$(VSIM)
 
 all:
 	$(MAKE) compile
