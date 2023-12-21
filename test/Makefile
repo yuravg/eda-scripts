@@ -6,20 +6,15 @@ SCHEMATIC_OP = -debugdb
 
 VLOG = vlog -incr -sv +acc -timescale 1ns/1ps $(QUIET_OPTION)
 VOPT = vopt $(SCHEMATIC_OP) $(QUIET_OPTION)
-
-DUT = example1
-
 END_TIME_VSIM ?= 1us
-
 VSIM_MODE ?= "-c"
-ifeq ("$(VSIM_MODE)","-c")
+ifeq ($(VSIM_MODE),"-c")
   VSIM =vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
 else
   VSIM =vsim $(QUIET_OPTION) $(SCHEMATIC_OP) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM)" &
 endif
 
-
-.PHONY: h
+.PHONY: h compile_rtl compile_tb compile opt sim all rall clean
 h:
 	@echo ""
 	@echo "Usage:  make [target(s)]"
@@ -35,8 +30,7 @@ h:
 	@echo "  clean       - remove derived files"
 	@echo ""
 
-.PHONY: compile_rtl compile_tb compile opt sim sim_cmd sim_gui all rall clean
-
+DUT = example1
 LIBS =
 RTL = ../
 
