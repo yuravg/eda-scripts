@@ -9,7 +9,7 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
-#  Time-stamp: <2023-11-08 16:08:38>
+#  Time-stamp: <2023-12-21 15:43:41>
 
 use v5.14;
 use File::Basename;
@@ -212,7 +212,7 @@ DUT = PRJNAME
 END_TIME_VSIM ?= ENDTIME
 
 VSIM_MODE ?= "-c"
-ifeq ("$(VSIM_MODE)","-c")
+ifeq ($(VSIM_MODE),"-c")
   VSIM =vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
 else
   VSIM =vsim $(QUIET_OPTION) $(SCHEMATIC_OP) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM)" &
