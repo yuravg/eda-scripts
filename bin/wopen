@@ -2,10 +2,11 @@
 
 # Open GTKWave
 #
-# This script launches GTKWave with the custom command script(gtkwave_cfg.tcl),
-# searches for and opens a VCD-file in the directory from which it was launched.
+# This script launches GTKWave with the custom command script(gtkwave_cfg.tcl).
+# The script searches for and opens a VCD-file in the directory from which it was launched or
+# gets dump-file name as parameter.
 
-#  Time-stamp: <2022-07-07 09:20:21>
+#  Time-stamp: <2023-12-22 13:37:04>
 
 SCRIPT_NAME=$(basename "${BASH_SOURCE##*/}")
 if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
@@ -15,6 +16,7 @@ if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
     echo "OPTIONS:"
     echo "    vcd-fname"
     echo "            Name of a vcd-file."
+    echo "            By default open local *.vcd file if only one file exist."
     exit 0
 fi
 
