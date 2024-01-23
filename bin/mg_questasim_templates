@@ -9,7 +9,7 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
-#  Time-stamp: <2023-12-21 16:15:13>
+#  Time-stamp: <2024-01-23 12:04:53>
 
 use v5.14;
 use File::Basename;
@@ -206,8 +206,9 @@ SCHEMATIC_OP = -debugdb
 
 VLOG = vlog -incr -sv +acc -timescale 1ns/1ps $(QUIET_OPTION)
 VOPT = vopt $(SCHEMATIC_OP) $(QUIET_OPTION)
-END_TIME_VSIM ?= ENDTIME
+
 VSIM_MODE ?= "-c"
+END_TIME_VSIM ?= ENDTIME
 ifeq ($(VSIM_MODE),"-c")
   VSIM =vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
 else
