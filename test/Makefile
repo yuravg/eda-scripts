@@ -6,8 +6,9 @@ SCHEMATIC_OP = -debugdb
 
 VLOG = vlog -incr -sv +acc -timescale 1ns/1ps $(QUIET_OPTION)
 VOPT = vopt $(SCHEMATIC_OP) $(QUIET_OPTION)
-END_TIME_VSIM ?= 1us
+
 VSIM_MODE ?= "-c"
+END_TIME_VSIM ?= 1us
 ifeq ($(VSIM_MODE),"-c")
   VSIM =vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
 else
