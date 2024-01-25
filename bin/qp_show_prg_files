@@ -2,7 +2,7 @@
 
 # Show list of Quartus Prime program files
 
-#  Time-stamp: <2022-07-07 09:19:56>
+#  Time-stamp: <2024-01-25 11:31:13>
 
 SCRIPT_NAME="${BASH_SOURCE##*/}"
 if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
@@ -49,7 +49,11 @@ for i in `ls $OUTDIR 2>/dev/null | grep -e '.*\.\(sof\|pof\|jic\)$'`; do
     echo "$FILE :  $TIMESTAMP";
 
     if [ "$VERBOSITY" -eq 1 ]; then
-        strings "$FILE" 2>/dev/null | head -2
+        if [[ "$FILE" =~ .*jic ]]; then
+            strings "$FILE" 2>/dev/null | (head -2 && tail -1)
+        else
+            strings "$FILE" 2>/dev/null | head -2
+        fi
     fi
 
     if [ "$MD5SUM" -eq 1 ]; then
