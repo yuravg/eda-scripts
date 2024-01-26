@@ -11,7 +11,7 @@
 # TODO: add handler for error: Error (213019): Can't scan JTAG chain. Error code 87.
 # for example latch command: 'jtagconfig.exe'
 
-#  Time-stamp: <2022-12-16 10:48:49>
+#  Time-stamp: <2024-01-26 16:09:17>
 
 echo "+------------------------------------------------------------------------+"
 echo "|  Quartus Prime Programmer ( JTAG )                                     |"
@@ -47,9 +47,11 @@ usage() {
     echo "            File name for programming."
     echo "OPTIONS:"
     echo "    -1..9|-c=1..9"
-    echo "            Cable index from 'jtagconfig'."
+    echo "            Cable index from 'jtagconfig' (or qp_jtag_info script)."
     echo "    -a|--auto"
     echo "            Automatic programming start if only one file is find."
+    echo "    -v|--verbosity"
+    echo "            Enable verbosity output message."
     echo "Examples:"
     echo "  $SCRIPT_NAME"
     echo "  $SCRIPT_NAME path/project.sof"
@@ -97,6 +99,7 @@ get_cable_name () {
 ARG1=$(echo "$1" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
 ARG2=$(echo "$2" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
 ARG3=$(echo "$3" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
+ARG4=$(echo "$4" | sed -n "s/^-\(c=\)\?\([0-9]\{1,2\}\)$/\2/ p")
 
 if [ -n "$ARG1" ]; then
     get_cable_name "$ARG1"
@@ -104,6 +107,8 @@ elif [ -n "$ARG2" ]; then
     get_cable_name "$ARG2"
 elif [ -n "$ARG3" ]; then
     get_cable_name "$ARG3"
+elif [ -n "$ARG4" ]; then
+    get_cable_name "$ARG4"
 elif [ -n "$QP_CABLE_NAME" ]; then
     CNAME="$QP_CABLE_NAME"
 fi
@@ -120,6 +125,8 @@ if [ "$#" -eq 1 ] || [ "$#" -eq 2 ]; then
         FNAME="$FNAME_ARG2"
     elif [ -s "$3" ]; then
         FNAME="$FNAME_ARG3"
+    elif [ -s "$4" ]; then
+        FNAME="$FNAME_ARG4"
     fi
 fi
 
@@ -159,7 +166,8 @@ get_file_name () {
 AUTOPGM=0
 if [ "$1" = "-a" ] || [ "$1" = "--auto" ] \
        || [ "$2" = "-a" ] || [ "$2" = "--auto" ] \
-       || [ "$3" = "-a" ] || [ "$3" = "--auto" ]; then
+       || [ "$3" = "-a" ] || [ "$3" = "--auto" ] \
+       || [ "$4" = "-a" ] || [ "$4" = "--auto" ]; then
     AUTOPGM=1
 fi
 
@@ -175,9 +183,27 @@ if [ -z "$FNAME" ]; then
     fi
 fi
 
+# Verbosity
+VERBOSITY=0
+if [ "$1" = "-v" ] || [ "$1" = "--verbosity" ] \
+       || [ "$2" = "-v" ] || [ "$2" = "--verbosity" ] \
+       || [ "$3" = "-v" ] || [ "$3" = "--verbosity" ] \
+       || [ "$4" = "-v" ] || [ "$4" = "--verbosity" ]; then
+    VERBOSITY=1
+fi
+
 FTIME=$(date +%c -r "$FNAME")
 echo "File: $FNAME ($FTIME)"
 echo "Started Programmer operation ..."
+
+if [ "$VERBOSITY" -eq 1 ]; then
+    if [[ "$f_name" == *.jic ]]; then
+        # Blank-checking device(s), Performing CRC verification on device(s)
+        echo quartus_pgm -c "$CNAME" -m jtag -o pvbi\;"$FNAME"
+    else
+        echo quartus_pgm -c "$CNAME" -m jtag -o p\;"$FNAME"
+    fi
+fi
 
 if [[ "$f_name" == *.jic ]]; then
     # Blank-checking device(s), Performing CRC verification on device(s)
