@@ -5,8 +5,12 @@
 #
 # This script launches Intel Quartus Prime Programmer to verifying EPCS/EPC via ASP. The 'pof'
 # file is searched for in the current directory or given as an argument.
+#
+# NOTE: if there is a need to choose the cable name then for greater speed you should use
+#       setting the environment variable QP_CABLE_NAME instead of set cable index because to get
+#       index is used command 'jtagconfig' which will took for a awhile
 
-#  Time-stamp: <2022-12-16 10:50:21>
+#  Time-stamp: <2024-01-29 10:46:22>
 
 echo "+------------------------------------------------------------------------+"
 echo "|  Quartus Prime Programmer ( ASP ) verification                         |"

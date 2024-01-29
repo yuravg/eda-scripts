@@ -10,8 +10,12 @@
 #
 # TODO: add handler for error: Error (213019): Can't scan JTAG chain. Error code 87.
 # for example latch command: 'jtagconfig.exe'
+#
+# NOTE: if there is a need to choose the cable name then for greater speed you should use
+#       setting the environment variable QP_CABLE_NAME instead of set cable index because to get
+#       index is used command 'jtagconfig' which will took for a awhile
 
-#  Time-stamp: <2023-04-13 12:14:21>
+#  Time-stamp: <2024-01-29 10:46:54>
 
 echo "+------------------------------------------------------------------------+"
 echo "|  Quartus Prime Programmer ( JTAG )                                     |"
