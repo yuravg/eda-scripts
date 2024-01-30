@@ -2,17 +2,17 @@
 MAKE = make --no-print-directory
 
 QUIET_OPTION = -quiet
-SCHEMATIC_OP = -debugdb
+SCHEMATIC_OPTION = -debugdb
 
 VLOG = vlog -incr -sv +acc -timescale 1ns/1ps $(QUIET_OPTION)
-VOPT = vopt $(SCHEMATIC_OP) $(QUIET_OPTION)
+VOPT = vopt $(SCHEMATIC_OPTION) $(QUIET_OPTION)
 
 VSIM_MODE ?= "-c"
 END_TIME_VSIM ?= 1us
 ifeq ($(VSIM_MODE),"-c")
   VSIM =vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
 else
-  VSIM =vsim $(QUIET_OPTION) $(SCHEMATIC_OP) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM)" &
+  VSIM =vsim $(QUIET_OPTION) $(SCHEMATIC_OPTION) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM); -onfinish stop" &
 endif
 
 .PHONY: h compile_rtl compile_tb compile opt sim all rall clean
@@ -36,30 +36,34 @@ LIBS =
 RTL = ../
 
 compile_rtl:
-	$(VLOG) $(LIBS) $(RTL)/$(DUT).sv
+	@echo "Compiling the RTL..."
+	@$(VLOG) $(LIBS) $(RTL)/$(DUT).sv
 
 compile_tb:
-	$(VLOG) ./$(DUT)_tb.sv
+	@echo "Compiling the TB..."
+	@$(VLOG) ./$(DUT)_tb.sv
 
 compile:
-	$(MAKE) compile_rtl
-	$(MAKE) compile_tb
+	@$(MAKE) compile_rtl
+	@$(MAKE) compile_tb
 
-opt:
-	$(VOPT) $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt
+opt@:
+	@echo "Optimizing the TB..."
+	@$(VOPT) $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt
 
-sim:
-	$(VSIM)
+sim@:
+	@echo "Running simulation..."
+	@$(VSIM)
 
 all:
-	$(MAKE) compile
-	$(MAKE) opt
-	$(MAKE) sim
+	@$(MAKE) compile
+	@$(MAKE) opt
+	@$(MAKE) sim
 
 rall:
-	$(MAKE) clean
-	$(MAKE) all
+	@$(MAKE) clean
+	@$(MAKE) all
 
 clean:
-	@echo "Clean ..."
+	@echo "Cleaning derived files..."
 	@rm -rf *~ work *.wlf* questa.tops transcript *.vstf wlft??????
