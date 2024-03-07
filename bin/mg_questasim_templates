@@ -9,7 +9,7 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
-#  Time-stamp: <2024-02-05 16:34:23>
+#  Time-stamp: <2024-03-07 11:47:59>
 
 use v5.14;
 use File::Basename;
@@ -236,32 +236,36 @@ LIBS =
 RTL = ../
 
 compile_rtl:
-	$(VLOG) $(LIBS) $(RTL)/$(DUT).sv
+	@echo "Compiling the RTL..."
+	@$(VLOG) $(LIBS) $(RTL)/$(DUT).sv
 
 compile_tb:
-	$(VLOG) ./$(DUT)_tb.sv
+	@echo "Compiling the TB..."
+	@$(VLOG) ./$(DUT)_tb.sv
 
 compile:
-	$(MAKE) compile_rtl
-	$(MAKE) compile_tb
+	@$(MAKE) compile_rtl
+	@$(MAKE) compile_tb
 
-opt:
-	$(VOPT) $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt
+opt@:
+	@echo "Optimizing the TB..."
+	@$(VOPT) $(DUT)_tb $(LIBS) -o $(DUT)_tb_opt
 
-sim:
-	$(VSIM)
+sim@:
+	@echo "Running simulation..."
+	@$(VSIM)
 
 all:
-	$(MAKE) compile
-	$(MAKE) opt
-	$(MAKE) sim
+	@$(MAKE) compile
+	@$(MAKE) opt
+	@$(MAKE) sim
 
 rall:
-	$(MAKE) clean
-	$(MAKE) all
+	@$(MAKE) clean
+	@$(MAKE) all
 
 clean:
-	@echo "Clean ..."
+	@echo "Cleaning derived files..."
 	@rm -rf *~ work *.wlf* questa.tops transcript *.vstf wlft??????
 
 FILE_NAME=PRJNAME_tb.sv
