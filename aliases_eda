@@ -35,8 +35,6 @@ alias qp_cable_name_unset='unset QP_CABLE_NAME'
 # * Mentor
 
 # ** QuestaSim
-alias vsim='vsim +UVM_NO_RELNOTES'
-
 if [ "$(uname)" = Linux ]; then
     alias rvsim='vsim $(pwd) &'
 else
