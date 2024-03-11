@@ -9,11 +9,10 @@ VOPT = vopt $(SCHEMATIC_OPTION) $(QUIET_OPTION)
 
 VSIM_MODE ?= "-c"
 END_TIME_VSIM ?= 1us
-ifeq ($(VSIM_MODE),"-c")
-  VSIM =vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit"
-else
-  VSIM =vsim $(QUIET_OPTION) $(SCHEMATIC_OPTION) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM); -onfinish stop" &
-endif
+
+VSIM = $(if $(findstring -c,$(VSIM_MODE)),\
+vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit",\
+vsim $(QUIET_OPTION) $(SCHEMATIC_OPTION) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM); -onfinish stop" &)
 
 .PHONY: h compile_rtl compile_tb compile opt sim all rall clean
 h:
