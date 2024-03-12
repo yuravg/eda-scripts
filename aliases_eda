@@ -1,6 +1,6 @@
 # -*- mode: shell-script -*-
 
-# Time-stamp: <2024-03-11 20:16:21>
+# Time-stamp: <2024-03-19 10:21:20>
 
 # Aliases for 'EDA-scripts'
 #
@@ -43,7 +43,16 @@ fi
 
 alias vsim_run='vsim -c -do "run -all; quit"'
 
+# *** Make-file opstions
+# Saving names for easy access using CLI autocomplete
+#
+# vlog, vopt, vsim option:
+export QUIET_OPTION="-quiet"
+# UVM message verbosity:
+export UVM_MSG="UVM_LOW"
+
 # ** Color QuestaSim (colorquestasim)
+# Saving the name for easy access using CLI autocomplete
 export COLORQUESTASIM="on"
 
 # * Wish messages
