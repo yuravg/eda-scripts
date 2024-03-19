@@ -8,10 +8,9 @@ alias run_example1 {
 }
 
 alias h {
-    puts "User alases:"
-    help run_example1
+    echo "   h                   - List of all user's aliases"
+    echo "   run_example1 - Run simulation"
 }
 
-puts "Add aliases:"
-puts "   h         - List of all user's aliases"
-puts "   run_example1 - Run simulation"
+echo "Added user aliases:"
+h
