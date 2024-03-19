@@ -9,7 +9,7 @@
 #  - wave_prj_name_tb.do
 # which may be used for simulation.
 
-#  Time-stamp: <2024-03-12 10:30:19>
+#  Time-stamp: <2024-03-19 11:10:15>
 
 use v5.14;
 use File::Basename;
@@ -153,13 +153,12 @@ alias run_PRJNAME {
 }
 
 alias h {
-    puts "User alases:"
-    help run_PRJNAME
+    echo "   h                   - List of all user's aliases"
+    echo "   run_PRJNAME - Run simulation"
 }
 
-puts "Add aliases:"
-puts "   h         - List of all user's aliases"
-puts "   run_PRJNAME - Run simulation"
+echo "Added user aliases:"
+h
 
 FILE_NAME=wave_PRJNAME_tb.do
 onerror {resume}
