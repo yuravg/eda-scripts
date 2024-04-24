@@ -12,7 +12,7 @@ END_TIME_VSIM ?= 1us
 
 VSIM = $(if $(findstring -c,$(VSIM_MODE)),\
 vsim $(QUIET_OPTION) -c $(DUT)_tb_opt -do "run $(END_TIME_VSIM); exit",\
-vsim $(QUIET_OPTION) $(SCHEMATIC_OPTION) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; run $(END_TIME_VSIM); -onfinish stop" &)
+vsim $(QUIET_OPTION) $(SCHEMATIC_OPTION) $(DUT)_tb_opt -do "source ./wave_$(DUT)_tb.do; onfinish stop; run $(END_TIME_VSIM); wave zoom full;" &)
 
 .PHONY: h compile_rtl compile_tb compile opt sim all rall clean
 h:

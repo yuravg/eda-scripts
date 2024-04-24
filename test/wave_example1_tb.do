@@ -32,3 +32,4 @@ configure wave -timelineunits ns
 update
 # End cotime = 105% simulation time
 WaveRestoreZoom {0 ps} {1.05 us}
+wave zoom full
