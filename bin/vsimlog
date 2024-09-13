@@ -1,0 +1,183 @@
+#!/usr/bin/perl -w
+
+# This script parses ModelSim/QuestaSim simulation log files (with or without UVM)
+
+use warnings;
+use strict;
+use Getopt::Long qw(Configure GetOptions);
+use File::Basename qw(basename);
+
+# Define the script version
+our $VERSION = '1.0';
+
+# Command-line option variables
+my %options;
+$options{version}          = 0;
+$options{help}             = 0;
+$options{verbose}          = 0;
+$options{input}            = [];
+$options{all_files}        = 0;
+$options{disable}          = 0;
+$options{disable_uvm_pars} = 0;
+$options{show_uvm_summary} = 0;
+$options{list_only}        = 0;
+
+Configure('bundling');
+GetOptions(
+    \%options,
+    'version|V',
+    'help|h',
+    'verbose|v',
+    'input|i=s',
+    'all-files|a', => \$options{all_files},
+    'disable|d',
+    'parsoff|D',   => \$options{disable_uvm_pars},
+    'summary|s'    => \$options{show_uvm_summary},
+    'list|l',      => \$options{list_only},
+   ) or die "Invalid options!\n";
+
+my $path = '.';
+# Masks for searching log files
+my @masks = ('*test*.log', 'transcript');
+my @log_files = ();
+
+do {print_version(); exit;}               if $options{version};
+do {print_usage(); exit;}                 if $options{help};
+do {display_files($path, \@masks); exit;} if $options{list_only};
+
+# Parse input arguments and add the result to the existing list of input files
+push @{$options{input}}, grep {/test.*\.log|transcript/} @ARGV;
+
+# Get list of files:
+# search for all available files of by input parameters or last modified (if nothing is selected)
+if ($options{all_files}) {
+    @log_files = get_files_by_masks($path, \@masks);
+} elsif (!@{$options{input}}) {
+    my $log = get_newest_file_by_masks($path, \@masks);
+    @log_files = $log if $log;
+} else {
+    @log_files = @{$options{input}};
+}
+
+die "ERROR: No log files found!\n" unless @log_files;
+
+# Main
+parse_log_files(\@log_files);
+
+# Functions
+sub parse_log_files {
+    my ($files) = @_;
+
+    my %patterns = (
+        run_uvm_test    => qr/^#\s+UVM_INFO\s+@\s+0:\s+reporter\s+\[RNTST\]\s+Running\s+test\s+/,
+        run             => qr/^#\s+run\s+/,
+        summary_start   => qr/^#\s+---\s+UVM\s+Report\s+Summary\s+---/,
+        summary_end     => qr/^#\s+\*\* Note:\s+\$finish/,
+        uvm_info        => qr/^#\s+UVM_INFO\s+/,
+        quit            => qr/^#\s+quit\s+$/,
+       );
+
+    my $findex = 0;
+    for my $file (@$files) {
+        open my $fh, '<', $file or die "ERROR: Cannot open file '$file' for reading: $!\n";
+        print "\n" if $findex;
+        print "$file\n" if $options{verbose};
+        parse_single_file($fh, \%patterns);
+        close $fh;
+        $findex ||= 1;
+    }
+}
+
+sub parse_single_file {
+    my ($fh, $patterns) = @_;
+    my ($uvm, $non_uvm, $run_detected, $non_uvm_end, $uvm_summary, $uvm_summary_end) = (0) x 6;
+
+    while (<$fh>) {
+        do {print; next;} if $options{disable};
+
+        $non_uvm = 1 if $run_detected && !/$patterns->{uvm_info}/ && !$uvm;
+        $uvm = 1     if /$patterns->{run_uvm_test}/ && !$non_uvm;
+
+        $non_uvm_end = 1 if /$patterns->{quit}/;
+        $uvm_summary = 1 if /$patterns->{summary_start}/;
+        $uvm_summary_end = 1 if /$patterns->{summary_end}/;
+
+        if ($non_uvm) {
+            print if !$non_uvm_end;
+        } elsif ($uvm) {
+            if ($uvm_summary) {
+                print if $options{show_uvm_summary} && !$uvm_summary_end;
+            } else {
+                parse_uvm_msg() unless $options{disable_uvm_pars};
+                print;
+            }
+        }
+
+        $run_detected = /$patterns->{run}/ ? 1 : 0;
+    }
+}
+
+# Paring UVM message:
+# Input : # UVM_INFO Path/FileName(LineNum) @ Time: InstanceFullPath UVM-Message
+# Output: # @ Time: UVM-Message
+sub parse_uvm_msg {
+    s/#\s+UVM_(?:INFO|WARNING|ERROR|FATAL)[^@]+([^:]+):\s+[^ \t]+/$1:/;
+}
+
+sub display_files {
+    my ($path, $masks) = @_;
+    my @files = get_files_by_masks($path, $masks);
+    my $newest_log = get_newest_file_by_masks($path, $masks);
+    print "List of logs file(s) [", scalar @files, "]:\n";
+    foreach (@files) {
+        my $marker = /$newest_log/ ? ' (*)' : '';
+        print "$_$marker\n";
+    }
+}
+
+sub get_files_by_masks {
+    my ($path, $masks) = @_;
+    return map {glob("$path/*$_*")} @$masks;
+}
+
+sub get_newest_file_by_masks {
+    my ($path, $masks) = @_;
+
+    my @files = get_files_by_masks($path, $masks);
+    return (sort {(stat($b))[9] <=> (stat($a))[9]} @files)[0] // '';
+}
+
+sub print_version {
+    print basename($0), " $VERSION\n";
+}
+
+sub print_usage {
+    my $script_name = basename($0);
+    print <<"END_USAGE";
+Usage: $script_name [OPTIONS] [FILE]
+
+This script parses ModelSim/QuestaSim simulation log files (with or without UVM) to
+hide unnecessary information such as Copyright, Loading Libs, reduce UVM stdout
+messages, UVM release notes, etc. By default, it searches for the latest log file in
+the current directory and parses it. You can also specify one or more log files to parse
+or use all log files in the current directory.
+
+OPTIONS:
+  <FILE>                Input log file(s) to parse (default: latest of *test*.log, transcript)
+  --input,    -i <file> Input log file(s) to parse (without using *test*.log mask)
+  --all-files,-a        Parse all log files in the current directory (*test*.log, transcript)
+  --summary,  -s        Display a UVM summary of the parsed log file (if it exists)
+  --disable,  -d        Disable parsing of log file(s) - show log file as is
+  --parsoff,  -D        Disable parsing of the simulation messages (from UVM start to UVM Summary)
+  --verbose,  -v        Enable verbose mode
+  --list,     -l        Display a list of all available log file(s)
+  --version,  -V        Display the script version and exit
+  --help,     -h        Display this help message and exit
+
+Examples:
+  $script_name               # Parse the latest log file
+  $script_name file.log      # Parse the specified log file
+  $script_name -i file.rpt   # Parse the specified log file
+  $script_name --all-files   # Parse all log files in the current directory
+END_USAGE
+}
