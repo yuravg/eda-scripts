@@ -14,7 +14,7 @@
 #  Print to PDF
 #  Notes on toggle menu items
 
-#  Time-stamp: <2023-12-19 10:00:28>
+#  Time-stamp: <2024-05-07 18:42:32>
 
 # * Customize view settings
 # Show full signal hierarchy
@@ -26,28 +26,28 @@ gtkwave::/View/Show_Mouseover 1
 
 # * Add all signals to Wave
 # Facility name
-set numFacility [gtkwave::getNumFacs]
-set numCnt 0
-set curretInstName ""
-for {set i 0} {$i < $numFacility} {incr i} {
+# set numFacility [gtkwave::getNumFacs]
+# set numCnt 0
+# set curretInstName ""
+# for {set i 0} {$i < $numFacility} {incr i} {
     # Get full path to Facility - instance name,
     # and insert it before its facilities
-    set fullName [gtkwave::getFacName $i]
-    set splitName [split $fullName "."]
-    set facIndex [expr [llength $splitName] - 1]
-    set facName [lindex $splitName $facIndex]
-    set facNameLenght [string length $facName]
-    set instanceName [string range $fullName 0 end-[expr $facNameLenght+1]]
-    # Insert instance name
-    if {[string compare $curretInstName $instanceName] != 0} {
-        set curretInstName $instanceName
-        gtkwave::/Edit/Insert_Comment $instanceName
-    }
-    # Insert Facility name
-    gtkwave::addSignalsFromList $fullName
-    incr numCnt
-}
-puts "Num signals added: $numCnt"
+    # set fullName [gtkwave::getFacName $i]
+    # set splitName [split $fullName "."]
+    # set facIndex [expr [llength $splitName] - 1]
+    # set facName [lindex $splitName $facIndex]
+    # set facNameLenght [string length $facName]
+    # set instanceName [string range $fullName 0 end-[expr $facNameLenght+1]]
+    # # Insert instance name
+    # if {[string compare $curretInstName $instanceName] != 0} {
+    #     set curretInstName $instanceName
+    #     gtkwave::/Edit/Insert_Comment $instanceName
+    # }
+    # # Insert Facility name
+    # gtkwave::addSignalsFromList $fullName
+    # incr numCnt
+# }
+# puts "Num signals added: $numCnt"
 
 
 # * Zoom full
@@ -94,7 +94,7 @@ gtkwave::/Time/Zoom/Zoom_Full
 # gtkwave::/View/Scale_To_Time_Dimension/sec
 # gtkwave::/View/Scale_To_Time_Dimension/ms
 # gtkwave::/View/Scale_To_Time_Dimension/us
-gtkwave::/View/Scale_To_Time_Dimension/ns
+# gtkwave::/View/Scale_To_Time_Dimension/ns
 # gtkwave::/View/Scale_To_Time_Dimension/ps
 # gtkwave::/View/Scale_To_Time_Dimension/fs
 
