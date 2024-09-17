@@ -45,6 +45,7 @@ Collection of scripts for EDA tools
 | [[file:bin/mg_make][mg_make]]                | Run Makefile.questa to run Mentor Graphics QuestaSim/ModelSim targets      |
 | [[file:bin/mg_questasim_templates][mg_questasim_templates]] | Script to prepare templates for simulation using Mentor QuestaSim/ModelSim |
 | [[file:bin/rmc][rmc]]                    | Run Mentor Graphics QuestaSim/ModelSim Commands                            |
+| [[file:bin/vsimlog][vsimlog]]                | Parser ModelSim/QuestaSim simulation log files (with or without UVM)       |
 |------------------------+----------------------------------------------------------------------------|
 
 *** Aliases
