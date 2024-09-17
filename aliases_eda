@@ -1,6 +1,6 @@
 # -*- mode: shell-script -*-
 
-# Time-stamp: <2024-04-24 10:46:06>
+# Time-stamp: <2024-09-17 11:00:23>
 
 # Aliases for 'EDA-scripts'
 #
@@ -42,6 +42,7 @@ else
 fi
 
 alias vsim_run='vsim -c -do "run -all; quit"'
+alias vl='vsimlog'
 
 # *** Make-file opstions
 # Saving names for easy access using CLI autocomplete
