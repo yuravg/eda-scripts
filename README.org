@@ -24,6 +24,7 @@ Collection of scripts for EDA tools
 | [[file:bin/qp_report_pin][qp_report_pin]]     | Simplification of the Quartus Prime report file        |
 | [[file:bin/qp_set_path][qp_set_path]]       | Set Intel Quartus path variable                        |
 | [[file:bin/qp_show_prg_files][qp_show_prg_files]] | Show list of Quartus Prime program files               |
+| [[file:bin/qp_stp][qp_stp]]            | Open Quartus Prime SignalTap GUI                       |
 | [[file:bin/qp_summary][qp_summary]]        | Show Quartus Prime compilation summary                 |
 | [[file:bin/qp_system_console][qp_system_console]] | Open Quartus Prime System Console                      |
 | [[file:bin/qp_version][qp_version]]        | Show current Intel Quartus Prime version               |
@@ -35,7 +36,6 @@ Collection of scripts for EDA tools
 - qp_jtag_info - JTAG Server Configuration
 - qp_megawizard - Quartus Prime MegaWizard GUI
 - qp_prgw - Quartus Prime Programmer GUI
-- qp_stp - Quartus Prime SignalTap GUI
 
 ** Mentor QuestaSim
 |------------------------+----------------------------------------------------------------------------|

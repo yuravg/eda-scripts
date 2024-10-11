@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Open Quartus Prime SignalTap GUI
+
+#  Time-stamp: <2024-10-11 10:19:25>
+
+if [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = '-help' ]; then
+    echo "Usage:"
+    echo "  ${BASH_SOURCE##*/} [stp-file]"
+    echo
+    echo "ARGS:"
+    echo "    <stp-file>"
+    echo "            Signal Tap Logic Analyzer file."
+    exit 0
+fi
+
+quartus_stpw "$1" &
+
+# This is for the sake of Emacs.
+# Local Variables:
+# time-stamp-end: "$"
+# time-stamp-format: "<%:y-%02m-%02d %02H:%02M:%02S>"
+# time-stamp-start: "Time-stamp: "
+# End:
