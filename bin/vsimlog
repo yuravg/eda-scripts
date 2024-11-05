@@ -8,7 +8,7 @@ use Getopt::Long qw(Configure GetOptions);
 use File::Basename qw(basename);
 
 # Define the script version
-our $VERSION = '1.0';
+our $VERSION = '1.1';
 
 # Command-line option variables
 my %options;
@@ -34,7 +34,7 @@ GetOptions(
     'parsoff|D',   => \$options{disable_uvm_pars},
     'summary|s'    => \$options{show_uvm_summary},
     'list|l',      => \$options{list_only},
-   ) or die "Invalid options!\n";
+   ) or do {print_usage(); exit};
 
 my $path = '.';
 # Masks for searching log files
