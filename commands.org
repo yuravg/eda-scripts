@@ -29,6 +29,7 @@ Basic usage and examples
 - [[#mentor-questasim][Mentor QuestaSim]]
   - [[#mg_questasim_templates][mg_questasim_templates]]
   - [[#rmc][rmc]]
+  - [[#vsimlog][vsimlog]]
 - [[#unsorted-commands][Unsorted commands]]
   - [[#wish_msg-wish_cmd][wish_msg, wish_cmd]]
   - [[#wopen][wopen]]
@@ -480,6 +481,20 @@ Run compilation, simulation, show coverage report
 
 #+begin_src shell-script
 $ rmc src.sv -c vlog vsim crpt
+#+end_src
+
+*** vsimlog
+
+Print the parsed last ModelSim/QuestaSim modelling log file
+
+#+begin_src shell-script
+$ vsimlog
+#+end_src
+
+See Help for more options
+
+#+begin_src shell-script
+$ vsimlog -h
 #+end_src
 
 ** Unsorted commands
