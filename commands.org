@@ -1,6 +1,39 @@
 
 Basic usage and examples
 
+** Contents                                                        :noexport:
+:PROPERTIES:
+:TOC:       :include all :depth 3
+:END:
+
+:CONTENTS:
+- [[#intel-quartus-prime][Intel Quartus Prime]]
+  - [[#qp_asp][qp_asp]]
+  - [[#qp_asp_verify][qp_asp_verify]]
+  - [[#qp_build][qp_build]]
+  - [[#qp_info][qp_info]]
+  - [[#qp_jtag][qp_jtag]]
+  - [[#qp_jtag_verify][qp_jtag_verify]]
+  - [[#qp_make_qip][qp_make_qip]]
+  - [[#qp_nios_stack_rpt][qp_nios_stack_rpt]]
+  - [[#qp_open][qp_open]]
+  - [[#qp_report][qp_report]]
+  - [[#qp_report_latches][qp_report_latches]]
+  - [[#qp_report_pin][qp_report_pin]]
+  - [[#qp_set_path][qp_set_path]]
+  - [[#qp_show_prg_files][qp_show_prg_files]]
+  - [[#qp_summary][qp_summary]]
+  - [[#qp_system_console][qp_system_console]]
+  - [[#qp_version][qp_version]]
+  - [[#note-change-path-to-quartus-jtag-server][NOTE: Change path to Quartus JTAG server]]
+- [[#mentor-questasim][Mentor QuestaSim]]
+  - [[#mg_questasim_templates][mg_questasim_templates]]
+  - [[#rmc][rmc]]
+- [[#unsorted-commands][Unsorted commands]]
+  - [[#wish_msg-wish_cmd][wish_msg, wish_cmd]]
+  - [[#wopen][wopen]]
+:END:
+
 ** Intel Quartus Prime
 
 *** qp_asp
